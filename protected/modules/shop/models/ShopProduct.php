@@ -704,9 +704,9 @@ class ShopProduct extends ActiveRecord
     public function getUnits()
     {
         return array(
-            1 => 'шт.',
-            2 => 'метр.',
-            3 => 'ящик.',
+            1 => self::t('UNIT_THING'),
+            2 => self::t('UNIT_METER'),
+            3 => self::t('UNIT_BOX'),
         );
     }
 
