@@ -1,0 +1,18 @@
+.favorites{
+    background-image: url(../images/favorite.png);
+    background-position: 0 -16px;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+.favorites.isset{
+    background-position: 0 0;
+}
+.favorite .loading{
+    background-image: url(../images/loading.gif);
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 11px;
+    width: 16px;
+}

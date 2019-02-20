@@ -1,0 +1,26 @@
+<?php
+return array(
+    'Odessa' => 'Одесса',
+    'Chernivtsi' => 'Черновцы',
+    'Odes\'ka Oblast\''=>'Одесская обл.',
+    'Moscow Oblast' => 'Московская обл.',
+    'California' => 'Калифорния',
+    'Tatarstan' => 'Респ. Татарстан',
+    'Kyyivs\'ka Oblast\'' => 'Киевская обл.',
+    'Minsk City' => 'Столица Минск',
+    'Grodnenskaya' => 'Гродненская обл.',
+    'Cherkas\'ka Oblast\'' => 'Черкасская обл.',
+    'Kharkivs\'ka Oblast\'' => 'Харьковская обл.',
+    'Dnipropetrovs\'ka Oblast\'' => 'Днепропетровская обл.',
+    'Luhans\'ka Oblast\''=>'Луганская обл.',
+    'Zhytomyrs\'ka Oblast\''=>'Житомирская обл.',
+    'Bavaria' => 'Бавария',
+    'Kyiv City'=>'Киев',
+    'Moscow'=>'Москва',
+    'Tottori' => 'Тоттори',
+    'Beau Vallon'=>'Бо Валон',
+    'St.-Petersburg'=>'Санкт-Петербург',
+    'Mazowieckie'=>'Мазовецкое воеводство',
+    'Arges'=>'Арджеш',
+    'Istanbul'=>'Стамбул'
+);

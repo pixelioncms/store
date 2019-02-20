@@ -1,0 +1,57 @@
+/*
+#filters ul{
+    margin-left: 15px;
+}
+#filters a.active:before,
+#filters a.remove:before{
+    font-family: 'icomoon';
+    position: absolute;
+    font-size: 10px;
+    font-weight: normal;
+    top: 3px;
+}
+#filters a.active,
+#filters a.remove{
+    position: relative;
+}
+#filters a.active{
+    font-weight: bold;
+    text-decoration: none;
+    color:green;
+
+}
+
+#filters a.active:before{
+    right: -15px;
+    content: "\e0fe";
+}
+#filters a.remove:hover:before{
+    color:red;
+}
+#filters a.remove:before{
+    left: -15px;
+    font-size:8px;
+    content: "\e0fd";
+    color:#A7A6AA;
+
+}
+#filter-slider{
+    font-size: 12px;
+}
+#filter-slider input{
+    border: 0;
+    width: 100%;
+}
+#filter-slider input:last-child{
+ 
+}
+#filter-slider #max_price{
+      text-align: right; 
+}
+#filter-slider div[class*="col-"]{
+    padding-left:0;
+    padding-right: 0;
+}
+#filter-slider .text-center{
+    margin-top: 10px;
+}*/

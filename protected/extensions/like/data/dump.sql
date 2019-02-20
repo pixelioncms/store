@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS `{prefix}comments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `root` int(10) unsigned DEFAULT NULL,
+  `lft` int(10) unsigned NOT NULL,
+  `rgt` int(10) unsigned NOT NULL,
+  `level` smallint(5) unsigned NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `owner_title` text NOT NULL,
+  `ip_create` varchar(12) NOT NULL,
+  `user_agent` text NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `object_id` int(11) NOT NULL,
+  `text` text,
+  `date_create` datetime NOT NULL,
+  `like` int(11) NOT NULL DEFAULT '0',
+  `switch` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `root` (`root`),
+  KEY `lft` (`lft`),
+  KEY `rgt` (`rgt`),
+  KEY `level` (`level`)
+) ENGINE=MyISAM;

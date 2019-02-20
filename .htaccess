@@ -1,0 +1,45 @@
+# Required parameter
+AddDefaultCharset UTF-8
+
+RewriteEngine on
+
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(favicon\.ico)
+
+# HTTPS protocol
+# If you have the opportunity to establish a redirect on your hosting, we recommend doing this
+#RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
+
+# Redirect from "http://yoursite.com/page/" to "http://yoursite.com/page"
+RewriteCond %{REQUEST_URI} !^/admin
+RewriteCond %{REQUEST_URI} ^(.+)/$
+RewriteRule ^(.+)/$  /$1 [R=301,L]
+
+
+# Redirect from "http://yoursite.com/index.php" to "http://yoursite.com"
+RewriteCond %{THE_REQUEST} ^.*/index\.php 
+RewriteRule ^(.*)index.php$ /$1 [R=301,L] 
+
+
+
+
+
+# Redirect from "www" to "no www"
+#RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
+#RewriteRule ^(.*)$ http://%1/$1 [L]
+# version 2
+#RewriteCond %{HTTP_HOST} ^www\.(.*)$
+#RewriteRule ^(.*)$ http://%1/$1 [L,R=301]
+#####
+
+
+# 1C auth (no used and no tested)
+#RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
+
+RewriteCond %{REQUEST_URI} !^/(assets|install|uploads|api|info|robots.txt|test.php).*$
+RewriteRule . index.php

@@ -1,0 +1,1364 @@
+/**
+ * Variables declared here can be overridden by consuming applications, with
+ * the help of the `!default` flag.
+ *
+ * @example
+ *     // overriding $hoverColor
+ *     $hoverColor: rgba(red, 0.05);
+ *
+ *     // overriding image path
+ *     $flagsImagePath: "images/";
+ *
+ *     // import the scss file after the overrides
+ *     @import "bower_component/intl-tel-input/src/css/intlTelInput";
+ */
+.intl-tel-input {
+  position: relative;
+  display: inline-block;
+}
+
+.intl-tel-input * {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.intl-tel-input .hide {
+  display: none;
+}
+
+.intl-tel-input .v-hide {
+  visibility: hidden;
+}
+
+.intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+  position: relative;
+  z-index: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-right: 36px;
+  margin-right: 0;
+}
+
+.intl-tel-input .flag-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  padding: 1px;
+}
+
+.intl-tel-input .selected-flag {
+  z-index: 1;
+  position: relative;
+  width: 36px;
+  height: 100%;
+  padding: 0 0 0 8px;
+}
+
+.intl-tel-input .selected-flag .iti-flag {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.intl-tel-input .selected-flag .iti-arrow {
+  position: absolute;
+  top: 50%;
+  margin-top: -2px;
+  right: 6px;
+  width: 0;
+  height: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 4px solid #555;
+}
+
+.intl-tel-input .selected-flag .iti-arrow.up {
+  border-top: none;
+  border-bottom: 4px solid #555;
+}
+
+.intl-tel-input .country-list {
+  position: absolute;
+  z-index: 2;
+  list-style: none;
+  text-align: left;
+  padding: 0;
+  margin: 0 0 0 -1px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  border: 1px solid #CCC;
+  white-space: nowrap;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.intl-tel-input .country-list.dropup {
+  bottom: 100%;
+  margin-bottom: -1px;
+}
+
+.intl-tel-input .country-list .flag-box {
+  display: inline-block;
+  width: 20px;
+}
+
+@media (max-width: 500px) {
+  .intl-tel-input .country-list {
+    white-space: normal;
+  }
+}
+
+.intl-tel-input .country-list .divider {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #CCC;
+}
+
+.intl-tel-input .country-list .country {
+  padding: 5px 10px;
+}
+
+.intl-tel-input .country-list .country .dial-code {
+  color: #999;
+}
+
+.intl-tel-input .country-list .country.highlight {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.intl-tel-input .country-list .flag-box, .intl-tel-input .country-list .country-name, .intl-tel-input .country-list .dial-code {
+  vertical-align: middle;
+}
+
+.intl-tel-input .country-list .flag-box, .intl-tel-input .country-list .country-name {
+  margin-right: 6px;
+}
+
+.intl-tel-input.allow-dropdown input, .intl-tel-input.allow-dropdown input[type=text], .intl-tel-input.allow-dropdown input[type=tel], .intl-tel-input.separate-dial-code input, .intl-tel-input.separate-dial-code input[type=text], .intl-tel-input.separate-dial-code input[type=tel] {
+  padding-right: 6px;
+  padding-left: 52px;
+  margin-left: 0;
+}
+
+.intl-tel-input.allow-dropdown .flag-container, .intl-tel-input.separate-dial-code .flag-container {
+  right: auto;
+  left: 0;
+}
+
+.intl-tel-input.allow-dropdown .selected-flag, .intl-tel-input.separate-dial-code .selected-flag {
+  width: 46px;
+}
+
+.intl-tel-input.allow-dropdown .flag-container:hover {
+  cursor: pointer;
+}
+
+.intl-tel-input.allow-dropdown .flag-container:hover .selected-flag {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.intl-tel-input.allow-dropdown input[disabled] + .flag-container:hover, .intl-tel-input.allow-dropdown input[readonly] + .flag-container:hover {
+  cursor: default;
+}
+
+.intl-tel-input.allow-dropdown input[disabled] + .flag-container:hover .selected-flag, .intl-tel-input.allow-dropdown input[readonly] + .flag-container:hover .selected-flag {
+  background-color: transparent;
+}
+
+.intl-tel-input.separate-dial-code .selected-flag {
+  background-color: rgba(0, 0, 0, 0.05);
+  display: table;
+}
+
+.intl-tel-input.separate-dial-code .selected-dial-code {
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 28px;
+}
+
+.intl-tel-input.separate-dial-code.iti-sdc-2 input, .intl-tel-input.separate-dial-code.iti-sdc-2 input[type=text], .intl-tel-input.separate-dial-code.iti-sdc-2 input[type=tel] {
+  padding-left: 66px;
+}
+
+.intl-tel-input.separate-dial-code.iti-sdc-2 .selected-flag {
+  width: 60px;
+}
+
+.intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-2 input, .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-2 input[type=text], .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-2 input[type=tel] {
+  padding-left: 76px;
+}
+
+.intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-2 .selected-flag {
+  width: 70px;
+}
+
+.intl-tel-input.separate-dial-code.iti-sdc-3 input, .intl-tel-input.separate-dial-code.iti-sdc-3 input[type=text], .intl-tel-input.separate-dial-code.iti-sdc-3 input[type=tel] {
+  padding-left: 74px;
+}
+
+.intl-tel-input.separate-dial-code.iti-sdc-3 .selected-flag {
+  width: 68px;
+}
+
+.intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-3 input, .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-3 input[type=text], .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-3 input[type=tel] {
+  padding-left: 84px;
+}
+
+.intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-3 .selected-flag {
+  width: 78px;
+}
+
+.intl-tel-input.separate-dial-code.iti-sdc-4 input, .intl-tel-input.separate-dial-code.iti-sdc-4 input[type=text], .intl-tel-input.separate-dial-code.iti-sdc-4 input[type=tel] {
+  padding-left: 82px;
+}
+
+.intl-tel-input.separate-dial-code.iti-sdc-4 .selected-flag {
+  width: 76px;
+}
+
+.intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-4 input, .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-4 input[type=text], .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-4 input[type=tel] {
+  padding-left: 92px;
+}
+
+.intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-4 .selected-flag {
+  width: 86px;
+}
+
+.intl-tel-input.separate-dial-code.iti-sdc-5 input, .intl-tel-input.separate-dial-code.iti-sdc-5 input[type=text], .intl-tel-input.separate-dial-code.iti-sdc-5 input[type=tel] {
+  padding-left: 90px;
+}
+
+.intl-tel-input.separate-dial-code.iti-sdc-5 .selected-flag {
+  width: 84px;
+}
+
+.intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-5 input, .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-5 input[type=text], .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-5 input[type=tel] {
+  padding-left: 100px;
+}
+
+.intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-5 .selected-flag {
+  width: 94px;
+}
+
+.intl-tel-input.iti-container {
+  position: absolute;
+  top: -1000px;
+  left: -1000px;
+  z-index: 1060;
+  padding: 1px;
+}
+
+.intl-tel-input.iti-container:hover {
+  cursor: pointer;
+}
+
+.iti-mobile .intl-tel-input.iti-container {
+  top: 30px;
+  bottom: 30px;
+  left: 30px;
+  right: 30px;
+  position: fixed;
+}
+
+.iti-mobile .intl-tel-input .country-list {
+  max-height: 100%;
+  width: 100%;
+}
+
+.iti-mobile .intl-tel-input .country-list .country {
+  padding: 10px 10px;
+  line-height: 1.5em;
+}
+
+.iti-flag {
+  width: 20px;
+}
+
+.iti-flag.be {
+  width: 18px;
+}
+
+.iti-flag.ch {
+  width: 15px;
+}
+
+.iti-flag.mc {
+  width: 19px;
+}
+
+.iti-flag.ne {
+  width: 18px;
+}
+
+.iti-flag.np {
+  width: 13px;
+}
+
+.iti-flag.va {
+  width: 15px;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  .iti-flag {
+    background-size: 5630px 15px;
+  }
+}
+
+.iti-flag.ac {
+  background-position: 0px 0;
+}
+
+.iti-flag.ad {
+  background-image: url(/uploads/language/ad.png);
+}
+
+.iti-flag.ae {
+  background-image: url(/uploads/language/ae.png);
+}
+
+.iti-flag.af {
+  background-image: url(/uploads/language/af.png);
+}
+
+.iti-flag.ag {
+  background-image: url(/uploads/language/ag.png);
+}
+
+.iti-flag.ai {
+  background-image: url(/uploads/language/ai.png);
+}
+
+.iti-flag.al {
+  background-image: url(/uploads/language/al.png);
+}
+
+.iti-flag.am {
+  background-image: url(/uploads/language/am.png);
+}
+
+.iti-flag.ao {
+  background-image: url(/uploads/language/ao.png);
+}
+
+.iti-flag.aq {
+  background-position: -198px 0;
+}
+
+.iti-flag.ar {
+  background-image: url(/uploads/language/ar.png);
+}
+
+.iti-flag.as {
+  background-image: url(/uploads/language/as.png);
+}
+
+.iti-flag.at {
+  background-image: url(/uploads/language/at.png);
+}
+
+.iti-flag.au {
+  background-image: url(/uploads/language/au.png);
+}
+
+.iti-flag.aw {
+  background-image: url(/uploads/language/aw.png);
+}
+
+.iti-flag.ax {
+  background-image: url(/uploads/language/ax.png);
+}
+
+.iti-flag.az {
+  background-image: url(/uploads/language/az.png);
+}
+
+.iti-flag.ba {
+  background-image: url(/uploads/language/ba.png);
+}
+
+.iti-flag.bb {
+  background-image: url(/uploads/language/bb.png);
+}
+
+.iti-flag.bd {
+  background-image: url(/uploads/language/bd.png);
+}
+
+.iti-flag.be {
+  background-image: url(/uploads/language/be.png);
+}
+
+.iti-flag.bf {
+  background-image: url(/uploads/language/bf.png);
+}
+
+.iti-flag.bg {
+  background-image: url(/uploads/language/bg.png);
+}
+
+.iti-flag.bh {
+  background-image: url(/uploads/language/bh.png);
+}
+
+.iti-flag.bi {
+  background-image: url(/uploads/language/bi.png);
+}
+
+.iti-flag.bj {
+  background-image: url(/uploads/language/bj.png);
+}
+
+.iti-flag.bl {
+  height: 14px;
+  background-position: -570px 0px;
+}
+
+.iti-flag.bm {
+  background-image: url(/uploads/language/bm.png);
+}
+
+.iti-flag.bn {
+  background-image: url(/uploads/language/bn.png);
+}
+
+.iti-flag.bo {
+  background-image: url(/uploads/language/bo.png);
+}
+
+.iti-flag.bq {
+  background-image: url(/uploads/language/nl.png);
+}
+
+.iti-flag.br {
+  background-image: url(/uploads/language/br.png);
+}
+
+.iti-flag.bs {
+  background-image: url(/uploads/language/bs.png);
+}
+
+.iti-flag.bt {
+  background-image: url(/uploads/language/bt.png);
+}
+
+.iti-flag.bv {
+  background-image: url(/uploads/language/bv.png);
+}
+
+.iti-flag.bw {
+  background-image: url(/uploads/language/bw.png);
+}
+
+.iti-flag.by {
+  background-image: url(/uploads/language/by.png);
+}
+
+.iti-flag.bz {
+  background-image: url(/uploads/language/bz.png);
+}
+
+.iti-flag.ca {
+  background-image: url(/uploads/language/ca.png);
+}
+
+.iti-flag.cc {
+  background-image: url(/uploads/language/cc.png);
+}
+
+.iti-flag.cd {
+  background-image: url(/uploads/language/cd.png);
+}
+
+.iti-flag.cf {
+  background-image: url(/uploads/language/cf.png);
+}
+
+.iti-flag.cg {
+  background-image: url(/uploads/language/cg.png);
+}
+
+.iti-flag.ch {
+  background-image: url(/uploads/language/ch.png);
+}
+
+.iti-flag.ci {
+  background-image: url(/uploads/language/ci.png);
+}
+
+.iti-flag.ck {
+  background-image: url(/uploads/language/ck.png);
+}
+
+.iti-flag.cl {
+  background-image: url(/uploads/language/cl.png);
+}
+
+.iti-flag.cm {
+  background-image: url(/uploads/language/cm.png);
+}
+
+.iti-flag.cn {
+  background-image: url(/uploads/language/cn.png);
+}
+
+.iti-flag.co {
+  background-image: url(/uploads/language/co.png);
+}
+
+.iti-flag.cp {
+  height: 14px;
+  background-position: -1093px 0;
+}
+
+.iti-flag.cr {
+  background-image: url(/uploads/language/cr.png);
+}
+
+.iti-flag.cu {
+  background-image: url(/uploads/language/cu.png);
+}
+
+.iti-flag.cv {
+  background-image: url(/uploads/language/cv.png);
+}
+
+.iti-flag.cw {
+  height: 14px;
+  background-position: -1181px 0px;
+}
+
+.iti-flag.cx {
+  background-image: url(/uploads/language/cx.png);
+}
+
+.iti-flag.cy {
+  background-image: url(/uploads/language/cy.png);
+}
+
+.iti-flag.cz {
+  background-image: url(/uploads/language/cz.png);
+}
+
+.iti-flag.de {
+  background-image: url(/uploads/language/de.png);
+}
+
+.iti-flag.dg {
+  background-position: -1291px 0;
+}
+
+.iti-flag.dj {
+  background-image: url(/uploads/language/dj.png);
+}
+
+.iti-flag.dk {
+  background-image: url(/uploads/language/dk.png);
+}
+
+.iti-flag.dm {
+  background-image: url(/uploads/language/dm.png);
+}
+
+.iti-flag.do {
+  background-image: url(/uploads/language/do.png);
+}
+
+.iti-flag.dz {
+  background-image: url(/uploads/language/dz.png);
+}
+
+.iti-flag.ea {
+  height: 14px;
+  background-position: -1423px 0px;
+}
+
+.iti-flag.ec {
+  background-image: url(/uploads/language/ec.png);
+}
+
+.iti-flag.ee {
+  background-image: url(/uploads/language/ee.png);
+}
+
+.iti-flag.eg {
+  background-image: url(/uploads/language/eg.png);
+}
+
+.iti-flag.eh {
+  /*height: 10px;
+  background-position: -1511px 0px;*/
+  background-image: url(/uploads/language/sd.png);
+}
+
+.iti-flag.er {
+  background-image: url(/uploads/language/er.png);
+}
+
+.iti-flag.es {
+  background-image: url(/uploads/language/es.png);
+}
+
+.iti-flag.et {
+  background-image: url(/uploads/language/et.png);
+}
+
+.iti-flag.eu {
+  height: 14px;
+  background-position: -1599px 0px;
+}
+
+.iti-flag.fi {
+  background-image: url(/uploads/language/fi.png);
+}
+
+.iti-flag.fj {
+  background-image: url(/uploads/language/fj.png);
+}
+
+.iti-flag.fk {
+  background-image: url(/uploads/language/fk.png);
+}
+
+.iti-flag.fm {
+  background-image: url(/uploads/language/fm.png);
+}
+
+.iti-flag.fo {
+  background-image: url(/uploads/language/fo.png);
+}
+
+.iti-flag.fr {
+  background-image: url(/uploads/language/fr.png);
+}
+
+.iti-flag.ga {
+  background-image: url(/uploads/language/qa.png);
+}
+
+.iti-flag.gb {
+  background-image: url(/uploads/language/gb.png);
+}
+
+.iti-flag.gd {
+  background-image: url(/uploads/language/gd.png);
+}
+
+.iti-flag.ge {
+  background-image: url(/uploads/language/ge.png);
+}
+
+.iti-flag.gf {
+  background-image: url(/uploads/language/gf.png);
+}
+
+.iti-flag.gg {
+  height: 14px;
+  background-position: -1863px 0;
+}
+
+.iti-flag.gh {
+  background-image: url(/uploads/language/gh.png);
+}
+
+.iti-flag.gi {
+  background-image: url(/uploads/language/gi.png);
+}
+
+.iti-flag.gl {
+  background-image: url(/uploads/language/gl.png);
+}
+
+.iti-flag.gm {
+  background-image: url(/uploads/language/gm.png);
+}
+
+.iti-flag.gn {
+  background-image: url(/uploads/language/gn.png);
+}
+
+.iti-flag.gp {
+  background-image: url(/uploads/language/gp.png);
+}
+
+.iti-flag.gq {
+  background-image: url(/uploads/language/gq.png);
+}
+
+.iti-flag.gr {
+  background-image: url(/uploads/language/gr.png);
+}
+
+.iti-flag.gs {
+  background-image: url(/uploads/language/gs.png);
+}
+
+.iti-flag.gt {
+  background-image: url(/uploads/language/gt.png);
+}
+
+.iti-flag.gu {
+  background-image: url(/uploads/language/gu.png);
+}
+
+.iti-flag.gw {
+  background-image: url(/uploads/language/gw.png);
+}
+
+.iti-flag.gy {
+  background-image: url(/uploads/language/gy.png);
+}
+
+.iti-flag.hk {
+  background-image: url(/uploads/language/hk.png);
+}
+
+.iti-flag.hm {
+  background-image: url(/uploads/language/hm.png);
+}
+
+.iti-flag.hn {
+  background-image: url(/uploads/language/hn.png);
+}
+
+.iti-flag.hr {
+  background-image: url(/uploads/language/hr.png);
+}
+
+.iti-flag.ht {
+  background-image: url(/uploads/language/ht.png);
+}
+
+.iti-flag.hu {
+  background-image: url(/uploads/language/hu.png);
+}
+
+.iti-flag.ic {
+  height: 14px;
+  background-position: -2303px 0;
+}
+
+.iti-flag.id {
+  background-image: url(/uploads/language/id.png);
+}
+
+.iti-flag.ie {
+  background-image: url(/uploads/language/ie.png);
+}
+
+.iti-flag.il {
+  background-image: url(/uploads/language/il.png);
+}
+
+.iti-flag.im {
+  background-position: -2391px 0;
+}
+
+.iti-flag.in {
+  background-image: url(/uploads/language/in.png);
+}
+
+.iti-flag.io {
+  background-image: url(/uploads/language/io.png);
+}
+
+.iti-flag.iq {
+  background-image: url(/uploads/language/iq.png);
+}
+
+.iti-flag.ir {
+  background-image: url(/uploads/language/ir.png);
+}
+
+.iti-flag.is {
+  background-image: url(/uploads/language/is.png);
+}
+
+.iti-flag.it {
+  background-image: url(/uploads/language/it.png);
+}
+
+.iti-flag.je {
+  background-position: -2545px 0;
+}
+
+.iti-flag.jm {
+  background-image: url(/uploads/language/jm.png);
+}
+
+.iti-flag.jo {
+  background-image: url(/uploads/language/jo.png);
+}
+
+.iti-flag.jp {
+  background-image: url(/uploads/language/jp.png);
+}
+
+.iti-flag.ke {
+  background-image: url(/uploads/language/ke.png);
+}
+
+.iti-flag.kg {
+  background-image: url(/uploads/language/kg.png);
+}
+
+.iti-flag.kh {
+  background-image: url(/uploads/language/kh.png);
+}
+
+.iti-flag.ki {
+  background-image: url(/uploads/language/ki.png);
+}
+
+.iti-flag.km {
+  background-image: url(/uploads/language/km.png);
+}
+
+.iti-flag.kn {
+  background-image: url(/uploads/language/kn.png);
+}
+
+.iti-flag.kp {
+  background-image: url(/uploads/language/kp.png);
+}
+
+.iti-flag.kr {
+  background-image: url(/uploads/language/kr.png);
+}
+
+.iti-flag.kw {
+  background-image: url(/uploads/language/kw.png);
+}
+
+.iti-flag.ky {
+  background-image: url(/uploads/language/ky.png);
+}
+
+.iti-flag.kz {
+  background-image: url(/uploads/language/kz.png);
+}
+
+.iti-flag.la {
+  background-image: url(/uploads/language/la.png);
+}
+
+.iti-flag.lb {
+  background-image: url(/uploads/language/lb.png);
+}
+
+.iti-flag.lc {
+  background-image: url(/uploads/language/lc.png);
+}
+
+.iti-flag.li {
+  background-image: url(/uploads/language/li.png);
+}
+
+.iti-flag.lk {
+  background-image: url(/uploads/language/lk.png);
+}
+
+.iti-flag.lr {
+  background-image: url(/uploads/language/lr.png);
+}
+
+.iti-flag.ls {
+  background-image: url(/uploads/language/ls.png);
+}
+
+.iti-flag.lt {
+  background-image: url(/uploads/language/lt.png);
+}
+
+.iti-flag.lu {
+  background-image: url(/uploads/language/lu.png);
+}
+
+.iti-flag.lv {
+  background-image: url(/uploads/language/lv.png);
+}
+
+.iti-flag.ly {
+  background-image: url(/uploads/language/ly.png);
+}
+
+.iti-flag.ma {
+  background-image: url(/uploads/language/ma.png);
+}
+
+.iti-flag.mc {
+  background-image: url(/uploads/language/mc.png);
+}
+
+.iti-flag.md {
+  background-image: url(/uploads/language/md.png);
+}
+
+.iti-flag.me {
+  background-image: url(/uploads/language/me.png);
+}
+
+.iti-flag.mf {
+  height: 14px;
+  background-position: -3204px 0px;
+}
+
+.iti-flag.mg {
+  background-image: url(/uploads/language/mg.png);
+}
+
+.iti-flag.mh {
+  background-image: url(/uploads/language/mh.png);
+}
+
+.iti-flag.mk {
+  background-image: url(/uploads/language/mk.png);
+}
+
+.iti-flag.ml {
+  background-image: url(/uploads/language/ml.png);
+}
+
+.iti-flag.mm {
+  background-image: url(/uploads/language/mm.png);
+}
+
+.iti-flag.mn {
+  background-image: url(/uploads/language/mn.png);
+}
+
+.iti-flag.mo {
+  background-image: url(/uploads/language/mo.png);
+}
+
+.iti-flag.mp {
+  background-image: url(/uploads/language/mp.png);
+}
+
+.iti-flag.mq {
+  background-image: url(/uploads/language/mq.png);
+}
+
+.iti-flag.mr {
+  background-image: url(/uploads/language/mr.png);
+}
+
+.iti-flag.ms {
+  background-image: url(/uploads/language/ms.png);
+}
+
+.iti-flag.mt {
+  background-image: url(/uploads/language/mt.png);
+}
+
+.iti-flag.mu {
+  background-image: url(/uploads/language/mu.png);
+}
+
+.iti-flag.mv {
+  background-image: url(/uploads/language/mv.png);
+}
+
+.iti-flag.mw {
+  background-image: url(/uploads/language/mw.png);
+}
+
+.iti-flag.mx {
+  background-image: url(/uploads/language/mx.png);
+}
+
+.iti-flag.my {
+  background-image: url(/uploads/language/my.png);
+}
+
+.iti-flag.mz {
+  background-image: url(/uploads/language/mz.png);
+}
+
+.iti-flag.na {
+  background-image: url(/uploads/language/na.png);
+}
+
+.iti-flag.nc {
+  background-image: url(/uploads/language/nc.png);
+}
+
+.iti-flag.ne {
+  background-image: url(/uploads/language/ne.png);
+}
+
+.iti-flag.nf {
+  background-image: url(/uploads/language/nf.png);
+}
+
+.iti-flag.ng {
+  background-image: url(/uploads/language/ng.png);
+}
+
+.iti-flag.ni {
+  background-image: url(/uploads/language/ni.png);
+}
+
+.iti-flag.nl {
+  background-image: url(/uploads/language/nl.png);
+}
+
+.iti-flag.no {
+  background-image: url(/uploads/language/no.png);
+}
+
+.iti-flag.np {
+  background-image: url(/uploads/language/np.png);
+}
+
+.iti-flag.nr {
+  background-image: url(/uploads/language/nr.png);
+}
+
+.iti-flag.nu {
+  background-image: url(/uploads/language/nu.png);
+}
+
+.iti-flag.nz {
+  background-image: url(/uploads/language/nz.png);
+}
+
+.iti-flag.om {
+  background-image: url(/uploads/language/om.png);
+}
+
+.iti-flag.pa {
+  background-image: url(/uploads/language/pa.png);
+}
+
+.iti-flag.pe {
+  background-image: url(/uploads/language/pe.png);
+}
+
+.iti-flag.pf {
+  background-image: url(/uploads/language/pf.png);
+}
+
+.iti-flag.pg {
+  background-image: url(/uploads/language/pg.png);
+}
+
+.iti-flag.ph {
+  background-image: url(/uploads/language/ph.png);
+}
+
+.iti-flag.pk {
+  background-image: url(/uploads/language/pk.png);
+}
+
+.iti-flag.pl {
+  background-image: url(/uploads/language/pl.png);
+}
+
+.iti-flag.pm {
+  background-image: url(/uploads/language/pm.png);
+}
+
+.iti-flag.pn {
+  background-image: url(/uploads/language/pn.png);
+}
+
+.iti-flag.pr {
+  background-image: url(/uploads/language/pr.png);
+}
+
+.iti-flag.ps {
+  background-image: url(/uploads/language/ps.png);
+}
+
+.iti-flag.pt {
+  background-image: url(/uploads/language/pt.png);
+}
+
+.iti-flag.pw {
+  background-image: url(/uploads/language/pw.png);
+}
+
+.iti-flag.py {
+  background-image: url(/uploads/language/py.png);
+}
+
+.iti-flag.qa {
+  background-image: url(/uploads/language/qa.png);
+}
+
+.iti-flag.re {
+  background-image: url(/uploads/language/re.png);
+}
+
+.iti-flag.ro {
+  background-image: url(/uploads/language/ro.png);
+}
+
+.iti-flag.rs {
+  background-image: url(/uploads/language/rs.png);
+}
+
+.iti-flag.ru {
+  background-image: url(/uploads/language/ru.png);
+}
+
+.iti-flag.rw {
+  background-image: url(/uploads/language/rw.png);
+}
+
+.iti-flag.sa {
+  background-image: url(/uploads/language/sa.png);
+}
+
+.iti-flag.sb {
+  background-image: url(/uploads/language/sb.png);
+}
+
+.iti-flag.sc {
+  background-image: url(/uploads/language/sc.png);
+}
+
+.iti-flag.sd {
+  background-image: url(/uploads/language/sd.png);
+}
+
+.iti-flag.se {
+  background-image: url(/uploads/language/se.png);
+}
+
+.iti-flag.sg {
+  background-image: url(/uploads/language/sg.png);
+}
+
+.iti-flag.sh {
+  background-image: url(/uploads/language/sh.png);
+}
+
+.iti-flag.si {
+  background-image: url(/uploads/language/si.png);
+}
+
+.iti-flag.sj {
+  background-image: url(/uploads/language/sj.png);
+}
+
+.iti-flag.sk {
+  background-image: url(/uploads/language/sk.png);
+}
+
+.iti-flag.sl {
+  background-image: url(/uploads/language/sl.png);
+}
+
+.iti-flag.sm {
+  background-image: url(/uploads/language/sm.png);
+}
+
+.iti-flag.sn {
+  background-image: url(/uploads/language/sn.png);
+}
+
+.iti-flag.so {
+  background-image: url(/uploads/language/so.png);
+}
+
+.iti-flag.sr {
+  background-image: url(/uploads/language/sr.png);
+}
+
+.iti-flag.ss {
+  height: 10px;
+  background-position: -4669px 0px;
+}
+
+.iti-flag.st {
+  background-image: url(/uploads/language/st.png);
+}
+
+.iti-flag.sv {
+  background-image: url(/uploads/language/sv.png);
+}
+
+.iti-flag.sx {
+  background-image: url(/uploads/language/ph.png);
+}
+
+.iti-flag.sy {
+  background-image: url(/uploads/language/sy.png);
+}
+
+.iti-flag.sz {
+  background-image: url(/uploads/language/sz.png);
+}
+
+.iti-flag.ta {
+  background-position: -4801px 0px;
+}
+
+.iti-flag.tc {
+  background-image: url(/uploads/language/tc.png);
+}
+
+.iti-flag.td {
+  background-image: url(/uploads/language/td.png);
+}
+
+.iti-flag.tf {
+  background-image: url(/uploads/language/tf.png);
+}
+
+.iti-flag.tg {
+  background-image: url(/uploads/language/tg.png);
+}
+
+.iti-flag.th {
+  background-image: url(/uploads/language/th.png);
+}
+
+.iti-flag.tj {
+  background-image: url(/uploads/language/tj.png);
+}
+
+.iti-flag.tk {
+  background-image: url(/uploads/language/tk.png);
+}
+
+.iti-flag.tl {
+  background-image: url(/uploads/language/tl.png);
+}
+
+.iti-flag.tm {
+  background-image: url(/uploads/language/tm.png);
+}
+
+.iti-flag.tn {
+  background-image: url(/uploads/language/tn.png);
+}
+
+.iti-flag.to {
+  background-image: url(/uploads/language/to.png);
+}
+
+.iti-flag.tr {
+  background-image: url(/uploads/language/tr.png);
+}
+
+.iti-flag.tt {
+  background-image: url(/uploads/language/tt.png);
+}
+
+.iti-flag.tv {
+  background-image: url(/uploads/language/tv.png);
+}
+
+.iti-flag.tw {
+  background-image: url(/uploads/language/tw.png);
+}
+
+.iti-flag.tz {
+  background-image: url(/uploads/language/tz.png);
+}
+
+.iti-flag.ua {
+  background-image: url(/uploads/language/ua.png);
+}
+
+.iti-flag.ug {
+  background-image: url(/uploads/language/ug.png);
+}
+
+.iti-flag.um {
+  background-position: -5219px 0;
+}
+
+.iti-flag.us {
+  background-image: url(/uploads/language/us.png);
+}
+
+.iti-flag.uy {
+  background-image: url(/uploads/language/uy.png);
+}
+
+.iti-flag.uz {
+  background-image: url(/uploads/language/uz.png);
+}
+
+.iti-flag.va {
+  background-image: url(/uploads/language/va.png);
+}
+
+.iti-flag.vc {
+  background-image: url(/uploads/language/vc.png);
+}
+
+.iti-flag.ve {
+  background-image: url(/uploads/language/ve.png);
+}
+
+.iti-flag.vg {
+  background-image: url(/uploads/language/vg.png);
+}
+
+.iti-flag.vi {
+  background-image: url(/uploads/language/vi.png);
+}
+
+.iti-flag.vn {
+  background-image: url(/uploads/language/vn.png);
+}
+
+.iti-flag.vu {
+  background-image: url(/uploads/language/vu.png);
+}
+
+.iti-flag.wf {
+  background-image: url(/uploads/language/wf.png);
+}
+
+.iti-flag.ws {
+  background-image: url(/uploads/language/ws.png);
+}
+
+.iti-flag.xk {
+  background-color: green;
+}
+
+.iti-flag.ye {
+  background-image: url(/uploads/language/ye.png);
+}
+
+.iti-flag.yt {
+  background-image: url(/uploads/language/yt.png);
+}
+
+.iti-flag.za {
+  background-image: url(/uploads/language/za.png);
+}
+
+.iti-flag.zm {
+  background-image: url(/uploads/language/zm.png);
+}
+
+.iti-flag.zw {
+  background-image: url(/uploads/language/zw.png);
+}
+
+.iti-flag {
+  width: 16px;
+  height: 11px;
+  background-image: url("../img/flags.png");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  .iti-flag {
+    /*background-image: url("../img/flags@2x.png");*/
+  }
+}
+
+.iti-flag.np {
+  background-color: transparent;
+}

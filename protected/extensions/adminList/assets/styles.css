@@ -1,0 +1,203 @@
+.grid-view,
+.list-view
+{
+    position: relative;
+    margin-left: 0;
+}
+.grid-view .grid-view-loading,
+.list-view .list-view-loading{
+    background-image: url(ajax-loader.gif);
+    background-attachment: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    position: absolute;
+    top:0;
+    display: block;
+    background-position: 50% 50%;
+    background-repeat: no-repeat no-repeat;
+    background-color: rgba(255,255,255,0.5);
+}
+
+
+
+.sort-link{
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-image: url(down.gif);
+    padding-right: 10px;
+}
+.sort-link.asc{
+    background-image: url(up.gif);
+}
+.grid-view table thead th {
+    /*border-radius: 5px;*/
+}
+
+.grid-view table.items
+{
+    /*background: white;
+    border-collapse: collapse;
+    width: 100%;
+    border: 0px #D0E3EF solid;*/
+}
+
+
+.grid-view table.items th a.asc
+{
+    background:url(up.gif) right center no-repeat;
+    padding-right: 10px;
+}
+
+.grid-view table.items th a.desc
+{
+    background:url(down.gif) right center no-repeat;
+    padding-right: 10px;
+}
+
+.grid-view table.items tr.even
+{
+    background: #F8F8F8;
+}
+
+.grid-view table.items tr.odd
+{
+    background: #E5F1F4;
+}
+
+.grid-view table.items tr.selected
+{
+    background: #BCE774;
+}
+
+/*.grid-view table.items tr:hover
+{
+    background: #ECFBD4;
+}*/
+
+.grid-view .link-column img
+{
+    border: 0;
+}
+
+
+.grid-view .button-column img
+{
+    border: 0;
+}
+
+
+
+.grid-view .summary
+{
+    margin: 0 0 5px 0;
+    text-align: right;
+    font-size:11px;
+    padding:2px;
+}
+
+.grid-view .pager
+{
+    margin: 5px 0 0 0;
+    text-align: right;
+}
+
+.grid-view .empty
+{
+    font-style: italic;
+}
+
+
+.grid-view .nonActive, .grid-view .nonActive:hover {
+    color:silver;
+    text-decoration:none;
+}
+
+.gridActions {
+    padding: 5px;
+    list-style: none;
+    visibility: hidden;
+}
+
+
+.gridActions a.actionDelete {
+    color:#E46969;
+}
+.gridActions a:hover {
+    color:#444;
+}
+
+/* Fix for grid in form div */
+.form .filters input[type=text] {
+    padding: 0;
+    width: 99%;
+}
+
+.grid-view table.items tr.disabled {
+    background-color: #FF5F5F;
+    opacity: 0.4;
+}
+
+.form .grid-view .filters input {
+    height: 18px;
+    padding: 1px;
+}
+
+.grid-view select, .grid-view input {
+
+}
+
+div.form .grid-view select {
+    height: 21px;
+    padding: 1px;
+    font-size: 12px;
+}
+
+
+
+.list-view .summary
+{
+    margin: 0 0 5px 0;
+    text-align: right;
+}
+
+.list-view .sorter
+{
+    margin: 0 0 5px 0;
+    text-align: right;
+}
+
+.list-view .pager{
+    margin: 5px 0 0 0;
+    text-align: right;
+}
+
+.list-view .sorter{
+    font-size: 0.9em;
+}
+
+.list-view .sorter ul{
+    display: inline;
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+
+.list-view .sorter li{
+    display: inline;
+    margin: 0 0 0 5px;
+    padding: 0;
+}
+
+.list-view .sorter a.asc{
+    background:url(up.gif) right center no-repeat;
+    padding-right: 10px;
+}
+
+.list-view .sorter a.desc{
+    background:url(down.gif) right center no-repeat;
+    padding-right: 10px;
+}
+

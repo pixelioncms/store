@@ -1,0 +1,28 @@
+.MultiFile-container{
+    display: inline-block;
+    margin: 0 5px 0 0;
+    position: relative;
+}
+.MultiFile-file-col{
+
+    display: inline-block;
+}
+.MultiFile-list{
+margin: 1rem 0;
+}
+.MultiFile-wrap .MultiFile-label {
+    margin: 0 5px;
+}
+.MultiFile-list .badge{
+    font-size:100%;
+}
+.MultiFile-container:hover .MultiFile-remove,
+.MultiFile-container:focus .MultiFile-remove{
+    opacity: 1;
+}
+
+.MultiFile-container .MultiFile-remove {
+    position: relative;
+    opacity: 1;
+    z-index: 11;
+}

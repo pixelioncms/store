@@ -1,0 +1,32 @@
+<?php
+
+return array(
+    'BUTTON' => 'Перезвоните мне',
+    'TITLE' => 'График работы',
+    'TEXT' => 'Введите свой номер телефона, и наш менеджер свяжется с Вами в ближайшее время',
+    'BUTTON_SEND' => 'Перезвонить',
+    'SUCCESS' => 'Спасибо, Наш менеджер свяжется с вами.',
+    'ERROR_VALID_TIME' => 'Время работы не может быть пустым, укажите время.',
+    'MONDAY' => 'Понедельник',
+    'TUESDAY' => 'Вторник',
+    'WEDNESDAY' => 'Среда',
+    'THURSDAY' => 'Четверг',
+    'FRIDAY' => 'Пятница',
+    'SATURDAY' => 'Суббота',
+    'SUNDAY' => 'Воскресение',
+    'MONDAY_AFTER_TIME' => 'Время работы Пн. с',
+    'MONDAY_BEFORE_TIME' => 'Время работы Пн. до',
+    'TUESDAY_AFTER_TIME' => 'Время работы Вт. с',
+    'TUESDAY_BEFORE_TIME' => 'Время работы Вт. до',
+    'WEDNESDAY_AFTER_TIME' => 'Время работы Ср. с',
+    'WEDNESDAY_BEFORE_TIME' => 'Время работы Ср. до',
+    'THURSDAY_AFTER_TIME' => 'Время работы Чт. с',
+    'THURSDAY_BEFORE_TIME' => 'Время работы Чт. до',
+    'FRIDAY_AFTER_TIME' => 'Время работы Пн. с',
+    'FRIDAY_BEFORE_TIME' => 'Время работы Пн. до',
+    'SATURDAY_AFTER_TIME' => 'Время работы Сб. с',
+    'SATURDAY_BEFORE_TIME' => 'Время работы Сб. до',
+    'SUNDAY_AFTER_TIME' => 'Время работы Вс. с',
+    'SUNDAY_BEFORE_TIME' => 'Время работы Вс. до',
+);
+

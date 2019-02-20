@@ -1,0 +1,39 @@
+.loganalyzer .line {
+    /*border-bottom: 1px solid #EEE;*/
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #EEE;
+    border-top: 1px solid white;
+    /*background: #FAFAFA;*/
+}
+.loganalyzer .line:last-child{
+    padding: 1rem 1rem 1rem 1rem;
+}
+.loganalyzer .line.odd {
+    /*background: #E0E0E0;*/
+}
+.loganalyzer .badge{
+    font-size: 100%;
+}
+.loganalyzer pre {
+    display: block;
+    margin: 1rem 0  0;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    background-color: whiteSmoke;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.loganalyzer code, .loganalyzer pre {
+    padding: .50rem;
+    font-size: 12px;
+}
+
+.loganalyzer hr {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid #EEE;
+    border-bottom: 1px solid white;
+    clear: both;
+}
+

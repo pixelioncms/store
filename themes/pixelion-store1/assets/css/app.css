@@ -1,0 +1,115 @@
+div.errorMessage{
+
+    font-size:12px;
+    margin-top: 5px;
+}
+span.required,
+div.errorMessage
+{
+    color:#a94442;
+}
+label.required{
+
+}
+label.required.error{
+
+}
+
+div.errorSummary > p{
+
+}
+div.errorSummary > ul{
+    padding-left: 15px;
+}
+div.errorSummary > ul > li{
+
+}
+img.captcha{
+
+}
+input.error,
+textarea.error{
+    border-color: #a94442;
+}
+
+.common-ajax-loading{
+    position: fixed;
+    top:20px;
+    right:0;
+    background: rgba(0,0,0,0.8);
+    padding:10px 10px 10px 35px;
+    height: 40px;
+    z-index: 1000;
+    text-indent: -99999px;
+}
+.common-ajax-loading:before{
+    width: 25px;
+    height: 25px;
+    background-color: #fff;
+    content:'';
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    margin: 0 auto;
+    -webkit-animation: loader 1.2s infinite ease-in-out;
+    animation: loader 1.2s infinite ease-in-out;
+}
+
+@media (min-width: 768px) {
+    .common-ajax-loading{
+        text-indent: 0;
+        padding:10px 15px 10px 50px;
+        color:#fff;
+        font-size: 14px;
+    }
+}
+
+.navbar-nav > li.nav-user > a{
+    padding-top:7px;
+    padding-bottom:7px;
+    height:100%;
+}
+.navbar-nav > li.nav-user > a:hover img{
+    border-color:#999;
+}
+.navbar-nav > li.nav-user > a img{
+    -webkit-transition : border 500ms ease-out;
+    -moz-transition : border 500ms ease-out;
+    -o-transition : border 500ms ease-out;
+    transition : border 500ms ease-out;
+    border-radius: 50%;
+    width:36px;
+    height:36px;
+    padding:1px;
+    border:2px solid #666;
+    margin-right: 10px;
+}
+
+a:link,
+a:visited,
+a:active{
+    -webkit-transition : color 500ms ease-out;
+    -moz-transition : color 500ms ease-out;
+    -o-transition : color 500ms ease-out;
+    transition : color 500ms ease-out;
+}
+
+
+@-webkit-keyframes loader {
+    0% { -webkit-transform: perspective(120px) }
+    50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+    100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+
+@keyframes loader {
+    0% { 
+        transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
+    } 50% { 
+        transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+        -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
+    } 100% { 
+        transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+        -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    }
+}

@@ -1,0 +1,21 @@
+div.control-panel{
+    position: absolute;
+    top:0;
+    opacity: 0.5;
+    z-index: 2;
+}
+div.control-panel:hover{
+    opacity: 1;
+}
+.control-panel.position-left{
+    left:0;
+}
+.control-panel.position-right{
+    right:0;
+}
+div.control-panel .dropdown-menu a{
+    margin: 0;
+}
+div.control-panel .btn{
+    font-size: 16px;
+}

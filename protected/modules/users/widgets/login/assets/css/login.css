@@ -1,0 +1,40 @@
+
+#dialog_user-login-form{
+    display: block;
+    margin: 10px 0 0;
+
+}
+#dialog_user-login-form .row{
+    margin: 10px 0;
+}
+#dialog_user-login-form .row label{
+    display: block;
+    margin-bottom: 3px;
+}
+#dialog_user-login-form .row input{
+    display: block;
+    padding: 5px;
+    width: 310px;
+}
+#dialog_user-login-form .rememberMe{
+    float: left;
+    position: relative;
+    width: 160px;
+}
+#dialog_user-login-form .rememberMe input{
+    position: absolute;
+    top: 0;
+    margin-left: 5px;
+}
+#dialog_user-login-form .links{
+    float:right;
+}
+
+
+#userString{
+    position: relative;
+}
+#userString img{
+    margin: 5px 0 0 -25px;
+    position: absolute;
+}

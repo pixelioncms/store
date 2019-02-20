@@ -1,0 +1,5 @@
+
+AuthType Basic
+AuthName "Private zone, please authorize..."
+AuthUserFile D:\OSPanel\domains\pixelion.store.loc\uploads\test\.htpasswd
+require valid-user

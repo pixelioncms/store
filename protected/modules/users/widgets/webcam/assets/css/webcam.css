@@ -1,0 +1,65 @@
+#webcam_load{
+
+
+}
+#webcam_result{
+    float:right;
+    width: 100%;
+
+}
+
+#webcam_load,
+#webcam_result{
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: 2px dashed #DDDDDD;
+    margin-bottom: 10px;
+    height:240px;
+    position: relative;
+}
+#webcam_load:before,
+#webcam_result:before{
+    font-family: 'icomoon';
+    -webkit-font-smoothing: antialiased;
+  font-size: 200px;
+    left: 20%;
+    position: absolute;
+    color:#DDDDDD;
+    text-align: center;
+}
+#webcam_load video,
+#webcam_result img{
+      left: 0;
+    position: absolute;
+    top:0;
+    z-index: 2;
+}
+#webcam_load:before {
+    content: "\e00f";
+}
+#webcam_result:before {
+    content: "\e070";
+}
+#window-webcam{
+    padding: 10px;
+}
+#webcam{
+    margin-top: 10px;
+}
+#webcam .webcam-side{
+    float:left;
+    width:320px;
+}
+#webcam .webcam-side:first-child{
+    float:left;
+}
+#webcam .webcam-side:last-child{
+    float:right;
+}
+#window-webcam a.ui-widget-button{
+    color:#fff;
+    text-decoration: none;
+}
+#window-webcam .hidden{
+    display: none;
+}

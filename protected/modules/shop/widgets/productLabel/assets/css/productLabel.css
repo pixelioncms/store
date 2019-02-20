@@ -1,0 +1,76 @@
+
+.corner-right-orange,
+.corner-right-blue,
+.corner-right-red,
+.corner-right-green,
+.corner-right-purple,
+.corner-left-orange,
+.corner-left-blue,
+.corner-left-red,
+.corner-left-green,
+.corner-left-purple{
+    background-image: url(../images/sprite-product-corner.png);
+    background-repeat: no-repeat;
+    height: 70px;
+    position: absolute;
+    width: 70px;
+    z-index: 1;
+}
+.corner-left-orange,
+.corner-left-blue,
+.corner-left-red,
+.corner-left-green,
+.corner-left-purple{
+    left: -4px;
+    top: -4px;
+}
+.corner-right-orange,
+.corner-right-blue,
+.corner-right-red,
+.corner-right-green,
+.corner-right-purple{
+    right: -6px;
+    top: -4px;
+}
+.corner-left-orange.discount{background-position: 0 0; }
+.corner-left-orange.new{background-position: -70px 0;}
+.corner-left-orange.hit{background-position: -140px 0;}
+.corner-left-blue.discount{background-position: 0 -70px;}
+.corner-left-blue.new{background-position: -70px -70px;}
+.corner-left-blue.hit{background-position: -140px -70px;}
+.corner-left-red.discount{background-position: 0 -140px;}
+.corner-left-red.new{background-position: -70px -140px;}
+.corner-left-red.hit{background-position: -140px -140px;}
+.corner-left-green.discount{background-position: 0 -210px;}
+.corner-left-green.new{background-position: -70px -210px;}
+.corner-left-green.hit{background-position: -140px -210px;}
+.corner-left-purple.discount{background-position: 0 -280px;}
+.corner-left-purple.new{background-position: -70px -280px;}
+.corner-left-purple.hit{background-position: -140px -280px;}
+
+
+
+
+
+
+.corner-right-orange.discount{background-position: -350px 0; }
+.corner-right-orange.new{background-position: -280px 0;}
+.corner-right-orange.hit{background-position: -210px 0;}
+
+.corner-right-blue.discount{background-position: -350px -70px;}
+.corner-right-blue.new{background-position: -280px -70px;}
+.corner-right-blue.hit{background-position: -210px -70px;}
+
+.corner-right-red.discount{background-position: -350px -140px;}
+.corner-right-red.new{background-position: -280px -140px;}
+.corner-right-red.hit{background-position: -210px -140px;}
+
+.corner-right-green.discount{background-position: -350px -210px;}
+.corner-right-green.new{background-position: -280px -210px;}
+.corner-right-green.hit{background-position: -210px -210px;}
+
+.corner-right-purple.discount{background-position: -350px -280px;}
+.corner-right-purple.new{background-position: -280px -280px;}
+.corner-right-purple.hit{background-position: -210px -280px;}
+
+

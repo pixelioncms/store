@@ -1,0 +1,22 @@
+nbproject/
+.idea/
+
+_/
+/protected/config/_db.php
+/protected/config/_db_dev.php
+/protected/runtime/*
+/protected/admin/assets/.sass-cache/
+/themes/pixelion-store/assets/.sass-cache/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+*.tmp
+*.bak
+
+
+.DS_Store

@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+.template-download.fade{
+    display: none;
+}
+.template-download.in{
+    display: table-row;
+}

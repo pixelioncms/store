@@ -1,0 +1,72 @@
+/*https://www.flaticon.com/packs/dripicons-weather*/
+
+@font-face {
+    font-family: 'WeatherIcons';
+    src: url('../fonts/WeatherIcons.woff') format('woff'),
+    url("../fonts/WeatherIcons.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="w-"]:before, [class*=" w-"]:before,
+[class^="w-"]:after, [class*=" w-"]:after {
+    font-family: 'WeatherIcons';
+    font-style: normal;
+    line-height: 1;
+}
+
+.w-sun:before {content:"\f001";}
+.w-moon:before {content:"\f002";}
+.w-cloud-sun:before {content:"\f003";}
+.w-cloud-moon:before {content:"\f004";}
+.w-cloud:before {content:"\f005";}
+.w-clouds:before {content:"\f006";}
+.w-rain:before {content:"\f007";}
+.w-rain-sun:before {content:"\f008";}
+.w-rain-moon:before {content:"\f009";}
+.w-lighting-sun:before {content:"\f010";}
+.w-lighting-moon:before {content:"\f011";}
+.w-snow:before {content:"\f012";}
+.w-sunset:before {content:"\f013";}
+.w-sunrise:before {content:"\f014";}
+.w-eclipse:before {content:"\f015";}
+.w-haze:before {content:"\f016";}
+
+
+
+
+
+
+.wind{
+    background-image:url(../images/wind.png);
+    background-repeat: no-repeat;
+    width: 17px;
+    height: 20px;
+}
+.wind0{
+    background-position: 100% -120px;
+}
+.wind1{
+    background-position: 100% -160px;
+}
+.wind2{
+    background-position: 100% -320px;
+}
+.wind3{
+    background-position: 100% -240px;
+}
+.wind4{
+    background-position: 100% -440px;
+}
+.wind.N{
+    background-position: 100% -200px;
+}
+.wind6{
+    background-position: 100% -400px;
+}
+.wind7{
+    background-position: 100% -280px;
+}
+.wind8{
+    background-position: 100% -360px;
+}

@@ -1,0 +1,233 @@
+
+.product-item {
+    background: #fff;
+    margin-top: 20px;
+    position: relative;
+
+}
+.product-item-border{
+    border:3px solid gray;
+    padding: 5px;
+
+}
+
+
+.product-item:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    font-size: 0;
+    line-height:0;
+}
+
+.product-item .product-img {
+    position: relative;
+}
+.product-item .product-img div {
+    background: rgba(0,0,0,0.3);
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.product-item:hover .product-img div {
+    display: block;
+}
+.product-item .product-img div .btn {
+    padding: 3px 10px;
+    color: #fff;
+    border: 1px #fff solid;
+    margin: -13px 5px 0;
+    background: transparent;
+    text-transform: uppercase;
+    position: relative;
+    top: 50%;
+    line-height: 1.4;
+    font-size: 12px;
+    display: inline-block;
+}
+.product-item .product-img div .btn:hover {
+    background: #e84d1c;
+    border-color: #c8c8c8;
+    color:white;
+}
+
+.product-item h3 {
+    font-size: 14px;
+    font-weight: 300;
+    padding-bottom: 4px;
+    text-transform: uppercase;
+}
+.product-item h3 a {
+    color: #3e4d5c;
+}
+.product-item h3 a:hover {
+    color: #E02222;
+}
+.product-price.product-price-discount{
+    margin-right: 20px;
+}
+.product-price.product-price-discount span{
+    text-decoration: line-through;
+    font-size:16px;
+    color:gray;
+}
+.product-price-discount sup{
+
+}
+.product-price {
+    color: #e84d1c;
+    font-size: 18px;
+    float: left;
+    padding-top: 1px;
+}
+.product-price sup{
+    font-size:12px;
+    left:5px;
+    color:gray;
+}
+.product-item .btn-add2cart {
+    color: #a8aeb3;
+    border: 1px #ededed solid;
+    padding: 3px 6px;
+
+}
+.product-item .btn-add2cart:hover {
+    color: #fff;
+    background: #e84d1c;
+    border-color: #e84d1c;
+}
+
+.btn-wishlist,
+.btn-compare{
+    text-indent: -9999px;
+    display: block;
+    position: relative;
+}
+.btn-wishlist:before,
+.btn-compare:before{
+    text-indent: 1px;
+    position: absolute;
+    top:5px;
+    left:0;
+    font-style: normal;
+    line-height: 1;
+    font-family: Corner;
+}
+.btn-wishlist:before{
+    content: "\e004";
+
+}
+.btn-compare:before{
+    content: "\e005";
+
+}
+.btn-wishlist.already{
+
+}
+ul.filter-list,
+ul.current-filter-list{
+    list-style: none;
+    margin: 0;
+    padding:0;
+}
+ul.filter-list > li,
+ul.current-filter-list > li{
+    margin:10px 0;
+}
+ul.filter-list > li > sup{
+    color:gray;
+    left:5px;
+}
+ul.filter-list > li > a{
+    background-image: url(images/sprite-checkbox.png);
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-position:  0 -17px;
+    padding-left:27px;
+    height:17px;
+    display: inline-block;
+
+}
+ul.filter-list > li > a.active{
+    background-position: 0 0;
+    color:gray;
+}
+
+
+ul.current-filter-list a.remove{
+    position: relative;
+    display: inline-block;
+    padding-left:27px;
+    background-image: url(images/delete.png);
+    background-position: 5px center;
+    background-repeat: no-repeat;
+    background-size:  auto 60%;
+
+}
+ul.current-filter-list a.remove:hover{
+    background-image: url(images/delete_hover.png);
+}
+
+/*wishlish & comapre*/
+.top-compare,
+.top-wishlist{
+    position: relative;
+    padding-left: 35px;
+    line-height: 26px;
+}
+.top-compare:hover,
+.top-compare:focus,
+.top-wishlist:hover,
+.top-wishlist:focus{
+    text-decoration: none;   
+}
+.top-compare:after,
+.top-wishlist:after{
+    font-style: normal;
+    line-height: 1;
+    font-family: Flaticon;
+    position: absolute;
+    width:26px;
+    height:26px;
+    border:1px solid gray;
+    border-radius: 50%;
+    content: "\e005";
+    text-align:center;
+    line-height: 26px;
+    left:0;
+    top:0;
+}
+.top-compare #countCompare,
+.top-wishlist #countWishlist{
+    background: #777;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 11px;
+    height: 15px;
+    line-height: 1;
+    min-width: 15px;
+    padding: 2px;
+    display: inline-block;
+    text-align: center;
+    top: -7px;
+    position: relative;
+    left:-15px;
+}
+@media (min-width: 768px) {
+    .top-compare,
+    .top-wishlist{
+        padding-left: 26px;
+    }
+    .top-compare #countCompare,
+    .top-wishlist #countWishlist{
+
+        left:0;
+    }
+}
+
