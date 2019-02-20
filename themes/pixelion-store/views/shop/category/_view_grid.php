@@ -13,7 +13,7 @@
 
     <div class="product-image d-flex justify-content-center align-items-center">
         <?php
-        echo Html::link(Html::image($data->getMainImageUrl('340x265', true), $data->name, array('class' => 'img-fluid')), $data->getUrl(), array());
+        echo Html::link(Html::image($data->getMainImageUrl('340x265', true), $data->name, array('class' => 'img-fluid loading')), $data->getUrl(), array());
         //echo Html::link(Html::image(Yii::app()->createUrl('/site/attachment',array('id'=>33)), $data->name, array('class' => 'img-fluid')), $data->getUrl(), array());
         ?>
     </div>

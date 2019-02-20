@@ -5,7 +5,11 @@ html {
   position: relative;
   min-height: 100%;
 }
-
+img.loading {
+  background-image: url('../images/ajax.gif');
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
 .no-radius .alert,
 .no-radius .dropdown-menu,
 .no-radius .form-control,

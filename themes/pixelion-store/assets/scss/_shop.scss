@@ -223,41 +223,51 @@ $price-color: #666C6E;
 }
 
 /*Store styles*/
-#filters .card {
-  border: 0;
-  border-bottom: 1px solid #E1E1E1;
-  @include border-radius(0);
-  .card-header {
-    border-bottom: 0;
-    position: relative;
-    /*border-bottom: 1px solid rgba($c1-color, .5);*/
-    background: transparent;
-    padding: 1rem 1.25rem 1rem 0;
-    &:first-child {
-      border-radius: 0;
-    }
-    &:before {
-      font-family: $font-family-icon;
-      content: '\f007';
-      position: absolute;
-      right: 0;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    &.collapsed:before {
-      content: '\f008';
-    }
-    h5 {
-      margin: 0;
-      cursor: pointer;
-      font-size: 18px;
-    }
+#filters {
+  position: relative;
+  .btn-submit-filter {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
-  .card-body {
-    margin: 0.75rem 0 0.75rem 1rem;
-    padding: 0;
-    max-height: 18em;
-    overflow-x: hidden;
+  .card {
+    border: 0;
+    border-bottom: 1px solid #E1E1E1;
+    position: relative;
+    @include border-radius(0);
+    .card-header {
+      border-bottom: 0;
+      position: relative;
+      /*border-bottom: 1px solid rgba($c1-color, .5);*/
+      background: transparent;
+      padding: 1rem 1.25rem 1rem 0;
+      &:first-child {
+        border-radius: 0;
+      }
+      &:before {
+        font-family: $font-family-icon;
+        content: '\f007';
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      &.collapsed:before {
+        content: '\f008';
+      }
+      h5 {
+        margin: 0;
+        cursor: pointer;
+        font-size: 18px;
+      }
+    }
+    .card-body {
+      margin: 0.75rem 0 0.75rem 1rem;
+      padding: 0;
+      max-height: 18em;
+      overflow-x: hidden;
+      position: relative;
+    }
   }
 }
 

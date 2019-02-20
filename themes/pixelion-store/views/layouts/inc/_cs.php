@@ -17,8 +17,10 @@ $cs->registerCssFile($this->assetsUrl . '/css/ui.css', CClientScript::POS_HEAD);
 
 
 $cs->registerScriptFile(Yii::app()->getModule('cart')->assetsUrl . "/cart.js", $posJsFile, array('id' => 'async'));
-$cs->registerScriptFile($this->assetsUrl . "/js/scripts.js", $posJsFile);
+
 $cs->registerScriptFile($this->assetsUrl . "/js/jquery.serializejson.min.js", $posJsFile);
+
+$cs->registerScriptFile($this->assetsUrl . "/js/scripts.js", $posJsFile);
 //$cs->registerScriptFile($this->assetsUrl . "/js/ttmenu.js", $posJsFile);
 //$cs->registerScriptFile($this->assetsUrl . "/js/jquery.fitvids.js", $posJsFile);
 //$cs->registerCssFile($this->assetsUrl . "/css/ttmenu.css");

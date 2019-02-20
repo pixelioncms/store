@@ -8,7 +8,11 @@ html {
   position: relative;
   min-height: 100%;
 }
-
+img.loading {
+  background-image: url('../images/ajax.gif');
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
 .no-radius .alert,
 .no-radius .dropdown-menu,
 .no-radius .form-control,
@@ -1794,9 +1798,18 @@ span.highlight-word {
 }
 
 /*Store styles*/
+#filters {
+  position: relative;
+}
+#filters .btn-submit-filter {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 #filters .card {
   border: 0;
   border-bottom: 1px solid #E1E1E1;
+  position: relative;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   -ms-border-radius: 0;
@@ -1834,6 +1847,7 @@ span.highlight-word {
   padding: 0;
   max-height: 18em;
   overflow-x: hidden;
+  position: relative;
 }
 
 .filter-list,
