@@ -121,14 +121,8 @@ class FilterController extends Controller
 
     public function applyPricesFilter()
     {
-        if (Yii::app()->request->isAjaxRequest) {
-            $minPrice = Yii::app()->request->getPost('min_price');
-            $maxPrice = Yii::app()->request->getPost('max_price');
-        } else {
-            $minPrice = Yii::app()->request->getQuery('min_price');
-            $maxPrice = Yii::app()->request->getQuery('max_price');
-        }
-
+        $minPrice = Yii::app()->request->getQuery('min_price');
+        $maxPrice = Yii::app()->request->getQuery('max_price');
 
         $cm = Yii::app()->currency;
         if ($cm->active->id !== $cm->main->id && ($minPrice > 0 || $maxPrice > 0)) {

@@ -59,7 +59,6 @@ class CategoryController extends FilterController
     }
 
 
-
     /**
      * Load category model by url
      *
@@ -85,8 +84,8 @@ class CategoryController extends FilterController
             } else {
                 if (!Yii::app()->request->isAjaxRequest) {
                     if (Yii::app()->request->getPost('filter')) {
-                        foreach (Yii::app()->request->getPost('filter') as $key=>$filter) {
-                            $data[$key]=$filter;
+                        foreach (Yii::app()->request->getPost('filter') as $key => $filter) {
+                            $data[$key] = $filter;
                         }
                     }
                     $this->redirect(Yii::app()->request->addUrlParam('/shop/category/view', $data));
@@ -162,8 +161,9 @@ class CategoryController extends FilterController
             //$this->query->with(array('manufacturer' => array(
             //        'scopes' => array('published')
             //)));
+            if (!Yii::app()->request->isAjaxRequest)
+                Yii::app()->clientScript->registerMetaTag("noindex, nofollow", 'robots');
 
-            Yii::app()->clientScript->registerMetaTag("noindex, nofollow", 'robots');
             $this->query->applyCategories($this->dataModel);
             //  $this->query->with('manufacturerActive');
         } else {
@@ -179,18 +179,11 @@ class CategoryController extends FilterController
             $this->query->getDbCriteria()->mergeWith($cr);
         }
 
+
         // Filter by manufacturer
-        if (Yii::app()->request->isAjaxRequest) {
-            if (Yii::app()->request->getQuery('manufacturer')) {
-                //$manufacturers = Yii::app()->request->getPost('manufacturer');
-                $manufacturers = explode(',', Yii::app()->request->getParam('manufacturer', ''));
-                $this->query->applyManufacturers($manufacturers);
-            }
-        } else {
-            if (Yii::app()->request->getQuery('manufacturer')) {
-                $manufacturers = explode(',', Yii::app()->request->getParam('manufacturer', ''));
-                $this->query->applyManufacturers($manufacturers);
-            }
+        if (Yii::app()->request->getQuery('manufacturer')) {
+            $manufacturers = explode(',', Yii::app()->request->getParam('manufacturer', ''));
+            $this->query->applyManufacturers($manufacturers);
         }
 
 
@@ -241,67 +234,60 @@ class CategoryController extends FilterController
 
             $name = $this->dataModel->name;
             $this->pageName = $this->dataModel->name;
-            if(!Yii::app()->request->isAjaxRequest){
+            if (!Yii::app()->request->isAjaxRequest) {
 
-            $filterData = $this->getActiveFilters();
+                $filterData = $this->getActiveFilters();
 
 
-            unset($filterData['price']);
-            if ($filterData) {
-                $name = '';
-                foreach ($filterData as $filterKey => $filterItems) {
-                    if ($filterKey == 'manufacturer') {
-                        $manufacturerNames = array();
-                        foreach ($filterItems['items'] as $mKey => $mItems) {
-                            $manufacturerNames[] = $mItems['label'];
+                unset($filterData['price']);
+                if ($filterData) {
+                    $name = '';
+                    foreach ($filterData as $filterKey => $filterItems) {
+                        if ($filterKey == 'manufacturer') {
+                            $manufacturerNames = array();
+                            foreach ($filterItems['items'] as $mKey => $mItems) {
+                                $manufacturerNames[] = $mItems['label'];
+                            }
+                            $sep = (count($manufacturerNames) > 2) ? ', ' : ' и ';
+                            $name .= ' ' . implode($sep, $manufacturerNames);
+                            $this->pageName .= ' ' . implode($sep, $manufacturerNames);
+                        } else {
+                            $attributesNames[$filterKey] = array();
+                            foreach ($filterItems['items'] as $mKey => $mItems) {
+                                $attributesNames[$filterKey][] = $mItems['label'];
+                            }
+                            $s = ' ';
+                            if (isset($filterData['manufacturer'])) {
+                                $s = '; ';
+                            }
+                            $sep = (count($attributesNames[$filterKey]) > 2) ? ', ' : ' и ';
+                            $name .= $s . $filterItems['label'] . ' ' . implode($sep, $attributesNames[$filterKey]);
+                            $this->pageName .= $s . $filterItems['label'] . ' ' . implode($sep, $attributesNames[$filterKey]);
                         }
-                        $sep = (count($manufacturerNames) > 2) ? ', ' : ' и ';
-                        $name .= ' ' . implode($sep, $manufacturerNames);
-                        $this->pageName .= ' ' . implode($sep, $manufacturerNames);
-                    } else {
-                        $attributesNames[$filterKey] = array();
-                        foreach ($filterItems['items'] as $mKey => $mItems) {
-                            $attributesNames[$filterKey][] = $mItems['label'];
-                        }
-                        $s = ' ';
-                        if (isset($filterData['manufacturer'])) {
-                            $s = '; ';
-                        }
-                        $sep = (count($attributesNames[$filterKey]) > 2) ? ', ' : ' и ';
-                        $name .= $s . $filterItems['label'] . ' ' . implode($sep, $attributesNames[$filterKey]);
-                        $this->pageName .= $s . $filterItems['label'] . ' ' . implode($sep, $attributesNames[$filterKey]);
                     }
+                    $this->breadcrumbs[$this->dataModel->name] = $this->dataModel->getUrl();
                 }
-                $this->breadcrumbs[$this->dataModel->name] = $this->dataModel->getUrl();
+
+                $this->breadcrumbs[] = $name;
+
+
             }
-
-            $this->breadcrumbs[] = $name;
-
-
-        }
         }
         if (Yii::app()->request->isAjaxRequest) {
-
-
-
-            if(isset($_GET['ajax'])){
+            $cs->scriptMap = array(
+                'number_format.js' => false,
+                'number_format.min.js' => false,
+                'pixelion-icons.css' => false,
+                'pixelion-icons.min.css' => false,
+            );
+            if (isset($_GET['ajax']) && $_GET['ajax'] === 'shop-products') {
                 $this->render('_ajax', array(
                     'provider' => $this->provider,
-                    'itemView'=>$this->itemView
+                    'itemView' => $this->itemView
                 ));
-            }else{
-
-                echo $this->widget('zii.widgets.CMenu', array(
-                    'htmlOptions' => array('class' => 'current-filter-list'),
-                    'items' => $this->getActiveFilters()
-                ), true);
-                Yii::app()->end();
-              //  $this->setJson($filter->getActiveFilters());
+            } else {
+                $this->renderPartial('mod.shop.widgets.filter3.views._current', array(), false, true);
             }
-           /* $this->render('_ajax', array(
-                'provider' => $this->provider,
-                'itemView'=>$this->itemView
-            ));*/
         } else {
             $this->render($view, array(
                 'provider' => $this->provider,
@@ -309,7 +295,6 @@ class CategoryController extends FilterController
         }
 
     }
-
 
 
     public function getActiveFilters()
@@ -354,7 +339,7 @@ class CategoryController extends FilterController
                 foreach ($manufacturers as $manufacturer) {
                     $menuItems['manufacturer']['items'][] = array(
                         'label' => $manufacturer->name,
-                        'linkOptions' => array('class' => 'remove'),
+                        'linkOptions' => array('class' => 'remove', 'data-target' => '#filter_manufacturer_' . $manufacturer->id),
                         'url' => $request->removeUrlParam('/shop/category/view', 'manufacturer', $manufacturer->id)
                     );
                 }
@@ -373,7 +358,7 @@ class CategoryController extends FilterController
                         if (isset($activeAttributes[$attribute->name]) && in_array($option->id, $activeAttributes[$attribute->name])) {
                             $menuItems[$attributeName]['items'][] = array(
                                 'label' => $option->value . ' ' . $attribute->abbreviation,
-                                'linkOptions' => array('class' => 'remove'),
+                                'linkOptions' => array('class' => 'remove', 'data-target' => "#filter_{$attribute->name}_{$option->id}"),
                                 'url' => $request->removeUrlParam('/shop/category/view', $attribute->name, $option->id)
                             );
                             sort($menuItems[$attributeName]['items']);
@@ -494,6 +479,7 @@ class CategoryController extends FilterController
         $this->canonical = Yii::app()->createAbsoluteUrl($this->dataModel->getUrl());
         $this->doSearch($this->dataModel, 'view');
     }
+
     public function actionDiscount()
     {
 

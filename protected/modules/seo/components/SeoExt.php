@@ -9,65 +9,67 @@ class SeoExt extends CApplicationComponent
     /* массив, который будет наполнятся тэгами, что бы исключать уже найденые теги в ссылках выше по иерархии */
 
     public $exist = array();
-   // public $data;
+    // public $data;
     public $h1;
     public $text;
 
     public function init()
     {
-        $config = Yii::app()->settings->get('seo');
-        if ($config->canonical) {
-            if (Yii::app()->controller->canonical) {
-                $canonical = Yii::app()->controller->canonical;
-            } else {
-                $canonical = Yii::app()->request->getHostInfo() . '/' . Yii::app()->request->getPathInfo();
+        if (!Yii::app()->request->isAjaxRequest) {
+            $config = Yii::app()->settings->get('seo');
+            if ($config->canonical) {
+                if (Yii::app()->controller->canonical) {
+                    $canonical = Yii::app()->controller->canonical;
+                } else {
+                    $canonical = Yii::app()->request->getHostInfo() . '/' . Yii::app()->request->getPathInfo();
+                }
+                Yii::app()->clientScript->registerLinkTag('canonical', null, $canonical);
             }
-            Yii::app()->clientScript->registerLinkTag('canonical', null, $canonical);
-        }
-        if ($config->google_site_verification) {
-            Yii::app()->clientScript->registerMetaTag($config->google_site_verification, 'google-site-verification');
-        }
-        if ($config->yandex_verification) {
-            Yii::app()->clientScript->registerMetaTag($config->yandex_verification, 'yandex-verification');
-        }
-        /*
-         * получаем все возможные сслыки по Иерархии
-         * Пример: исходная ссылка "site/product/type/34"
-         * Результат:
-          - site/product/type/34/*
-          - site/product/type/34
-          - site/product/type/*
-          - site/product/type
-          - site/product/*
-          - site/product
-          - site/*
-          - site
-          - /*
-          - /
-         *
-         * Изменена ****
-         */
-
-        $titleFlag = false;
-        $urls = $this->getUrls();
-        foreach ($urls as $url) {
-            $urlF = SeoUrl::model()->findByAttributes(array('url' => $url, 'domain' => SeoUrl::getDomainId()));
-
-            if ($urlF !== null) {
-              //  $this->data = $urlF;
-                if (!empty($urlF->h1))
-                    $this->h1 = $urlF->h1;
-                if (!empty($urlF->text))
-                    $this->text = $urlF->text;
-                $this->seoName($urlF);
-                $titleFlag = false;
-                break;
-            } else {
-                $titleFlag = true;
+            if ($config->google_site_verification) {
+                Yii::app()->clientScript->registerMetaTag($config->google_site_verification, 'google-site-verification');
             }
+            if ($config->yandex_verification) {
+                Yii::app()->clientScript->registerMetaTag($config->yandex_verification, 'yandex-verification');
+            }
+            /*
+             * получаем все возможные сслыки по Иерархии
+             * Пример: исходная ссылка "site/product/type/34"
+             * Результат:
+              - site/product/type/34/*
+              - site/product/type/34
+              - site/product/type/*
+              - site/product/type
+              - site/product/*
+              - site/product
+              - site/*
+              - site
+              - /*
+              - /
+             *
+             * Изменена ****
+             */
+
+            $titleFlag = false;
+            $urls = $this->getUrls();
+            foreach ($urls as $url) {
+                $urlF = SeoUrl::model()->findByAttributes(array('url' => $url, 'domain' => SeoUrl::getDomainId()));
+
+                if ($urlF !== null) {
+                    //  $this->data = $urlF;
+                    if (!empty($urlF->h1))
+                        $this->h1 = $urlF->h1;
+                    if (!empty($urlF->text))
+                        $this->text = $urlF->text;
+                    $this->seoName($urlF);
+                    $titleFlag = false;
+                    break;
+                } else {
+                    $titleFlag = true;
+                }
+            }
+            if ($titleFlag)
+                $this->printMeta('title', Html::encode(Yii::app()->controller->pageTitle));
         }
-        if ($titleFlag)
-            $this->printMeta('title', Html::encode(Yii::app()->controller->pageTitle));
 
     }
 
@@ -132,6 +134,7 @@ class SeoExt extends CApplicationComponent
     private function seoName($url)
     {
         $controller = Yii::app()->controller;
+
         if ($url->meta_robots) {
             $this->printMeta('robots', $url->meta_robots);
         } else {

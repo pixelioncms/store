@@ -59,8 +59,9 @@ echo Html::beginForm(array('/shop/category/view', 'seo_alias' => $this->model->f
 
 
 // Currency selected filters
+echo Html::openTag('div', array('id' => 'ajax_filter_current'));
 echo $this->render('_current', array(), true);
-
+echo Html::closeTag('div');
 // Filter by prices
 if ($config->filter_enable_price)
     echo $this->render('_price', array('config' => $config, 'prices' => $prices), true);
@@ -105,6 +106,7 @@ $.fn.serializeObject = function()
 
 
     $(function () {
+    
         $('#filter-form').change(function (e) {
             e.preventDefault();
 
@@ -128,7 +130,7 @@ $.fn.serializeObject = function()
                 type:'GET',
                 url:'/'+uri,
                 success:function(data){
-                    $('#filter-current .card-body').html(data);
+                    $('#ajax_filter_current').html(data);
                 }
             });
             
