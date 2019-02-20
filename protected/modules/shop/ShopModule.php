@@ -127,7 +127,7 @@ class ShopModule extends WebModule
             'shop/index/renderProductsBlock/<scope>' => array('shop/index/renderProductsBlock'),
             'shop/updateSorting' => array('shop/category/updateSorting'),
             //'shop/test' => array('shop/category/test'),
-            //'shop/updateFilters' => array('shop/category/updateFilters'),
+
 
             // 'discount' => array('shop/category/discount'),
             'discount' => array('shop/category/discount2'),

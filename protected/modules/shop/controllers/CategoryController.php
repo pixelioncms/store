@@ -59,71 +59,6 @@ class CategoryController extends FilterController
     }
 
 
-    public function actionCurrentFilters()
-    {
-        $request = Yii::app()->request;
-        // Render links to cancel applied filters like prices, manufacturers, attributes.
-        $menuItems = array();
-        $manufacturersIds = array_filter(explode(',', $request->getQuery('manufacturer')));
-
-        if ($manufacturersIds) {
-            $manufacturers = ShopManufacturer::model()
-                //->cache($this->cache_time)
-                ->findAllByPk($manufacturersIds);
-        }
-        if ($request->getQuery('min_price')) {
-            array_push($menuItems, array(
-                'linkOptions' => array('class' => 'remove'),
-                'label' => Yii::t('ShopModule.default', 'от {minPrice} {c}', array('{minPrice}' => (int)$this->getCurrentMinPrice(), '{c}' => Yii::app()->currency->active->symbol)),
-                'url' => $request->removeUrlParam('/shop/category/view', 'min_price')
-            ));
-        }
-
-        if ($request->getQuery('max_price')) {
-            array_push($menuItems, array(
-                'label' => Yii::t('ShopModule.default', 'до {maxPrice} {c}', array('{maxPrice}' => (int)$this->getCurrentMaxPrice(), '{c}' => Yii::app()->currency->active->symbol)),
-                'linkOptions' => array('class' => 'remove'),
-                'url' => $request->removeUrlParam('/shop/category/view', 'max_price')
-            ));
-        }
-
-        if (!empty($manufacturersIds)) {
-            foreach ($manufacturers as $manufacturer) {
-                array_push($menuItems, array(
-                    'label' => $manufacturer->name,
-                    'linkOptions' => array('class' => 'remove'),
-                    'url' => $request->removeUrlParam('/shop/category/view', 'manufacturer', $manufacturer->id)
-                ));
-            }
-        }
-
-        // Process eav attributes
-        $activeAttributes = $this->activeAttributes;
-        if (!empty($activeAttributes)) {
-            foreach ($activeAttributes as $attributeName => $value) {
-                if (isset($this->eavAttributes[$attributeName])) {
-                    $attribute = $this->eavAttributes[$attributeName];
-                    foreach ($attribute->options as $option) {
-                        if (isset($activeAttributes[$attribute->name]) && in_array($option->id, $activeAttributes[$attribute->name])) {
-                            array_push($menuItems, array(
-                                'label' => $option->value,
-                                'linkOptions' => array('class' => 'remove'),
-                                'url' => $request->removeUrlParam('/shop/category/view', $attribute->name, $option->id)
-                            ));
-                        }
-                    }
-                }
-            }
-        }
-
-
-        echo $this->widget('zii.widgets.CMenu', array(
-            'htmlOptions' => array('class' => 'current-filter-list'),
-            'items' => $menuItems
-        ), true);
-
-        // return $menuItems;
-    }
 
     /**
      * Load category model by url
@@ -246,8 +181,9 @@ class CategoryController extends FilterController
 
         // Filter by manufacturer
         if (Yii::app()->request->isAjaxRequest) {
-            if (Yii::app()->request->getPost('manufacturer')) {
-                $manufacturers = Yii::app()->request->getPost('manufacturer');
+            if (Yii::app()->request->getQuery('manufacturer')) {
+                //$manufacturers = Yii::app()->request->getPost('manufacturer');
+                $manufacturers = explode(',', Yii::app()->request->getParam('manufacturer', ''));
                 $this->query->applyManufacturers($manufacturers);
             }
         } else {
@@ -306,9 +242,8 @@ class CategoryController extends FilterController
             $name = $this->dataModel->name;
             $this->pageName = $this->dataModel->name;
             if(!Yii::app()->request->isAjaxRequest){
-            Yii::import('mod.shop.widgets.filter3.FilterWidget3');
-            $filter = new FilterWidget3();
-            $filterData = $filter->getActiveFilters();
+
+            $filterData = $this->getActiveFilters();
 
 
             unset($filterData['price']);
@@ -347,10 +282,26 @@ class CategoryController extends FilterController
         }
         if (Yii::app()->request->isAjaxRequest) {
 
-            $this->render('_ajax', array(
+
+
+            if(isset($_GET['ajax'])){
+                $this->render('_ajax', array(
+                    'provider' => $this->provider,
+                    'itemView'=>$this->itemView
+                ));
+            }else{
+
+                echo $this->widget('zii.widgets.CMenu', array(
+                    'htmlOptions' => array('class' => 'current-filter-list'),
+                    'items' => $this->getActiveFilters()
+                ), true);
+                Yii::app()->end();
+              //  $this->setJson($filter->getActiveFilters());
+            }
+           /* $this->render('_ajax', array(
                 'provider' => $this->provider,
                 'itemView'=>$this->itemView
-            ));
+            ));*/
         } else {
             $this->render($view, array(
                 'provider' => $this->provider,
@@ -358,6 +309,82 @@ class CategoryController extends FilterController
         }
 
     }
+
+
+
+    public function getActiveFilters()
+    {
+        $request = Yii::app()->request;
+        // Render links to cancel applied filters like prices, manufacturers, attributes.
+        $menuItems = array();
+        if ($this->route == 'shop/category/view') {
+            $manufacturers = array_filter(explode(',', $request->getQuery('manufacturer')));
+            $manufacturers = ShopManufacturer::model()
+                //->cache($this->controller->cacheTime)
+                ->findAllByPk($manufacturers);
+        }
+        if ($request->getQuery('min_price') || $request->getQuery('min_price')) {
+            $menuItems['price'] = array(
+                'label' => Yii::t('ShopModule.default', 'FILTER_PRICE_HEADER') . ':',
+            );
+        }
+
+
+        if ($request->getQuery('min_price')) {
+            $menuItems['price']['items'][] = array(
+                'label' => Yii::t('ShopModule.default', 'от {minPrice} {c}', array('{minPrice}' => Yii::app()->currency->number_format($this->getCurrentMinPrice()), '{c}' => Yii::app()->currency->active->symbol)),
+                'linkOptions' => array('class' => 'remove'),
+                'url' => $request->removeUrlParam('/shop/category/view', 'min_price')
+            );
+        }
+
+        if ($request->getQuery('max_price')) {
+            $menuItems['price']['items'][] = array(
+                'label' => Yii::t('ShopModule.default', 'до {maxPrice} {c}', array('{maxPrice}' => Yii::app()->currency->number_format($this->getCurrentMaxPrice()), '{c}' => Yii::app()->currency->active->symbol)),
+                'linkOptions' => array('class' => 'remove'),
+                'url' => $request->removeUrlParam('/shop/category/view', 'max_price')
+            );
+        }
+        if ($this->route == 'shop/category/view') {
+            if (!empty($manufacturers)) {
+                $menuItems['manufacturer'] = array(
+                    'label' => Yii::t('ShopModule.default', 'FILTER_MANUFACTURER') . ':',
+                );
+
+                foreach ($manufacturers as $manufacturer) {
+                    $menuItems['manufacturer']['items'][] = array(
+                        'label' => $manufacturer->name,
+                        'linkOptions' => array('class' => 'remove'),
+                        'url' => $request->removeUrlParam('/shop/category/view', 'manufacturer', $manufacturer->id)
+                    );
+                }
+            }
+        }
+        // Process eav attributes
+        $activeAttributes = $this->activeAttributes;
+        if (!empty($activeAttributes)) {
+            foreach ($activeAttributes as $attributeName => $value) {
+                if (isset($this->eavAttributes[$attributeName])) {
+                    $attribute = $this->eavAttributes[$attributeName];
+                    $menuItems[$attributeName] = array(
+                        'label' => $attribute->title . ':',
+                    );
+                    foreach ($attribute->options as $option) {
+                        if (isset($activeAttributes[$attribute->name]) && in_array($option->id, $activeAttributes[$attribute->name])) {
+                            $menuItems[$attributeName]['items'][] = array(
+                                'label' => $option->value . ' ' . $attribute->abbreviation,
+                                'linkOptions' => array('class' => 'remove'),
+                                'url' => $request->removeUrlParam('/shop/category/view', $attribute->name, $option->id)
+                            );
+                            sort($menuItems[$attributeName]['items']);
+                        }
+                    }
+                }
+            }
+        }
+        return $menuItems;
+    }
+
 
     /**
      * @return array of available attributes in category

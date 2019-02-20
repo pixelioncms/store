@@ -77,6 +77,48 @@ class FilterController extends Controller
         return null;
     }
 
+    /**
+     * @var string min price in the query
+     */
+    private $_currentMinPrice = null;
+
+    /**
+     * @var string max price in the query
+     */
+    private $_currentMaxPrice = null;
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentMinPrice()
+    {
+        if ($this->_currentMinPrice !== null)
+            return $this->_currentMinPrice;
+
+        if (Yii::app()->request->getQuery('min_price'))
+            $this->_currentMinPrice = Yii::app()->request->getQuery('min_price');
+        else
+            $this->_currentMinPrice = Yii::app()->currency->convert($this->getMinPrice());
+
+        return $this->_currentMinPrice;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentMaxPrice()
+    {
+        if ($this->_currentMaxPrice !== null)
+            return $this->_currentMaxPrice;
+
+        if (Yii::app()->request->getQuery('max_price'))
+            $this->_currentMaxPrice = Yii::app()->request->getQuery('max_price');
+        else
+            $this->_currentMaxPrice = Yii::app()->currency->convert($this->getMaxPrice());
+
+        return $this->_currentMaxPrice;
+    }
+
     public function applyPricesFilter()
     {
         if (Yii::app()->request->isAjaxRequest) {
@@ -141,16 +183,16 @@ class FilterController extends Controller
                         } else {
                             $list = array($_GET[$key]);
                         }
-if(is_array($list)){
-    $list = array_unique($list);
-}
+                        if (is_array($list)) {
+                            $list = array_unique($list);
+                        }
 
                         $data[$key] = $list;
 
                     } else {
                         $data[$key] = array($_GET[$key]);
                     }
-                    if(is_array($list)) {
+                    if (is_array($list)) {
                         sort($data[$key]);
                     }
                 }

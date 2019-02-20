@@ -3,8 +3,8 @@
 $cm = Yii::app()->currency;
 $getDefaultMin = (int)floor($this->controller->getMinPrice());
 $getDefaultMax = (int)ceil($this->controller->getMaxPrice());
-$getMax = $this->currentMaxPrice;
-$getMin = $this->currentMinPrice;
+$getMax = $this->getOwner()->currentMaxPrice;
+$getMin = $this->getOwner()->currentMinPrice;
 $min = (int)floor($getMin); //$cm->convert()
 $max = (int)ceil($getMax);
 
@@ -54,12 +54,12 @@ if ($getDefaultMin !== $getDefaultMax) { //Если у товаров онина
                     <div class="filter-slider-price row no-gutters">
                         <div class="col text-center align-self-center">от</div>
                         <div class="col text-center">
-                            <?= Html::textField('min_price', (isset($_GET['min_price'])) ? (int)$this->getCurrentMinPrice() : null, array('class' => 'form-control form-control-sm')) ?>
+                            <?= Html::textField('min_price', (isset($_GET['min_price'])) ? (int)$this->getOwner()->getCurrentMinPrice() : null, array('class' => 'form-control form-control-sm')) ?>
 
                         </div>
                         <div class="col text-center align-self-center">до</div>
                         <div class="col text-center">
-                            <?= Html::textField('max_price', (isset($_GET['max_price'])) ? (int)$this->getCurrentMaxPrice() : null, array('class' => 'form-control form-control-sm')) ?>
+                            <?= Html::textField('max_price', (isset($_GET['max_price'])) ? (int)$this->getOwner()->getCurrentMaxPrice() : null, array('class' => 'form-control form-control-sm')) ?>
 
                         </div>
                         <div class="col text-center align-self-center"><?= Yii::app()->currency->active->symbol ?></div>
@@ -67,10 +67,10 @@ if ($getDefaultMin !== $getDefaultMax) { //Если у товаров онина
 
 
                     <span id="mn" class="d-none">
-                        <?= (isset($_GET['min_price'])) ? (int)$this->getCurrentMinPrice() : null ?>
+                        <?= (isset($_GET['min_price'])) ? (int)$this->getOwner()->getCurrentMinPrice() : null ?>
                     </span>
                     <span id="mx" class="d-none">
-                        <?= (isset($_GET['max_price'])) ? (int)$this->getCurrentMaxPrice() : null ?>
+                        <?= (isset($_GET['max_price'])) ? (int)$this->getOwner()->getCurrentMaxPrice() : null ?>
                     </span>
 
                 </div>

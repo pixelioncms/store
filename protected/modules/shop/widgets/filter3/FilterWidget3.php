@@ -35,22 +35,13 @@ class FilterWidget3 extends CWidget
     public $countManufacturer = true;
     public $prices = array();
     public $tagCount = 'sup';
-    private $cache_time = 3600 / 2 / 2; //3600;
+    private $cache_time = 3600 / 2; //3600;
 
     /**
      * @var ShopCategory
      */
     public $model;
 
-    /**
-     * @var string min price in the query
-     */
-    private $_currentMinPrice = null;
-
-    /**
-     * @var string max price in the query
-     */
-    private $_currentMaxPrice = null;
 
     public static function actions()
     {
@@ -85,78 +76,7 @@ class FilterWidget3 extends CWidget
     /**
      * Get active/applied filters to make easier to cancel them.
      */
-    public function getActiveFilters()
-    {
-        $request = Yii::app()->request;
-        // Render links to cancel applied filters like prices, manufacturers, attributes.
-        $menuItems = array();
-        if ($this->controller->route == 'shop/category/view') {
-            $manufacturers = array_filter(explode(',', $request->getQuery('manufacturer')));
-            $manufacturers = ShopManufacturer::model()
-                //->cache($this->controller->cacheTime)
-                ->findAllByPk($manufacturers);
-        }
-        if ($request->getQuery('min_price') || $request->getQuery('min_price')) {
-            $menuItems['price'] = array(
-                'label' => Yii::t('ShopModule.default', 'FILTER_PRICE_HEADER') . ':',
-            );
-        }
 
-
-        if ($request->getQuery('min_price')) {
-            $menuItems['price']['items'][] = array(
-                'label' => Yii::t('ShopModule.default', 'от {minPrice} {c}', array('{minPrice}' => Yii::app()->currency->number_format($this->getCurrentMinPrice()), '{c}' => Yii::app()->currency->active->symbol)),
-                'linkOptions' => array('class' => 'remove'),
-                'url' => $request->removeUrlParam('/shop/category/view', 'min_price')
-            );
-        }
-
-        if ($request->getQuery('max_price')) {
-            $menuItems['price']['items'][] = array(
-                'label' => Yii::t('ShopModule.default', 'до {maxPrice} {c}', array('{maxPrice}' => Yii::app()->currency->number_format($this->getCurrentMaxPrice()), '{c}' => Yii::app()->currency->active->symbol)),
-                'linkOptions' => array('class' => 'remove'),
-                'url' => $request->removeUrlParam('/shop/category/view', 'max_price')
-            );
-        }
-        if ($this->controller->route == 'shop/category/view') {
-            if (!empty($manufacturers)) {
-                $menuItems['manufacturer'] = array(
-                    'label' => Yii::t('ShopModule.default', 'FILTER_MANUFACTURER') . ':',
-                );
-
-                foreach ($manufacturers as $manufacturer) {
-                    $menuItems['manufacturer']['items'][] = array(
-                        'label' => $manufacturer->name,
-                        'linkOptions' => array('class' => 'remove'),
-                        'url' => $request->removeUrlParam('/shop/category/view', 'manufacturer', $manufacturer->id)
-                    );
-                }
-            }
-        }
-        // Process eav attributes
-        $activeAttributes = $this->getOwner()->activeAttributes;
-        if (!empty($activeAttributes)) {
-            foreach ($activeAttributes as $attributeName => $value) {
-                if (isset($this->getOwner()->eavAttributes[$attributeName])) {
-                    $attribute = $this->getOwner()->eavAttributes[$attributeName];
-                    $menuItems[$attributeName] = array(
-                        'label' => $attribute->title . ':',
-                    );
-                    foreach ($attribute->options as $option) {
-                        if (isset($activeAttributes[$attribute->name]) && in_array($option->id, $activeAttributes[$attribute->name])) {
-                            $menuItems[$attributeName]['items'][] = array(
-                                'label' => $option->value . ' ' . $attribute->abbreviation,
-                                'linkOptions' => array('class' => 'remove'),
-                                'url' => $request->removeUrlParam('/shop/category/view', $attribute->name, $option->id)
-                            );
-                            sort($menuItems[$attributeName]['items']);
-                        }
-                    }
-                }
-            }
-        }
-        return $menuItems;
-    }
 
     /**
      * @return array of attributes used in category
@@ -395,37 +315,6 @@ class FilterWidget3 extends CWidget
         return $data;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCurrentMinPrice()
-    {
-        if ($this->_currentMinPrice !== null)
-            return $this->_currentMinPrice;
-
-        if (Yii::app()->request->getQuery('min_price'))
-            $this->_currentMinPrice = Yii::app()->request->getQuery('min_price');
-        else
-            $this->_currentMinPrice = Yii::app()->currency->convert($this->controller->getMinPrice());
-
-        return $this->_currentMinPrice;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCurrentMaxPrice()
-    {
-        if ($this->_currentMaxPrice !== null)
-            return $this->_currentMaxPrice;
-
-        if (Yii::app()->request->getQuery('max_price'))
-            $this->_currentMaxPrice = Yii::app()->request->getQuery('max_price');
-        else
-            $this->_currentMaxPrice = Yii::app()->currency->convert($this->controller->getMaxPrice());
-
-        return $this->_currentMaxPrice;
-    }
 
     /**
      * Proxy to CurrencyManager::activeToMain
@@ -443,7 +332,7 @@ class FilterWidget3 extends CWidget
     public function getCount($filter, $checked = false)
     {
         if ($this->countAttr) {
-            $active = $this->getActiveFilters();
+            $active = $this->getOwner()->getActiveFilters();
             $plus = '';
             if (Yii::app()->request->getParam($filter['queryKey']) && $active) {
                 $mass = array();

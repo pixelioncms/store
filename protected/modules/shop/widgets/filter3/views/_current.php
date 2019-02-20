@@ -1,5 +1,5 @@
 <?php
-$active = $this->getActiveFilters();
+$active = $this->getOwner()->getActiveFilters();
 
 if (!empty($active)) {
     ?>

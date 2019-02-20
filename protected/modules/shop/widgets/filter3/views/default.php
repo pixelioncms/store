@@ -122,8 +122,15 @@ $.fn.serializeObject = function()
                     uri += '/'+values;
                 }
             });
-            
+
             $.fn.yiiListView.update('shop-products',{url: '/'+uri});
+            $.ajax({
+                type:'GET',
+                url:'/'+uri,
+                success:function(data){
+                    $('#filter-current .card-body').html(data);
+                }
+            });
             
             //reload path by url
             //window.location.pathname = uri;
