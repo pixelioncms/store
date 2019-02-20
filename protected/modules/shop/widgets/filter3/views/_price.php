@@ -16,7 +16,6 @@ if ($getDefaultMin !== $getDefaultMax) { //Если у товаров онина
         <div class="card-header collapsed" data-toggle="collapse" data-target="#filter<?= md5('price-filter'); ?>">
             <h5><?= Yii::t('ShopModule.default', 'FILTER_PRICE_HEADER') ?></h5>
         </div>
-        <?php //echo Html::form() ?>
 
         <div class="card-collapse collapse" id="filter<?= md5('price-filter'); ?>">
             <div class="card-body px-0">
@@ -75,15 +74,7 @@ if ($getDefaultMin !== $getDefaultMax) { //Если у товаров онина
                     </span>
 
                 </div>
-                <div class="text-left">
-                    <br/>
-                    <button type="submit" class="btn btn-sm btn-secondary">OK</button>
-                </div>
-
             </div>
-            <?php //echo Html::endForm() ?>
         </div>
     </div>
-
-
 <?php } ?>

@@ -55,10 +55,11 @@ $config = Yii::app()->settings->get('shop');
  *        ))
  *  );
  */
+echo Html::openTag('div', array('id' => 'filters'));
 // Render active filters
 echo Html::beginForm(array('/shop/category/view', 'seo_alias' => $this->model->full_path), 'POST', array('id' => 'filter-form'));
 
-echo Html::openTag('div', array('id' => 'filters'));
+
 // Currency selected filters
 echo $this->render('_current', array(), true);
 
@@ -81,14 +82,29 @@ echo $this->render('_attributes', array(
     'attributes' => $attributes
 ), true);
 
-echo Html::closeTag('div');
-echo Html::submitButton('GO');
-echo Html::endForm();
 
+//echo Html::submitButton('Применить',array('class'=>'btn btn-success btn-submit-filter'));
+echo Html::endForm();
+echo Html::closeTag('div');
 Yii::app()->clientScript->registerScript('filters', "
     $(function () {
         $('#filter-form').change(function (e) {
             e.preventDefault();
+            
+            //find .card-body
+            var block = $(e.target).parent().parent().parent().parent();
+            
+            var btn = $('.btn-submit-filter');
+            btn.remove();
+            block.append('<input class=\"btn btn-success btn-submit-filter\" type=\"submit\" value=\"Применить\" />')
+            $('.btn-submit-filter').css({
+                right : - $('.btn-submit-filter').width(),
+                top: block.height()/2 - $('.btn-submit-filter').height() / 2
+            });
+            console.log(btn.height());
+            block.addClass('dsadsadasdasdsasad');
+            
+            console.log();
             console.log( $( this ).serialize() );
             //$.ajax({
             //    type:'POST',
@@ -96,6 +112,7 @@ Yii::app()->clientScript->registerScript('filters', "
             //    data:$(this).serialize()
             //});
             //return false;
+            //$('.btn-submit-filter')
         });
     });
 ", CClientScript::POS_END);
