@@ -18,7 +18,7 @@ $this->renderPartial('mod.admin.views.layouts.inc._cs', array(
 
     <meta charset="<?= Yii::app()->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><?= Yii::t('app', 'ADMIN_PANEL', array('{sitename}' => Yii::app()->settings->get('app', 'site_name'))) ?></title>
     <link rel="shortcut icon" href="<?= $assetsUrl; ?>/images/favicon.ico" type="image/x-icon">
 </head>
@@ -44,10 +44,6 @@ $this->renderPartial('mod.admin.views.layouts.inc._cs', array(
         <ul class="navbar-right">
 
             <?php
-
-
-
-
 
 
             //$notificationsend = new NotificationModel;
@@ -255,88 +251,87 @@ $this->renderPartial('mod.admin.views.layouts.inc._cs', array(
                         }
 
 
+                        /* $users = array();
+                          // User 1
+                          $users[0]['username'] =  'admin';
+                          $users[0]['password'] =  'admin';
+                          // User 2
+                          $users[1]['username'] =  'user2';
+                          $users[1]['password'] =  'password2';
+                          // User 3
+                          $users[2]['username'] =  'user3';
+                          $users[2]['password'] =  'password3';
 
-                      /* $users = array();
-                        // User 1
-                        $users[0]['username'] =  'admin';
-                        $users[0]['password'] =  'admin';
-                        // User 2
-                        $users[1]['username'] =  'user2';
-                        $users[1]['password'] =  'password2';
-                        // User 3
-                        $users[2]['username'] =  'user3';
-                        $users[2]['password'] =  'password3';
+                          foreach($users as $user => $data)
+                          {
+                              $username = $data['username'];
+                              $password = $data['password'];
+                              // Encrypt password
+                              $encryptedpwd = CMS::crypt_apr1_md5($password);
 
-                        foreach($users as $user => $data)
-                        {
-                            $username = $data['username'];
-                            $password = $data['password'];
-                            // Encrypt password
-                            $encryptedpwd = CMS::crypt_apr1_md5($password);
-
-                            // Print line to be added to .htpasswd file
-                            echo $username . ':' . $encryptedpwd;
-                            echo '<br />';
-                        }
-
+                              // Print line to be added to .htpasswd file
+                              echo $username . ':' . $encryptedpwd;
+                              echo '<br />';
+                          }
 
 
-                        $username2='admin';
-                        $password2='admin';
 
-                        $curl = Yii::app()->curl;
-                        $curl->options = array(
-                            'timeout' => 320,
-                            'setOptions' => array(
-                                CURLOPT_HEADER => false,
-                                CURLOPT_USERPWD=>$username2 . ":" . $password2,
-                                CURLOPT_RETURNTRANSFER=>1,
-                               // CURLOPT_SSL_VERIFYPEER => false,
-                            ),
-                        );
-                        $connent = $curl->run('http://pixelion.store.loc/uploads/test', array());
+                          $username2='admin';
+                          $password2='admin';
 
-                        if (!$connent->hasErrors()) {
-                            $result = CJSON::decode($connent->getData());
+                          $curl = Yii::app()->curl;
+                          $curl->options = array(
+                              'timeout' => 320,
+                              'setOptions' => array(
+                                  CURLOPT_HEADER => false,
+                                  CURLOPT_USERPWD=>$username2 . ":" . $password2,
+                                  CURLOPT_RETURNTRANSFER=>1,
+                                 // CURLOPT_SSL_VERIFYPEER => false,
+                              ),
+                          );
+                          $connent = $curl->run('http://pixelion.store.loc/uploads/test', array());
 
-                        } else {
-                            $error = $connent->getErrors();
+                          if (!$connent->hasErrors()) {
+                              $result = CJSON::decode($connent->getData());
 
-                            if ($error->code == 22) {
-                                $result = array(
-                                    'status' => 'error',
-                                    'message' => $error->message,
-                                    'code' => $error->code
-                                );
-                            } else {
-                                $result = array(
-                                    'status' => 'error',
-                                    'message' => $error->message,
-                                    'code' => $error->code
-                                );
-                            }
+                          } else {
+                              $error = $connent->getErrors();
 
-                        }
-print_r($result);
+                              if ($error->code == 22) {
+                                  $result = array(
+                                      'status' => 'error',
+                                      'message' => $error->message,
+                                      'code' => $error->code
+                                  );
+                              } else {
+                                  $result = array(
+                                      'status' => 'error',
+                                      'message' => $error->message,
+                                      'code' => $error->code
+                                  );
+                              }
 
+                          }
+  print_r($result);
 
 
 
 
-                        $username = 'admin';
-                        $password = 'admin';
 
-                        // Encrypt password
-                        $encrypted_password = crypt($password, base64_encode($password));
+                          $username = 'admin';
+                          $password = 'admin';
 
-                        // Print line to be added to .htpasswd file
-                        //echo $username . ':' . $encrypted_password;
+                          // Encrypt password
+                          $encrypted_password = crypt($password, base64_encode($password));
 
-                        $htaccess = file_get_contents(Yii::getPathOfAlias('webroot.uploads.test').DS.'.htaccess');
-                        $rules= 'test';
-                        $htaccess = str_replace('###CUSTOM RULES###', $rules."\n###CUSTOM RULES###", $htaccess);
-                        //file_put_contents(Yii::getPathOfAlias('webroot.uploads.test').DS.'.htaccess', $htaccess);
-*/
+                          // Print line to be added to .htpasswd file
+                          //echo $username . ':' . $encrypted_password;
+
+                          $htaccess = file_get_contents(Yii::getPathOfAlias('webroot.uploads.test').DS.'.htaccess');
+                          $rules= 'test';
+                          $htaccess = str_replace('###CUSTOM RULES###', $rules."\n###CUSTOM RULES###", $htaccess);
+                          //file_put_contents(Yii::getPathOfAlias('webroot.uploads.test').DS.'.htaccess', $htaccess);
+  */
                         ?>
                         <?= $content ?>
 
@@ -350,10 +345,10 @@ print_r($result);
     </div>
     <?php
 
-$cs = Yii::app()->clientScript;
+    $cs = Yii::app()->clientScript;
     if (($messages = Yii::app()->user->getFlash('messages'))) {
-        foreach ($messages as $k=>$m) {
-            $cs->registerScript('common.notify'.$k, "common.notify('" . $m . "', 'success');", CClientScript::POS_END);
+        foreach ($messages as $k => $m) {
+            $cs->registerScript('common.notify' . $k, "common.notify('" . $m . "', 'success');", CClientScript::POS_END);
         }
     }
 
@@ -362,18 +357,19 @@ $cs = Yii::app()->clientScript;
 
         foreach ($messages as $type => $errors) {
             if (is_array($errors)) {
-                foreach ($errors as $k=>$err) {
-                    $cs->registerScript('common.notify'.$k, "common.notify('{$err}', '{$type}');", CClientScript::POS_END);
+                foreach ($errors as $k => $err) {
+                    $cs->registerScript('common.notify' . $k, "common.notify('{$err}', '{$type}');", CClientScript::POS_END);
                 }
             } else {
-                $cs->registerScript('common.notify'.$type, "common.notify('{$errors}', '{$type}');", CClientScript::POS_END);
+                $cs->registerScript('common.notify' . $type, "common.notify('{$errors}', '{$type}');", CClientScript::POS_END);
             }
         }
 
     }
     ?>
+
     <footer class="footer">
-        <div class="col">
+        <div class="container">
             {copyright}
             <br/>
             <?php
@@ -382,6 +378,7 @@ $cs = Yii::app()->clientScript;
             ?>
         </div>
     </footer>
+
 </div>
 </body>
 </html>

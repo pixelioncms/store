@@ -103,7 +103,7 @@ Yii::app()->clientScript->registerScript('dekstop', "
 
 <div class="row">
     <div class="col-sm">
-        <div class="card bg-success text-white o-hidden h-100">
+        <div class="card bg-success text-white o-hidden">
             <div class="card-body" style="padding: 1rem">
                 <div class="row">
                     <i class="icon-user"></i>
@@ -224,7 +224,7 @@ if (isset($desktop) && isset($AddonsItems)) {
                 $class = '';
             }
             ?>
-            <div class="column <?= $class; ?>" data-id="<?= $x; ?>" data-desktop-id="<?= $desktop->id ?>">&nbsp;
+            <div class="column <?= $class; ?>" data-id="<?= $x; ?>" data-desktop-id="<?= $desktop->id ?>">
                 <?php
                 $cr = new CDbCriteria;
 

@@ -1,6 +1,7 @@
 ﻿@import "base";
 @import "mixins";
 @import "ui";
+
 a {
   text-decoration: underline;
 }
@@ -90,11 +91,11 @@ a:hover,
 .grid-view .badge {
   font-size: 100%;
   margin: 2px;
-  a{
+  a {
     text-decoration: none;
     font-weight: normal;
-    &:hover{
-      color:#fff;
+    &:hover {
+      color: #fff;
     }
   }
 }
@@ -186,7 +187,6 @@ a:hover,
 .main-icon .small-thumbnail {
   margin-bottom: 30px;
 }
-
 
 .has-success .form-control,
 .has-success .form-control:focus,
@@ -296,8 +296,8 @@ body {
 
 .footer {
   position: absolute;
-  z-index: 0;
   bottom: 0;
+  left: 0;
   height: 50px;
   width: 100%;
   text-align: right;
@@ -419,9 +419,11 @@ input.loading {
   padding-top: 51px;
   margin-bottom: 51px;
 }
-.lofiversion #wrapper-tpl{
+
+.lofiversion #wrapper-tpl {
   padding-top: 1rem;
 }
+
 /*
 .blur {
   -webkit-filter: grayscale(100%) blur(1px);
@@ -1208,11 +1210,12 @@ label.required span.required {
     }
   }
 }
+
 .flashing-input {
-  -webkit-animation: flashing-input 4s;  /* Safari 4+ */
-  -moz-animation: flashing-input 4s;  /* Fx 5+ */
-  -o-animation: flashing-input 4s;  /* Opera 12+ */
-  animation: flashing-input 4s;  /* IE 10+, Fx 29+ */
+  -webkit-animation: flashing-input 4s; /* Safari 4+ */
+  -moz-animation: flashing-input 4s; /* Fx 5+ */
+  -o-animation: flashing-input 4s; /* Opera 12+ */
+  animation: flashing-input 4s; /* IE 10+, Fx 29+ */
 }
 
 @-webkit-keyframes flashing-input {
@@ -1227,13 +1230,13 @@ label.required span.required {
 @media (min-width: 992px) {
   form input.form-control,
   form select.form-control,
-  form select.custom-select{
+  form select.custom-select {
     width: 60%;
   }
 
   .ui-dialog form input.form-control,
   .ui-dialog form select.form-control,
-  .ui-dialog form select.custom-select{
+  .ui-dialog form select.custom-select {
     width: 100%;
   }
   form .input-group-prepend input.form-control,
@@ -1241,7 +1244,7 @@ label.required span.required {
   form .input-group-prepend select.custom-select,
   form .input-group-append input.form-control,
   form .input-group-append select.form-control,
-  form .input-group-append select.custom-select{
+  form .input-group-append select.custom-select {
     width: 100%;
   }
   form .col-form-label {
