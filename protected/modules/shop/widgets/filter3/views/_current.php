@@ -3,7 +3,7 @@ $active = $this->getOwner()->getActiveFilters();
 
 if (!empty($active)) {
     ?>
-    <div class="card loading" id="filter-current">
+    <div class="card" id="filter-current">
         <div class="card-header collapsed" data-toggle="collapse" data-target="#filter<?= md5('current-filter'); ?>">
             <h5><?= Yii::t('ShopModule.default', 'CURRENT_FILTER_TITLE') ?></h5>
         </div>
@@ -68,8 +68,11 @@ Yii::app()->clientScript->registerScript('filter-current', "
             xhrCurrentFilter = $.ajax({
                 type:'GET',
                 url:uri,
+                beforeSend:function(){
+                    $('#ajax_filter_current').addClass('loading');
+                },
                 success:function(data){
-                    $('#ajax_filter_current').html(data);
+                    $('#ajax_filter_current').html(data).removeClass('loading');
                     history.pushState(null, false, uri);
                 }
             });

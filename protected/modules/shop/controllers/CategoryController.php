@@ -214,6 +214,7 @@ class CategoryController extends FilterController
         if ($view != 'search') {
             $cs = Yii::app()->clientScript;
             $cs->registerScript('numberformat', "
+        var xhrCurrentFilter;
         var penny = " . Yii::app()->currency->active->penny . ";
         var separator_thousandth = '" . Yii::app()->currency->active->separator_thousandth . "';
         var separator_hundredth = '" . Yii::app()->currency->active->separator_hundredth . "';

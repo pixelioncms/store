@@ -126,11 +126,20 @@ $.fn.serializeObject = function()
             });
 
             $.fn.yiiListView.update('shop-products',{url: '/'+uri});
-            $.ajax({
+            
+            if(xhrCurrentFilter && xhrCurrentFilter.readyState != 4){
+                xhrCurrentFilter.onreadystatechange = null;
+                xhrCurrentFilter.abort();
+            }
+            
+            xhrCurrentFilter = $.ajax({
                 type:'GET',
                 url:'/'+uri,
+                beforeSend:function(){
+                    $('#ajax_filter_current').addClass('loading');
+                },
                 success:function(data){
-                    $('#ajax_filter_current').html(data);
+                    $('#ajax_filter_current').html(data).removeClass('loading');
                 }
             });
             
