@@ -300,43 +300,37 @@ class Controller extends RController
         //For iPad: 72x72
         //For iPhone: 57x57
         //For iPhone 4 Retina display: 114x114
-        $appletouch = array('57x57', '60x60', '72x72', '76x76', '114x114', '120x120', '144x144', '152x152', '180x180');
-        foreach ($appletouch as $size) {
-            if (file_exists(Yii::getPathOfAlias("current_theme.assets.images") . DS . "apple-touch-icon-{$size}.png")) {
-                $cs->registerLinkTag('apple-touch-icon', NULL, $this->assetsUrl . "/images/apple-touch-icon-{$size}.png", NULL, array('sizes' => $size));
-            } elseif (file_exists(Yii::getPathOfAlias("current_theme.assets.images") . DS . "apple-touch-icon.png")) {
-                $cs->registerLinkTag('apple-touch-icon', NULL, $this->assetsUrl . "/images/apple-touch-icon.png", NULL);
-            }
-        }
-
-
-        if (count(Yii::app()->languageManager->getLanguages()) > 1) {
-            foreach (Yii::app()->languageManager->getLanguages() as $lang) {
-                $link = ($lang->is_default) ? CMS::currentUrl() : '/' . $lang->code . CMS::currentUrl();
-
-                if($lang->is_default){
-                    $cs->registerLinkTag('alternate', null, Yii::app()->request->hostInfo . $link, null, array('hreflang' => str_replace('_','-',$lang->locale)));
-                }else{
-                    $cs->registerLinkTag('alternate', null, Yii::app()->request->hostInfo . $link, null, array('hreflang' => str_replace('_','-',$lang->locale)));
+        if (!Yii::app()->request->isAjaxRequest) {
+            $appletouch = array('57x57', '60x60', '72x72', '76x76', '114x114', '120x120', '144x144', '152x152', '180x180');
+            foreach ($appletouch as $size) {
+                if (file_exists(Yii::getPathOfAlias("current_theme.assets.images") . DS . "apple-touch-icon-{$size}.png")) {
+                    $cs->registerLinkTag('apple-touch-icon', NULL, $this->assetsUrl . "/images/apple-touch-icon-{$size}.png", NULL, array('sizes' => $size));
+                } elseif (file_exists(Yii::getPathOfAlias("current_theme.assets.images") . DS . "apple-touch-icon.png")) {
+                    $cs->registerLinkTag('apple-touch-icon', NULL, $this->assetsUrl . "/images/apple-touch-icon.png", NULL);
                 }
-
             }
-        }
 
-        $favicons = array('16x16', '32x32', '48x48', '192x192');
-        foreach ($favicons as $size) {
-            if (file_exists(Yii::getPathOfAlias("current_theme.assets.images") . DS . "favicon-{$size}.png")) {
-                $cs->registerLinkTag('icon', "image/png", $this->assetsUrl . "/images/favicon-{$size}.png", NULL, array('sizes' => $size));
+
+            if (count(Yii::app()->languageManager->getLanguages()) > 1) {
+                foreach (Yii::app()->languageManager->getLanguages() as $lang) {
+                    $link = ($lang->is_default) ? CMS::currentUrl() : '/' . $lang->code . CMS::currentUrl();
+
+                    if ($lang->is_default) {
+                        $cs->registerLinkTag('alternate', null, Yii::app()->request->hostInfo . $link, null, array('hreflang' => str_replace('_', '-', $lang->locale)));
+                    } else {
+                        $cs->registerLinkTag('alternate', null, Yii::app()->request->hostInfo . $link, null, array('hreflang' => str_replace('_', '-', $lang->locale)));
+                    }
+
+                }
             }
-        }
 
-
-        //manifest.json
-
-
-        $cs->registerScriptFile($this->baseAssetsUrl . "/js/common.js", CClientScript::POS_END);
-
-        $cs->registerScript('commonjs', "
+            $favicons = array('16x16', '32x32', '48x48', '192x192');
+            foreach ($favicons as $size) {
+                if (file_exists(Yii::getPathOfAlias("current_theme.assets.images") . DS . "favicon-{$size}.png")) {
+                    $cs->registerLinkTag('icon', "image/png", $this->assetsUrl . "/images/favicon-{$size}.png", NULL, array('sizes' => $size));
+                }
+            }
+            $cs->registerScript('commonjs', "
         var common = window.CMS_common || {};
         common.token = '" . Yii::app()->request->csrfToken . "';
         common.language = '" . Yii::app()->language . "';
@@ -344,7 +338,13 @@ class Controller extends RController
         common.debug = " . CJavaScript::encode(YII_DEBUG) . ";
         common.message = " . CJavaScript::encode($this->commonJsMessages) . ";
         ", CClientScript::POS_HEAD);
-        $cs->registerCssFile($this->baseAssetsUrl . "/css/pixelion-icons.css");
+            $cs->registerCssFile($this->baseAssetsUrl . "/css/pixelion-icons.css");
+        }
+        //manifest.json
+
+
+        $cs->registerScriptFile($this->baseAssetsUrl . "/js/common.js", CClientScript::POS_END);
+
 
         if (!Yii::app()->request->isAjaxRequest) {
             if (file_exists(Yii::getPathOfAlias("current_theme.assets") . DS . "manifest.json")) {
@@ -615,17 +615,18 @@ class Controller extends RController
      */
     public function processOutput($output)
     {
-        Yii::app()->clientScript->registerCss('copyright', '
+        if (!Yii::app()->request->isAjaxRequest) {
+            Yii::app()->clientScript->registerCss('copyright', '
             #pixelion span.cr-logo{display:inline-block;font-size:17px;padding: 0 0 0 45px;position:relative;font-family:Pixelion,Montserrat;font-weight:normal;line-height: 40px;}
             #pixelion span.cr-logo:after{font-weight:normal;content:"\f002";left:0;top:0;position:absolute;font-size:37px;font-family:Pixelion;}
         ');
-        if ($this->isAdminController) {
-            $copyright = Yii::app()->getCopyright();
-        } else {
-            $copyright = '<a href="//pixelion.com.ua/" id="pixelion" target="_blank"><span>' . Yii::t('default', 'PIXELION') . '</span> &mdash; <span class="cr-logo">PIXELION</span></a>';
+            if ($this->isAdminController) {
+                $copyright = Yii::app()->getCopyright();
+            } else {
+                $copyright = '<a href="//pixelion.com.ua/" id="pixelion" target="_blank"><span>' . Yii::t('default', 'PIXELION') . '</span> &mdash; <span class="cr-logo">PIXELION</span></a>';
+            }
+            $output = str_replace(base64_decode('e2NvcHlyaWdodH0='), $copyright, $output);
         }
-        $output = str_replace(base64_decode('e2NvcHlyaWdodH0='), $copyright, $output);
-
         return parent::processOutput($output);
     }
 
