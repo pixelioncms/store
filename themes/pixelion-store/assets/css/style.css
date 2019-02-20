@@ -1811,6 +1811,7 @@ span.highlight-word {
 /*Store styles*/
 #filters {
   position: relative;
+  margin-bottom: 15px;
 }
 #filters .btn-submit-filter {
   position: absolute;
@@ -1854,8 +1855,11 @@ span.highlight-word {
   font-size: 18px;
 }
 #filters .card .card-body {
-  margin: 0.75rem 0 0.75rem 1rem;
+  margin: 0.75rem 1rem 0.75rem 1rem;
   padding: 0;
+}
+#filters .card .card-body.overflow {
+  margin: 0.75rem 0 0.75rem 1rem;
   max-height: 18em;
   overflow-x: hidden;
   position: relative;
@@ -2061,11 +2065,57 @@ ul.current-filter-list > li > ul > li > a {
   }
 }
 */
+.catalog-container {
+  position: relative;
+}
+.catalog-container .catalog-sidebar {
+  float: none;
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 768px) {
+  .catalog-container .catalog-sidebar {
+    float: left;
+    width: 250px;
+  }
+}
+.catalog-container .catalog-content {
+  width: 100%;
+  margin-bottom: 15px;
+}
+@media (min-width: 768px) {
+  .catalog-container .catalog-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding-right: 15px;
+    padding-left: 295px;
+  }
+}
+
+/*.catalog-content{
+  float:left;
+}
+.catalog-sidebar{
+  float:left;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  @media (min-width: 768px) {
+    float:left;
+    width: 300px;
+  }
+  @media (min-width: 992px) {
+  }
+}*/
 #filter-price input {
   text-align: center;
   border: 1px solid #E1E1E1;
   font-size: 16px;
   font-weight: bold;
+  width: 80%;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;

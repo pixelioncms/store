@@ -38,7 +38,46 @@ if ($getDefaultMin !== $getDefaultMax) { //Если у товаров онина
                                 $("#max_price").val(ui.values[1]);
                                 $("#mn").text(price_format(ui.values[0]));
                                 $("#mx").text(price_format(ui.values[1]));
+                                
+
 			                }',
+                            'stop'=>'js:function(event, ui) {
+                                var filterData = $("#filter-form").serializeObject();
+                                var uri = categoryFullUrl;
+                                delete filterData.token;
+                                
+                                $.each(filterData,function(name,values) {
+                                    var matches = name.match(/filter\[([a-zA-Z0-9-_]+)\]\[]/i);
+                                    uri += (matches) ? "/"+matches[1] : "/"+name;
+                    
+                                    if(values instanceof Array){
+                                        uri += "/"+values.join(",");
+                                    }else{
+                                        uri += "/"+values;
+                                    }
+                                });
+                    
+                                $.fn.yiiListView.update("shop-products",{url: "/"+uri});
+                                
+                                if(xhrCurrentFilter && xhrCurrentFilter.readyState != 4){
+                                    xhrCurrentFilter.onreadystatechange = null;
+                                    xhrCurrentFilter.abort();
+                                }
+                                
+                                xhrCurrentFilter = $.ajax({
+                                    type:"GET",
+                                    url:"/"+uri,
+                                    beforeSend:function(){
+                                        $("#ajax_filter_current").addClass("loading");
+                                    },
+                                    success:function(data){
+                                        $("#ajax_filter_current").html(data).removeClass("loading");
+                                    }
+                                });
+                                
+                                history.pushState(null, false, "/"+uri);
+                                
+                            }',
                             'create' => 'js:function(event, ui){
                                 $("#min_price").val(' . $min . ');
                                 $("#max_price").val(' . $max . ');
@@ -52,27 +91,26 @@ if ($getDefaultMin !== $getDefaultMax) { //Если у товаров онина
 
 
                     <div class="filter-slider-price row no-gutters">
-                        <div class="col text-center align-self-center">от</div>
-                        <div class="col text-center">
+                        <div class="col-sm-12 col-md-12 col-lg-6 text-left">
+                            <span class=" align-self-center">от</span>
                             <?= Html::textField('min_price', (isset($_GET['min_price'])) ? (int)$this->getOwner()->getCurrentMinPrice() : null, array('class' => 'form-control form-control-sm')) ?>
-
+                            <span class="align-self-center d-inline-block"><?= Yii::app()->currency->active->symbol ?></span>
                         </div>
-                        <div class="col text-center align-self-center">до</div>
-                        <div class="col text-center">
+                        <div class="col-sm-12 col-md-12 col-lg-6 text-left">
+                            <span class="align-self-center">до</span>
                             <?= Html::textField('max_price', (isset($_GET['max_price'])) ? (int)$this->getOwner()->getCurrentMaxPrice() : null, array('class' => 'form-control form-control-sm')) ?>
-
+                            <span class="align-self-center d-inline-block"><?= Yii::app()->currency->active->symbol ?></span>
                         </div>
-                        <div class="col text-center align-self-center"><?= Yii::app()->currency->active->symbol ?></div>
-                    </div>
 
 
-                    <span id="mn" class="d-none">
+                        <span id="mn" class="d-none">
                         <?= (isset($_GET['min_price'])) ? (int)$this->getOwner()->getCurrentMinPrice() : null ?>
                     </span>
-                    <span id="mx" class="d-none">
+                        <span id="mx" class="d-none">
                         <?= (isset($_GET['max_price'])) ? (int)$this->getOwner()->getCurrentMaxPrice() : null ?>
                     </span>
 
+                    </div>
                 </div>
             </div>
         </div>

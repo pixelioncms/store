@@ -4,7 +4,7 @@
         <h5 class="panel-title"><?= Yii::t('ShopModule.default', 'FILTER_MANUFACTURER') ?></h5>
     </div>
     <div class="card-collapse collapse" id="filter<?= md5('filter_manufacturer'); ?>">
-        <div class="card-body">
+        <div class="card-body overflow">
             <ul class="filter-list" id="filter_manufacturer">
                 <?php
                 foreach ($manufacturers['filters'] as $filter) {

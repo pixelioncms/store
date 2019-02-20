@@ -13,7 +13,7 @@ if ($config->filter_enable_attr) {
                     <h5><?= Html::encode($attrData['title']) ?></h5>
                 </div>
                 <div class="card-collapse collapse" id="filter<?= md5($attrData['title']); ?>">
-                    <div class="card-body">
+                    <div class="card-body overflow">
 
                         <?php
 
