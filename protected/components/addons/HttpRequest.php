@@ -85,9 +85,9 @@ class HttpRequest extends CHttpRequest
                 unset($get[$key]);
             else {
 
-                if(!$this->isAjaxRequest){
+                //if(!$this->isAjaxRequest){
                     $get[$key] = explode(',', $get[$key]);
-                }
+                //}
 
                 $pos = array_search($value, $get[$key]);
                 // Delete value

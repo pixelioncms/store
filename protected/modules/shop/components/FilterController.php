@@ -2,6 +2,7 @@
 
 class FilterController extends Controller
 {
+
     /**
      * @var ShopProduct
      */
@@ -43,7 +44,9 @@ class FilterController extends Controller
     public $maxprice, $minprice;
 
     public $itemView = '_view_grid';
-    public function init(){
+
+    public function init()
+    {
         if (isset($_GET['view'])) {
             if (in_array($_GET['view'], array('list', 'table', 'grid'))) {
                 $this->itemView = '_view_' . $_GET['view'];
@@ -53,6 +56,7 @@ class FilterController extends Controller
         }
         parent::init();
     }
+
     /**
      * @param string $function
      * @return mixed
@@ -103,28 +107,56 @@ class FilterController extends Controller
     {
         $data = array();
 
+        if (false) {
+            unset($_GET['token']);
+            foreach (array_keys($_GET) as $key) {
+                if (array_key_exists($key, $this->eavAttributes)) {
+                    // $data[$key]['label'] =$this->eavAttributes[$key]->title;
+                    if ((boolean)$this->eavAttributes[$key]->select_many === true) {
+                        if (!Yii::app()->request->isAjaxRequest) {
+                            $list = explode(',', $_GET[$key]);
+                        } else {
+                            $list = $_GET[$key];
+                        }
 
-        unset($_GET['token']);
-        foreach (array_keys($_GET) as $key) {
-            if (array_key_exists($key, $this->eavAttributes)) {
-                // $data[$key]['label'] =$this->eavAttributes[$key]->title;
-                if ((boolean)$this->eavAttributes[$key]->select_many === true) {
-                    if (!Yii::app()->request->isAjaxRequest) {
-                        $list = explode(',', $_GET[$key]);
+                        $list = array_unique($list);
+                        $data[$key] = $list;
+
                     } else {
-                        $list = $_GET[$key];
+                        $data[$key] = array($_GET[$key]);
                     }
 
-                    $list = array_unique($list);
-                    $data[$key] = $list;
-
-                } else {
-                    $data[$key] = array($_GET[$key]);
+                    sort($data[$key]);
                 }
+            }
+        } else {
+            unset($_GET['token']);
 
-                sort($data[$key]);
+            foreach (array_keys($_GET) as $key) {
+                if (array_key_exists($key, $this->eavAttributes)) {
+                    // $data[$key]['label'] =$this->eavAttributes[$key]->title;
+                    if ((boolean)$this->eavAttributes[$key]->select_many === true) {
+                        if (strpos($_GET[$key], ',')) {
+                            $list = explode(',', $_GET[$key]);
+                        } else {
+                            $list = array($_GET[$key]);
+                        }
+if(is_array($list)){
+    $list = array_unique($list);
+}
+
+                        $data[$key] = $list;
+
+                    } else {
+                        $data[$key] = array($_GET[$key]);
+                    }
+                    if(is_array($list)) {
+                        sort($data[$key]);
+                    }
+                }
             }
         }
+
         return $data;
     }
 

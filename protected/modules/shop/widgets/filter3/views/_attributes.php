@@ -69,7 +69,8 @@ if ($config->filter_enable_attr) {
                                     echo Html::label($filter['title'],'filter_'.$filter['queryKey'].'_'.$filter['queryParam']);
 
 
-                                    echo $this->getCount($filter);
+
+                                    echo $this->getCount($filter,$checked);
 
                                     echo Html::closeTag('li');
                                 } ?>

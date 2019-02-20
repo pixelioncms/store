@@ -137,8 +137,6 @@ class CategoryController extends FilterController
 
         $this->allowedPageLimit = explode(',', Yii::app()->settings->get('shop', 'per_page'));
 
-
-
         if (Yii::app()->request->getPost('min_price') || Yii::app()->request->getPost('max_price')) {
             $data = array();
 
@@ -158,21 +156,13 @@ class CategoryController extends FilterController
                     }
                     $this->redirect(Yii::app()->request->addUrlParam('/shop/category/view', $data));
                 }
+
             }
         }
 
         return parent::beforeAction($action);
     }
 
-    /**
-     * Display category products
-     */
-    public function actionView()
-    {
-        $this->dataModel = $this->_loadModel(Yii::app()->request->getQuery('seo_alias'));
-        $this->canonical = Yii::app()->createAbsoluteUrl($this->dataModel->getUrl());
-        $this->doSearch($this->dataModel, 'view');
-    }
 
     /**
      * Search products
@@ -315,8 +305,9 @@ class CategoryController extends FilterController
 
             $name = $this->dataModel->name;
             $this->pageName = $this->dataModel->name;
-            Yii::import('mod.shop.widgets.filter2.FilterWidget');
-            $filter = new FilterWidget();
+            if(!Yii::app()->request->isAjaxRequest){
+            Yii::import('mod.shop.widgets.filter3.FilterWidget3');
+            $filter = new FilterWidget3();
             $filterData = $filter->getActiveFilters();
 
 
@@ -353,11 +344,12 @@ class CategoryController extends FilterController
 
 
         }
-
+        }
         if (Yii::app()->request->isAjaxRequest) {
 
             $this->render('_ajax', array(
                 'provider' => $this->provider,
+                'itemView'=>$this->itemView
             ));
         } else {
             $this->render($view, array(
@@ -413,7 +405,7 @@ class CategoryController extends FilterController
     /**
      * Load category by url
      * @param $url
-     * @return ShopCategory
+     * @return mixed
      * @throws CHttpException
      */
     public function _loadModel($url)
@@ -466,6 +458,15 @@ class CategoryController extends FilterController
         ));
     }
 
+    /**
+     * Display category products
+     */
+    public function actionView()
+    {
+        $this->dataModel = $this->_loadModel(Yii::app()->request->getQuery('seo_alias'));
+        $this->canonical = Yii::app()->createAbsoluteUrl($this->dataModel->getUrl());
+        $this->doSearch($this->dataModel, 'view');
+    }
     public function actionDiscount()
     {
 

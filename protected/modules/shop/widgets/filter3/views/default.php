@@ -1,5 +1,3 @@
-
-
 <div id="current-filters">
 
 </div>
@@ -87,10 +85,65 @@ echo $this->render('_attributes', array(
 echo Html::endForm();
 echo Html::closeTag('div');
 Yii::app()->clientScript->registerScript('filters', "
+
+$.fn.serializeObject = function()
+{
+   var o = {};
+   var a = this.serializeArray();
+   $.each(a, function() {
+       if (o[this.name]) {
+           if (!o[this.name].push) {
+               o[this.name] = [o[this.name]];
+           }
+           o[this.name].push(this.value || '');
+       } else {
+           o[this.name] = this.value || '';
+       }
+   });
+   return o;
+};
+
+
     $(function () {
         $('#filter-form').change(function (e) {
             e.preventDefault();
+
+            var filterData = $(this).serializeObject();
+            var uri = categoryFullUrl;
+            delete filterData.token;
             
+            $.each(filterData,function(name,values) {
+                var matches = name.match(/filter\[([a-zA-Z0-9-_]+)\]\[]/i);
+                uri += (matches) ? '/'+matches[1] : '/'+name;
+
+                if(values instanceof Array){
+                    uri += '/'+values.join(',');
+                }else{
+                    uri += '/'+values;
+                }
+            });
+            
+            $.fn.yiiListView.update('shop-products',{url: '/'+uri});
+            
+            //reload path by url
+            //window.location.pathname = uri;
+            
+            history.pushState(null, false, '/'+uri);
+            
+        });
+    });
+", CClientScript::POS_END);
+
+
+Yii::app()->clientScript->registerScript('filters123123', "
+    $(function () {
+        $('#filter-form22').change(function (e) {
+            e.preventDefault();
+$.each($(this).serializeArray(),function(index,obj) {
+    console.log(index, obj.name);
+});
+            console.log($(this).serializeArray());
+            //console.log($(this).serialize());
             //find .card-body
             var block = $(e.target).parent().parent().parent().parent();
             
@@ -105,7 +158,7 @@ Yii::app()->clientScript->registerScript('filters', "
             block.addClass('dsadsadasdasdsasad');
             
             console.log();
-            console.log( $( this ).serialize() );
+
             //$.ajax({
             //    type:'POST',
             //    url:window.location.href,

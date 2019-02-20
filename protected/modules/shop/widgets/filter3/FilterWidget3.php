@@ -98,7 +98,7 @@ class FilterWidget3 extends CWidget
         }
         if ($request->getQuery('min_price') || $request->getQuery('min_price')) {
             $menuItems['price'] = array(
-                'label' => Yii::t('ShopModule.default', 'FILTER_PRICE_HEADER').':',
+                'label' => Yii::t('ShopModule.default', 'FILTER_PRICE_HEADER') . ':',
             );
         }
 
@@ -140,7 +140,7 @@ class FilterWidget3 extends CWidget
                 if (isset($this->getOwner()->eavAttributes[$attributeName])) {
                     $attribute = $this->getOwner()->eavAttributes[$attributeName];
                     $menuItems[$attributeName] = array(
-                        'label' => $attribute->title.':',
+                        'label' => $attribute->title . ':',
                     );
                     foreach ($attribute->options as $option) {
                         if (isset($activeAttributes[$attribute->name]) && in_array($option->id, $activeAttributes[$attribute->name])) {
@@ -440,7 +440,7 @@ class FilterWidget3 extends CWidget
     }
 
     //@todo $plus не работает если AJAX
-    public function getCount($filter)
+    public function getCount($filter, $checked = false)
     {
         if ($this->countAttr) {
             $active = $this->getActiveFilters();
@@ -450,11 +450,16 @@ class FilterWidget3 extends CWidget
                 foreach ($active as $act) {
                     $mass[] = $act['label'];
                 }
-                if (!in_array($filter['title'], $mass)) {
-                    $plus = '+';
+                if (!in_array($filter['title'], $mass) && !$checked) {
+                        $plus = '+';
                 }
             }
-            $result = ($filter['count'] > 0) ? $filter['count'] : 0;
+            if($checked){
+                $result = '';
+            }else{
+                $result = ($filter['count'] > 0) ? $filter['count'] : 0;
+            }
+
             return Html::tag($this->tagCount, array(), $plus . $result, true);
         }
     }
