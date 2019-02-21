@@ -22,30 +22,24 @@ class DbConnection extends CDbConnection
     private $_result = '';
     public $limitBackup;
     public $enable_limit = true;
-    public $filesizes = 0;
+    public $fileSizes = 0;
     public $charset = 'utf8';
 
-    public function __construct($dsn = '', $username = '', $password = '')
-    {
-
-        //$this->schemaCachingDuration = YII_DEBUG ? 0 : 3600;
-        //$this->emulatePrepare = true;
-        //$this->enableProfiling = YII_DEBUG;
-        //$this->enableParamLogging = YII_DEBUG;
-        parent::__construct($dsn, $username, $password);
-    }
-
+    public $emulatePrepare= YII_DEBUG;
+    public $enableProfiling = YII_DEBUG;
+    public $enableParamLogging = YII_DEBUG;
+    public $schemaCachingDuration = YII_DEBUG ? 0 : 3600 * 6;
 
     public function checkFilesSize()
     {
         $fdir = opendir(Yii::getPathOfAlias($this->backupPath));
         while ($file = readdir($fdir)) {
             if ($file != '.' & $file != '..' & $file != '.htaccess' & $file != '.gitignore' & $file != 'index.html') {
-                $this->filesizes += filesize(Yii::getPathOfAlias($this->backupPath) . DS . $file);
+                $this->fileSizes += filesize(Yii::getPathOfAlias($this->backupPath) . DS . $file);
             }
         }
         closedir($fdir);
-        return $this->filesizes;
+        return $this->fileSizes;
     }
 
     public function checkLimit()
@@ -63,10 +57,7 @@ class DbConnection extends CDbConnection
 
     public function export($withData = true, $dropTable = true, $savePath = true)
     {
-
         if ($this->checkLimit()) {
-
-
             $statments = $this->getPdoInstance()->query("show tables");
 
             foreach ($statments as $value) {
@@ -132,8 +123,8 @@ class DbConnection extends CDbConnection
         }
         if ($values != "") {
             $tables_engine = 'MyISAM';
-            if(Yii::app()->settings->get('database', 'tables_engine')){
-                $tables_engine=Yii::app()->settings->get('database', 'tables_engine');
+            if (Yii::app()->settings->get('database', 'tables_engine')) {
+                $tables_engine = Yii::app()->settings->get('database', 'tables_engine');
             }
             $tableName = str_replace($this->tablePrefix, '{prefix}', $tableName);
             $tableName = str_replace($this->charset, '{charset}', $tableName);
