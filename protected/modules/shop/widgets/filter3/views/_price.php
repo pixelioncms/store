@@ -26,6 +26,7 @@ if ($getDefaultMin !== $getDefaultMax) { //Если у товаров онина
 
 
                     echo $this->widget('zii.widgets.jui.CJuiSlider', array(
+                            'id'=>'filter-price-slider',
                         'options' => array(
                             'range' => true,
                             'min' => $getDefaultMin,//$prices['min'],//$min,
@@ -42,41 +43,19 @@ if ($getDefaultMin !== $getDefaultMax) { //Если у товаров онина
 
 			                }',
                             'stop'=>'js:function(event, ui) {
-                                var filterData = $("#filter-form").serializeObject();
-                                var uri = categoryFullUrl;
-                                delete filterData.token;
-                                
-                                $.each(filterData,function(name,values) {
-                                    var matches = name.match(/filter\[([a-zA-Z0-9-_]+)\]\[]/i);
-                                    uri += (matches) ? "/"+matches[1] : "/"+name;
-                    
-                                    if(values instanceof Array){
-                                        uri += "/"+values.join(",");
-                                    }else{
-                                        uri += "/"+values;
-                                    }
-                                });
-                    
-                                $.fn.yiiListView.update("shop-products",{url: "/"+uri});
-                                
-                                if(xhrCurrentFilter && xhrCurrentFilter.readyState != 4){
-                                    xhrCurrentFilter.onreadystatechange = null;
-                                    xhrCurrentFilter.abort();
+                                var objects = getSerializeObjects();
+                                var max_price = '.$getDefaultMax.';
+                                var min_price = '.$getDefaultMin.';
+
+                                if(min_price === ui.values[0] && max_price === ui.values[1]){
+                                    delete objects.min_price;
+                                    delete objects.max_price;
                                 }
                                 
-                                xhrCurrentFilter = $.ajax({
-                                    type:"GET",
-                                    url:"/"+uri,
-                                    beforeSend:function(){
-                                        $("#ajax_filter_current").addClass("loading");
-                                    },
-                                    success:function(data){
-                                        $("#ajax_filter_current").html(data).removeClass("loading");
-                                    }
-                                });
-                                
-                                history.pushState(null, false, "/"+uri);
-                                
+                                $.fn.yiiListView.update("shop-products",{url: formattedURL(objects)});
+                                currentFilters(formattedURL(objects));
+
+                                history.pushState(null, false, formattedURL(objects));
                             }',
                             'create' => 'js:function(event, ui){
                                 $("#min_price").val(' . $min . ');

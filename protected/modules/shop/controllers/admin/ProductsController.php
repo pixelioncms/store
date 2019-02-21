@@ -210,11 +210,7 @@ class ProductsController extends AdminController
 
             // Handle related products
             $model->setRelatedProducts(Yii::app()->getRequest()->getPost('RelatedProductId', array()));
-            if ($config->auto_gen_url) {
-                $model->name = ShopCategory::model()->findByPk($model->main_category_id)->name . ' ' . ShopManufacturer::model()->findByPk($model->manufacturer_id)->name . ' ' . $model->sku;
-                $model->seo_alias = CMS::translit($model->name);
-                // die($model->name.$model->seo_alias);
-            }
+
             /* if($model->currency_id){
               $currency = ShopCurrency::model()->findByPk($model->currency_id);
               $convertPrice = $model->price*$currency->rate/$currency->rate_old;

@@ -164,10 +164,10 @@ CREATE TABLE IF NOT EXISTS `{prefix}shop_manufacturer_translate` (
 
 CREATE TABLE IF NOT EXISTS `{prefix}shop_product` (
   `id` int(4) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(4) unsigned NOT NULL,
+  `user_id` int(4) unsigned DEFAULT NULL,
   `manufacturer_id` int(4) unsigned DEFAULT NULL,
   `type_id` int(4) unsigned DEFAULT NULL,
-  `supplier_id` int(11) NOT NULL,
+  `supplier_id` int(4) unsigned DEFAULT NULL,
   `currency_id` smallint(6) DEFAULT NULL,
   `use_configurations` tinyint(1) NOT NULL DEFAULT '0',
   `seo_alias` varchar(255) NOT NULL,

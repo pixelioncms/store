@@ -221,6 +221,7 @@ class CategoryController extends FilterController
         ", CClientScript::POS_HEAD);
             $cs->registerScript('category', "var categoryFullUrl = '" . $this->dataModel->full_path . "';", CClientScript::POS_HEAD);
             $cs->registerScriptFile($this->module->assetsUrl . "/number_format.js", CClientScript::POS_HEAD);
+            $cs->registerScriptFile($this->module->assetsUrl . "/filter.js", CClientScript::POS_END);
 
             if (Yii::app()->settings->get('shop', 'auto_gen_cat_meta')) {
                 $this->pageKeywords = $this->dataModel->keywords();

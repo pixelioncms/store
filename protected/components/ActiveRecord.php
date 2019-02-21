@@ -229,9 +229,9 @@ class ActiveRecord extends CActiveRecord
                     Yii::app()->end();
                     //}
                 } else {
-                    if (method_exists(Yii::app()->controller, 'setNotify')) {
-                        Yii::app()->controller->setNotify($message, 'success');
-                    }
+                    //if (method_exists(Yii::app()->controller, 'setNotify')) {
+                    //    Yii::app()->controller->setNotify($message, 'success');
+                    //}
                 }
                // Yii::app()->user->setFlash('success',$message);
             }

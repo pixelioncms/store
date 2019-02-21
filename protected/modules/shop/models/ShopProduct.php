@@ -1240,6 +1240,9 @@ class ShopProduct extends ActiveRecord
             $comapreProduct->remove($this->id);
         }
 
+        Yii::import('app.forsage.ForsageExternalFinder');
+        ForsageExternalFinder::removeObjectByPk(ForsageExternalFinder::OBJECT_TYPE_PRODUCT, $this->id);
+        ForsageExternalFinder::removeObjectByPk(ForsageExternalFinder::OBJECT_TYPE_IMAGE, $this->id);
 
         return parent::afterDelete();
     }

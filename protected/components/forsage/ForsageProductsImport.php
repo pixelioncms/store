@@ -10,6 +10,7 @@ Yii::import('mod.shop.models.ShopAttributeOption');
 Yii::import('mod.shop.models.ShopManufacturer');
 Yii::import('mod.shop.models.ShopSuppliers');
 Yii::import('mod.shop.components.CAttributes');
+Yii::import('mod.shop.ShopModule');
 
 
 /**
@@ -93,25 +94,32 @@ class ForsageProductsImport extends CComponent
 
     public $image = false;
 
-    private function attributeData($model, $attributeName, $attributeValue)
+    private function attributeData($model, $attributeName, $attributeValue, $params = array())
     {
         if (isset($attributeValue)) {
             $attrsdata = array();
             $attributeModel = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_ATTRIBUTE, $attributeName);
+            if (!$attributeModel) {
+                //if not exists create attribute
+                $attributeModel = new ShopAttribute();
+                $attributeModel->title = $attributeName;
+                $attributeModel->name = CMS::translit($attributeName);
+                $attributeModel->type = ShopAttribute::TYPE_RADIO_LIST;
+                $attributeModel->save(false, false, false);
+                $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_ATTRIBUTE, $attributeModel->id, $attributeModel->title);
+            }
             if ($attributeModel) {
 
                 $cr = new CDbCriteria;
-                //$cr->with = 'option_translate';
-                //$cr->compare('option_translate.value', $attribute->{"Значение"});
-                $cr->compare('value', $attributeValue);
+                $cr->with = 'option_translate';
+                $cr->compare('option_translate.value', $attributeValue);
+                //$cr->compare('value', $attributeValue);
                 $option = ShopAttributeOption::model()->find($cr);
-                //print_r($attributeModel); die;
+
                 if (!$option)
                     $option = $this->addOptionToAttribute($attributeModel->id, $attributeValue);
-                //$option = C1ExternalFinder::getObject(C1ExternalFinder::OBJECT_TYPE_ATTRIBUTE_OPTION, $attribute->{"Значение"});
+
                 $attrsdata[$attributeModel->name] = $option->id;
-            } else {
-                // $this->createExternalId(JonggolfExternalFinder::OBJECT_TYPE_ATTRIBUTE, $id, $product->season);
             }
             if (!empty($attrsdata)) {
                 $model->setEavAttributes($attrsdata, true);
@@ -212,11 +220,15 @@ class ForsageProductsImport extends CComponent
             self::log('No add by characteristics product_id: ');
         }
 
+        $hasAdd = true;
+        if(!$change && isset($product->quantity) && !$product->quantity){
+            $hasAdd = false;
+        }
 
         $sub_category = $this->getProductCategory($product);
         // echo $sub_category;
 
-        if ($sub_category && !$characteristics['ignoreFlag']) {
+        if ($sub_category && !$characteristics['ignoreFlag'] && $hasAdd) {
             if (isset($characteristics['supplier_name']) && !in_array($characteristics['supplier_name'], $this->disallow_supplier_ids)) {
                 $imageBuild = $this->buildPathToTempFile($characteristics['image'], $characteristics['supplier_name']);
 
@@ -237,6 +249,8 @@ class ForsageProductsImport extends CComponent
 
                     $model->switch = ($product->quantity) ? 1 : 0;
 
+                    $this->logstring .= "Visible: {$model->switch} ";
+
                     if ($product->quantity) {
                         $model->availability = 1;//есть на складе
                     } else {
@@ -250,139 +264,141 @@ class ForsageProductsImport extends CComponent
                     //    $model->in_ros = $characteristics['in_box'];
                     //}
                     $model->quantity = $product->quantity;
-                   // $model->exchange_service = 'forsage';
+                    // $model->exchange_service = 'forsage';
                     if (isset($characteristics['currency_id'])) {
                         $model->currency_id = $characteristics['currency_id'];
                     }
 
 
-                    //if (!$model->blocked) {
-                        // if (!$characteristics['ignoreFlag']) {
-
-                        if (isset($characteristics['main_category_name'])) {
-                            $fullCategoryName = $this->my_ucfirst($characteristics['main_category_name']) . '/' . $sub_category;
-                        }
-
-                        if (isset($characteristics['main_category_name'])) {
-                            if (isset($product->supplier->company) && !empty($product->supplier->company)) {
-                                $manufacturer = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_MANUFACTURER, $product->supplier->company); //$supplier->name
-                                if (!$manufacturer) {
-                                    $manufacturer = new ShopManufacturer;
-                                    $manufacturer->name = $product->supplier->company; //$supplier->name;
-                                    $manufacturer->seo_alias = CMS::translit($manufacturer->name);
-                                    $manufacturer->save(false, false, false);
-                                    $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_MANUFACTURER, $manufacturer->id, $manufacturer->name);
-                                }
-                                $model->manufacturer_id = $manufacturer->id;
-                                $model->name = $this->my_ucfirst($characteristics['main_category_name']) . ' ' . $manufacturer->name . ' ' . $product->vcode;
-                                $model->seo_alias = CMS::translit($model->name);
-                            } else {
-                                $model->name = $this->my_ucfirst($characteristics['main_category_name']) . ' ' . $product->vcode;
-                                $model->seo_alias = CMS::translit($model->name);
-                            }
-
-
-
-                            if (($supplier = $this->getProductSupplier($product))) {
-                                $supplierModal = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_SUPPLIER, $supplier->name); //$supplier->name
-                                if (!$supplierModal) {
-                                    $supplierModal = new ShopSuppliers();
-                                    $supplierModal->name = $supplier->name; //$supplier->name;
-                                    $supplierModal->address = $supplier->address;
-                                    $supplierModal->save(false, false, false);
-                                    $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_SUPPLIER, $supplierModal->id, $supplierModal->name);
-                                }
-                                $model->supplier_id = $supplierModal->id;
-                                //$model->name = $this->my_ucfirst($characteristics['main_category_name']) . ' ' . $supplierModal->name . ' ' . $product->vcode;
-                               // $model->seo_alias = CMS::translit($model->name);
-                            } else {
-                                //$model->name = $this->my_ucfirst($characteristics['main_category_name']) . ' ' . $product->vcode;
-                                //$model->seo_alias = CMS::translit($model->name);
-                            }
-
-                            // Set category
-
-                            /*$modelMain = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_MAIN_CATEGORY, $this->my_ucfirst($characteristics['main_category_name']));
-                            // Yii::log($this->my_ucfirst($characteristics['main_category_name']), 'info', 'console');
-                            $modelCategory = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_CATEGORY, $fullCategoryName);
-                            if (!$modelCategory) {
-                                $modelCategory = new ShopCategory;
-                                $modelCategory->name = $sub_category;
-                                $modelCategory->seo_alias = CMS::translit($modelCategory->name);
-                                echo 'CREATE SUB CATEGORY: ' . $sub_category . PHP_EOL;
-                                if ($modelMain)
-                                    $modelCategory->appendTo($modelMain);
-
-                                $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_CATEGORY, $modelCategory->id, $fullCategoryName);
-
-                            }*/
-                            //if ($modelMain) {
-                            //    $this->logstring .= " Category: {$fullCategoryName} ";
-                            //    $modelCategory->saveNode(false, false,false);
-                            //}
-                          //  $model->main_category_id = 32;
-                        }
-
-
-                        $model->save(false, false, false);
-                    $model->setCategories(array(), 32);
-
-                        // Create product external id
-                        if ($createExId === true)
-                            $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_PRODUCT, $model->id, $product->id);
-
-                        /*$categoryId = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_CATEGORY, $fullCategoryName, false);
-
-                        if (is_numeric($categoryId)) {
-                            $category1 = ShopCategory::model()
-                                ->findByPk($categoryId);
-
-                            $categories = array();
-                            $subCategory = $category1->ancestors()->excludeRoot()->findAll();
-                            if (isset($subCategory)) {
-                                foreach ($subCategory as $cat) {
-                                    $categories[] = $cat->id;
-                                }
-                                $model->setCategories($categories, $categoryId);
-                            } else {
-                                $model->setCategories(array($categoryId), $categoryId);
-                            }
-                        }*/
-                        if (isset($characteristics['size']))
-                            $this->attributeData($model, 'Размер', $characteristics['size']);
-                        if (isset($characteristics['season']))
-                            $this->attributeData($model, 'Сезон', $characteristics['season']);
-                        if (isset($characteristics['color']))
-                            $this->attributeData($model, 'Цвет', $characteristics['color']);
-                        if (isset($characteristics['material_ware']))
-                            $this->attributeData($model, 'Материал изделия', $characteristics['material_ware']);
-                        if (isset($characteristics['material_lining']))
-                            $this->attributeData($model, 'Материал подкладки', $characteristics['material_lining']);
-                        if (isset($characteristics['material_foot']))
-                            $this->attributeData($model, 'Материал подошвы', $characteristics['material_foot']);
-                        if (isset($characteristics['country']))
-                            $this->attributeData($model, 'Страна производителя', $characteristics['country']);
-
-
-                        //set image
-                        if ($characteristics['image']) {
-                            $imageModel = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_IMAGE, $characteristics['supplier_name'] . '/' . $product->id . '/' . basename($characteristics['image']));
-                            if (!$imageModel) {
-                                $image = ForsageProductImage::create($imageBuild);
-                                if ($image && !$model->attachmentsMain) {
-                                    //$res = $model->addImage($image);
-                                    $res = $model->upload($image);
-                                    if ($res) {
-                                        $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_IMAGE, $model->id, $characteristics['supplier_name'] . '/' . $product->id . '/' . basename($characteristics['image']));
-                                    }
-                                }
-                            }
-                        }
-                        // }
-                    } else {
-                        $this->logstring .= 'Has been blocked by Admin';
+                    if (isset($characteristics['main_category_name'])) {
+                        $fullCategoryName = $this->my_ucfirst($characteristics['main_category_name']) . '/' . $sub_category;
                     }
-                //}
+
+                    if (isset($characteristics['main_category_name'])) {
+                        if (isset($product->supplier->company) && !empty($product->supplier->company)) {
+                            $manufacturer = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_MANUFACTURER, $product->supplier->company); //$supplier->name
+                            if (!$manufacturer) {
+                                $manufacturer = new ShopManufacturer;
+                                $manufacturer->name = $product->supplier->company; //$supplier->name;
+                                $manufacturer->seo_alias = CMS::translit($manufacturer->name);
+                                $manufacturer->save(false, false, false);
+                                $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_MANUFACTURER, $manufacturer->id, $manufacturer->name);
+                            }
+                            $model->manufacturer_id = $manufacturer->id;
+                            $model->name = $this->my_ucfirst($characteristics['main_category_name']) . ' ' . $manufacturer->name . ' ' . $product->vcode;
+                            $model->seo_alias = CMS::translit($model->name);
+                        } else {
+                            $model->name = $this->my_ucfirst($characteristics['main_category_name']) . ' ' . $product->vcode;
+                            $model->seo_alias = CMS::translit($model->name);
+                        }
+
+
+                        if (($supplier = $this->getProductSupplier($product))) {
+                            $supplierModal = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_SUPPLIER, $supplier->name); //$supplier->name
+                            if (!$supplierModal) {
+                                $supplierModal = new ShopSuppliers;
+                                $supplierModal->name = $supplier->name;
+                                if(isset($supplier->address))
+                                    $supplierModal->address = $supplier->address;
+                                $supplierModal->save(false,false,false);
+                                $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_SUPPLIER, $supplierModal->id, $supplierModal->name);
+                            }
+                            $model->supplier_id = $supplierModal->id;
+                        }
+
+                        // Set category
+
+                        /*$modelMain = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_MAIN_CATEGORY, $this->my_ucfirst($characteristics['main_category_name']));
+                        // Yii::log($this->my_ucfirst($characteristics['main_category_name']), 'info', 'console');
+                        $modelCategory = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_CATEGORY, $fullCategoryName);
+                        if (!$modelCategory) {
+                            $modelCategory = new ShopCategory;
+                            $modelCategory->name = $sub_category;
+                            $modelCategory->seo_alias = CMS::translit($modelCategory->name);
+                            echo 'CREATE SUB CATEGORY: ' . $sub_category . PHP_EOL;
+                            if ($modelMain)
+                                $modelCategory->appendTo($modelMain);
+
+                            $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_CATEGORY, $modelCategory->id, $fullCategoryName);
+
+                        }*/
+                        //if ($modelMain) {
+                        //    $this->logstring .= " Category: {$fullCategoryName} ";
+                        //    $modelCategory->saveNode(false, false,false);
+                        //}
+
+                    }
+                    //this for test vor validate
+                    $fullCategoryName = 'Мужская обувь';
+                    //$categoryId = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_CATEGORY, $fullCategoryName, false);
+                    //if($categoryId) {
+                    //    $model->main_category_id = $categoryId;
+                    //}
+
+                    $model->label = NULL;
+                    if (!$model->validate()) {
+                        //print_r($model->getErrors());
+                       // die('no save');
+                    }
+
+                    $model->save(false, false, false);
+
+
+                    // Create product external id
+                    if ($createExId === true)
+                        $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_PRODUCT, $model->id, $product->id);
+
+                    $categoryId = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_CATEGORY, $fullCategoryName, false);
+                    if (is_numeric($categoryId)) {
+                        $category1 = ShopCategory::model()
+                            ->findByPk($categoryId);
+
+                        $categories = array();
+                        $subCategory = $category1->ancestors()->excludeRoot()->findAll();
+                        if (isset($subCategory)) {
+                            foreach ($subCategory as $cat) {
+                                $categories[] = $cat->id;
+                            }
+                            $model->setCategories($categories, $categoryId);
+                        } else {
+                            $model->setCategories(array($categoryId), $categoryId);
+                        }
+                    }
+                    if ($sub_category)
+                        $this->attributeData($model, 'Тип', $sub_category);
+
+                    if (isset($characteristics['size']))
+                        $this->attributeData($model, 'Размер', $characteristics['size']);
+                    if (isset($characteristics['season']))
+                        $this->attributeData($model, 'Сезон', $characteristics['season']);
+                    if (isset($characteristics['color']))
+                        $this->attributeData($model, 'Цвет', $characteristics['color']);
+                    if (isset($characteristics['material_ware']))
+                        $this->attributeData($model, 'Материал изделия', $characteristics['material_ware']);
+                    if (isset($characteristics['material_lining']))
+                        $this->attributeData($model, 'Материал подкладки', $characteristics['material_lining']);
+                    if (isset($characteristics['material_foot']))
+                        $this->attributeData($model, 'Материал подошвы', $characteristics['material_foot']);
+                    if (isset($characteristics['country']))
+                        $this->attributeData($model, 'Страна производителя', $characteristics['country']);
+
+
+                    //set image
+                    if ($characteristics['image']) {
+                        $imageModel = ForsageExternalFinder::getObject(ForsageExternalFinder::OBJECT_TYPE_IMAGE, $characteristics['supplier_name'] . '/' . $product->id . '/' . basename($characteristics['image']));
+                        if (!$imageModel) {
+                            $image = ForsageProductImage::create($imageBuild);
+                            if ($image && !$model->attachmentsMain) {
+                                $res = $model->upload($image);
+                                if ($res) {
+                                    $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_IMAGE, $model->id, $characteristics['supplier_name'] . '/' . $product->id . '/' . basename($characteristics['image']));
+                                }
+                            }
+                        }
+                    }
+                    // }
+
+                }
             }
         }
         echo $this->logstring . PHP_EOL;
@@ -609,6 +625,7 @@ class ForsageProductsImport extends CComponent
         $option->attribute_id = $attribute_id;
         $option->value = $value;
         $option->save(false, false, false);
+        $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_ATTRIBUTE_OPTION, $option->id, $option->value);
         return $option;
     }
 

@@ -247,6 +247,10 @@ class ShopManufacturer extends ActiveRecord {
             'manufacturer_id' => new CDbExpression('NULL'),
                 ), 'manufacturer_id = :id', array(':id' => $this->id));
 
+        Yii::import('app.forsage.ForsageExternalFinder');
+        ForsageExternalFinder::removeObjectByPk(ForsageExternalFinder::OBJECT_TYPE_MANUFACTURER, $this->id);
+
+
         return parent::afterDelete();
     }
 

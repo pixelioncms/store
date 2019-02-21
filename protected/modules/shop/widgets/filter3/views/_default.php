@@ -26,10 +26,7 @@ echo Html::openTag('div', array('id' => 'filters'));
 // Currency selected filters
 $helper = new FilterHelper($this->getOwner());
 $active = $helper->getActiveFilters();
-if(Yii::app()->request->isAjaxRequest){
-    print_r($this->getOwner());die;
-    print_r($active);
-}
+
 if (!empty($active)) {
     ?>
     <div class="card" id="filter-current">

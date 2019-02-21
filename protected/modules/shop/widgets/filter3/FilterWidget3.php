@@ -35,7 +35,7 @@ class FilterWidget3 extends CWidget
     public $countManufacturer = true;
     public $prices = array();
     public $tagCount = 'sup';
-    private $cache_time = 3600 / 2; //3600;
+    private $cache_time = 3600 / 2;//3600 / 2;
 
     /**
      * @var ShopCategory

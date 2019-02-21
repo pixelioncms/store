@@ -438,9 +438,15 @@ class ShopAttribute extends ActiveRecord {
     }
 
     public function afterDelete() {
+
+        Yii::import('app.forsage.ForsageExternalFinder');
+        ForsageExternalFinder::removeObjectByPk(ForsageExternalFinder::OBJECT_TYPE_ATTRIBUTE, $this->title);
+
         // Delete options
-        foreach ($this->options as $o)
+        foreach ($this->options as $o) {
+            ForsageExternalFinder::removeObjectByPk(ForsageExternalFinder::OBJECT_TYPE_ATTRIBUTE_OPTION, $this->value);
             $o->delete();
+        }
 
         // Delete relations used in product type.
         ShopTypeAttribute::model()->deleteAllByAttributes(array('attribute_id' => $this->id));

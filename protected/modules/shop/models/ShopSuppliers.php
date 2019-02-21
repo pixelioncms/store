@@ -67,6 +67,18 @@ class ShopSuppliers extends ActiveRecord {
         );
     }
 
+    public function afterDelete() {
+        // Clear product relations
+        ShopProduct::model()->updateAll(array(
+            'supplier_id' => new CDbExpression('NULL'),
+        ), 'supplier_id = :id', array(':id' => $this->id));
+
+        Yii::import('app.forsage.ForsageExternalFinder');
+        ForsageExternalFinder::removeObjectByPk(ForsageExternalFinder::OBJECT_TYPE_SUPPLIER, $this->id);
+
+
+        return parent::afterDelete();
+    }
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return ActiveDataProvider the data provider that can return the models based on the search/filter conditions.

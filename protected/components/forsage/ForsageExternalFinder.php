@@ -21,7 +21,7 @@ class ForsageExternalFinder
      * @param $externalId
      * @param bool $loadModel
      * @param bool $object_id
-     * @return array $query
+     * @return array|mixed $query
      */
     public static function getObject($type, $externalId, $loadModel = true, $object_id = false)
     {
@@ -83,14 +83,7 @@ class ForsageExternalFinder
                     break;
 
                 case self::OBJECT_TYPE_IMAGE:
-                    if ($object_id) {
-                        return ShopProductImage::model()->findByAttributes(array(
-                            'object_id' => $query['object_id'],
-                        ));
-                    } else {
-                        return ShopProductImage::model()->findByPk($query['object_id']);
-                    }
-
+                    return AttachmentModel::model()->findByPk($query['object_id']);
                     break;
             }
         }
@@ -115,7 +108,7 @@ class ForsageExternalFinder
             $img->delete();
     }
 
-    public static function removeObjectByPk($type,$obj_id)
+    public static function removeObjectByPk($type, $obj_id)
     {
         $query = Yii::app()->db->createCommand()->delete(
             '{{exchange_forsage}}',
