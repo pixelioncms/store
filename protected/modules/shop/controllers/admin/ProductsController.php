@@ -760,17 +760,5 @@ class ProductsController extends AdminController
             $p->setCategories($categories, Yii::app()->request->getPost('main_category'));
     }
 
-    /**
-     * @param ShopProduct $model
-     */
-    public function updateMainImage(ShopProduct $model)
-    {
-        if (Yii::app()->request->getPost('mainImageId')) {
-            // Clear current main image
-            ShopProductImage::model()->updateAll(array('is_main' => 0), 'product_id=:pid', array(':pid' => $model->id));
-            // Set new main image
-            ShopProductImage::model()->updateByPk(Yii::app()->request->getPost('mainImageId'), array('is_main' => 1));
-        }
-    }
 
 }
