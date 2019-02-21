@@ -25,7 +25,7 @@ class DbConnection extends CDbConnection
     public $fileSizes = 0;
     public $charset = 'utf8';
 
-    public $emulatePrepare= YII_DEBUG;
+    //public $emulatePrepare;
     public $enableProfiling = YII_DEBUG;
     public $enableParamLogging = YII_DEBUG;
     public $schemaCachingDuration = YII_DEBUG ? 0 : 3600 * 6;
