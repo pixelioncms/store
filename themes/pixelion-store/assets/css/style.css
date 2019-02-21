@@ -2070,8 +2070,9 @@ ul.current-filter-list > li > ul > li > a {
 }
 .catalog-container .catalog-sidebar {
   float: none;
-  position: relative;
   z-index: 1;
+  position: relative;
+  top: 0;
 }
 @media (min-width: 768px) {
   .catalog-container .catalog-sidebar {
@@ -2082,14 +2083,13 @@ ul.current-filter-list > li > ul > li > a {
 .catalog-container .catalog-content {
   width: 100%;
   margin-bottom: 15px;
+  float: left;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 @media (min-width: 768px) {
   .catalog-container .catalog-content {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
     padding-right: 15px;
     padding-left: 295px;
   }

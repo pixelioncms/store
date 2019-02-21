@@ -490,8 +490,9 @@ $catalog-width:250px;
   position: relative;
   .catalog-sidebar{
     float:none;
-    position: relative;
     z-index: 1;
+    position: relative;
+    top: 0;
     @media (min-width: 768px) {
       float:left;
       width: $catalog-width;
@@ -500,12 +501,11 @@ $catalog-width:250px;
   .catalog-content{
     width: 100%;
     margin-bottom: 15px;
+    float: left;
+    position: absolute;
+    top: 0;
+    left: 0;
     @media (min-width: 768px) {
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
       padding-right: 15px;
       padding-left: $catalog-width + 15px * 3;
     }

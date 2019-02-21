@@ -14,7 +14,7 @@
 <?php $this->renderPartial('//layouts/inc/_header'); ?>
 
 
-<div class="container">
+<div class="container-fluid">
 
     <?php
     $this->widget('Breadcrumbs', array(
@@ -22,6 +22,7 @@
         'htmlOptions' => array('class' => 'breadcrumb'),
         'separator' => false
     ));
+
     ?>
 
 </div>
@@ -37,10 +38,10 @@
 </div>
 
 
-<?php if (!empty(Yii::app()->seo->data->text)) { ?>
-    <h1><?= Yii::app()->seo->data->h1; ?></h1>
+<?php if (!empty(Yii::app()->seo->text)) { ?>
+    <h1><?= Yii::app()->seo->h1; ?></h1>
 
-    <?= Yii::app()->seo->data->text; ?>
+    <?= Yii::app()->seo->text; ?>
 
 
 <?php } ?>

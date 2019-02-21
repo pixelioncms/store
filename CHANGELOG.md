@@ -5,7 +5,7 @@
 2. добавить миграции и сделать чтобы работали через веб-интерфейс.
 
 ### Version 1.0.1 RC under development
-1. remove: ShopProduct::formatPrice(). New use Yii::app()->currency->number_format()
-2. Another item
+1. Remove: ShopProduct::formatPrice(). New use Yii::app()->currency->number_format()
+2. Add: Html::viber()
 
 ### Version 1.0.0 RC (2019/02/2)
