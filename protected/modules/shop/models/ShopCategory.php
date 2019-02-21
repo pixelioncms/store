@@ -1,7 +1,7 @@
 <?php
 
 Yii::import('mod.shop.models.ShopCategoryTranslate');
-
+Yii::import('mod.shop.models.ShopProductCategoryRef');
 /**
  * This is the model class for table "shop_category".
  *

@@ -13,24 +13,20 @@ $this->widget('ext.adminList.GridView', array(
         array(
             'name' => 'name',
             'type' => 'raw',
-            'value' => 'Html::link(Html::encode($data->name), array("/shop/admin/suppliers/update", "id"=>$data->id))',
+            'value' => '$data->getGridName()',
         ),
         array(
             'name' => 'phone',
             'type' => 'raw',
             'value' => 'Html::tel($data->phone)',
-        ),
-        array(
-            'header' => 'phone',
-            'type' => 'raw',
-            'value' => 'Html::viber($data->phone)',
+            'htmlOptions'=>array('class'=>'text-center')
         ),
         array(
             'name' => 'email',
             'type' => 'raw',
             'value' => 'Html::mailto($data->email)',
+            'htmlOptions'=>array('class'=>'text-center')
         ),
-        'address',
         array(
             'class' => 'ButtonColumn',
             'template' => '{update}{delete}',
@@ -38,4 +34,3 @@ $this->widget('ext.adminList.GridView', array(
     ),
 ));
 Yii::app()->tpl->closeWidget();
-?>

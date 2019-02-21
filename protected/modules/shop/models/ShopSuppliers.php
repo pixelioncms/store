@@ -35,6 +35,9 @@ class ShopSuppliers extends ActiveRecord {
                 ), $this);
     }
 
+    public function getGridName(){
+        return Html::link(Html::encode($this->name), array("/shop/admin/suppliers/update", "id"=>$this->id)).'<br/>'.$this->address;
+    }
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.

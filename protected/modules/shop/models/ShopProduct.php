@@ -1075,18 +1075,19 @@ class ShopProduct extends ActiveRecord
             $this->availability = 2;
             $this->quantity = 0;
         }
-        if (!empty(Yii::app()->settings->get('shop', 'auto_gen_product_title'))) {
-            $category = ShopCategory::model()->findByPk($this->main_category_id);
-            $replace = array(
-                "{main_category}" => $category->name,
-                "{sub_category_name}" => ($category->parent()->find()->name == 'root') ? '' : $category->parent()->find()->name,
-                "{manufacturer}" => ShopManufacturer::model()->findByPk($this->manufacturer_id)->name,
-                "{product_sku}" => $this->sku,
-            );
-            $this->name = CMS::textReplace(Yii::app()->settings->get('shop', 'auto_gen_product_title'), $replace);
-            $this->seo_alias = CMS::translit($this->name);
+        if (!Yii::app() instanceof CConsoleApplication) {
+            if (!empty(Yii::app()->settings->get('shop', 'auto_gen_product_title'))) {
+                $category = ShopCategory::model()->findByPk($this->main_category_id);
+                $replace = array(
+                    "{main_category}" => (isset($category)) ? $category->name : 'none',
+                    "{sub_category_name}" => (isset($category)) ? ($category->parent()->find()->name == 'root') ? '' : $category->parent()->find()->name : '',
+                    "{manufacturer}" => ShopManufacturer::model()->findByPk($this->manufacturer_id)->name,
+                    "{product_sku}" => $this->sku,
+                );
+                $this->name = CMS::textReplace(Yii::app()->settings->get('shop', 'auto_gen_product_title'), $replace);
+                $this->seo_alias = CMS::translit($this->name);
+            }
         }
-
 
         return parent::beforeSave();
     }
