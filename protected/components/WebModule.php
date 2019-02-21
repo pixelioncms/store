@@ -146,7 +146,13 @@ class WebModule extends CWebModule
 
 
         if (file_exists(Yii::getPathOfAlias("mod.{$this->id}.sql") . DS . 'dump.sql')) {
-            Yii::app()->db->importSqlFile(Yii::getPathOfAlias("mod.{$this->id}.sql") . DS . 'dump.sql', Yii::app()->settings->get('database', 'tables_engine'));
+
+            if(Yii::app()->settings->get('database', 'tables_engine')){
+                Yii::app()->db->importSqlFile(Yii::getPathOfAlias("mod.{$this->id}.sql") . DS . 'dump.sql', Yii::app()->settings->get('database', 'tables_engine'));
+            }else{
+                Yii::app()->db->importSqlFile(Yii::getPathOfAlias("mod.{$this->id}.sql") . DS . 'dump.sql');
+            }
+
         }
 
 
