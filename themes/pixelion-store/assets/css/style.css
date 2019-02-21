@@ -59,7 +59,6 @@ html {
   right: 0;
   left: 0;
   height: 4em;
-  background-color: rgba(255, 255, 255, 0);
   background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, #fff));
   background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
@@ -84,7 +83,6 @@ html {
 
 @supports (-webkit-background-clip: text) or (-webkit-text-fill-color: transparent) {
   .heading-gradient {
-    background-color: #32AEB1;
     background-image: -webkit-gradient(linear, left top, right bottom, from(#32AEB1), to(#92C99B));
     background-image: -webkit-linear-gradient(left, #32AEB1, #92C99B);
     background-image: -moz-linear-gradient(left, #32AEB1, #92C99B);
@@ -177,7 +175,6 @@ button.close {
 }
 
 .line-title {
-  background-color: #32AEB1;
   background-image: -webkit-gradient(linear, left top, right bottom, from(#32AEB1), to(#92C99B));
   background-image: -webkit-linear-gradient(left, #32AEB1, #92C99B);
   background-image: -moz-linear-gradient(left, #32AEB1, #92C99B);
@@ -1449,7 +1446,6 @@ p {
 }
 
 .gradient {
-  background-color: #32AEB1;
   background-image: -webkit-gradient(linear, left top, right bottom, from(#32AEB1), to(#92C99B));
   background-image: -webkit-linear-gradient(left, #32AEB1, #92C99B);
   background-image: -moz-linear-gradient(left, #32AEB1, #92C99B);
@@ -1788,7 +1784,6 @@ span.highlight-word {
   -ms-border-radius: 0;
   border-radius: 0;
   -o-border-radius: 0;
-  background-color: #32AEB1;
   background-image: -webkit-gradient(linear, left top, right bottom, from(#32AEB1), to(#92C99B));
   background-image: -webkit-linear-gradient(left, #32AEB1, #92C99B);
   background-image: -moz-linear-gradient(left, #32AEB1, #92C99B);
@@ -1854,6 +1849,42 @@ span.highlight-word {
   cursor: pointer;
   font-size: 18px;
 }
+#filters .card .card-collapse {
+  position: relative;
+  z-index: 0;
+}
+#filters .card .card-collapse:after, #filters .card .card-collapse:before {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 25px;
+  right: 17px;
+  /*for scrolling set 17px*/
+  left: 0;
+  z-index: 1;
+}
+#filters .card .card-collapse:before {
+  top: 0.75rem;
+  background-image: -moz-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(100%, rgba(255, 255, 255, 0)));
+  background-image: -webkit-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -ms-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr=rgba(255, 255, 255, 0), GradientType=1);
+  background-repeat: repeat-x;
+}
+#filters .card .card-collapse:after {
+  bottom: 0.75rem;
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, #fff));
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(255, 255, 255, 0)', endColorstr=#fff, GradientType=1);
+  background-repeat: repeat-x;
+}
 #filters .card .card-body {
   margin: 0.75rem 1rem 0.75rem 1rem;
   padding: 0;
@@ -1862,7 +1893,6 @@ span.highlight-word {
   margin: 0.75rem 0 0.75rem 1rem;
   max-height: 19em;
   overflow-x: hidden;
-  position: relative;
 }
 
 .filter-list,

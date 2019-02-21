@@ -11,6 +11,7 @@
             'countAttr' => true,
             'countManufacturer' => true,
         ));
+
         ?>
 
 

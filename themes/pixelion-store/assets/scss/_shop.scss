@@ -262,16 +262,36 @@ $price-color: #666C6E;
         font-size: 18px;
       }
     }
+    .card-collapse{
+      position: relative;
+      z-index: 0;
+      &:after,
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 25px;
+        right: 17px; /*for scrolling set 17px*/
+        left: 0;
+        z-index: 1;
+      }
+      &:before {
+        top: 0.75rem;
+        @include gradient-x(#fff,rgba(255, 255, 255, 0));
+      }
+      &:after {
+        bottom: 0.75rem;
+        @include gradient-x(rgba(255, 255, 255, 0), #fff);
+      }
+    }
     .card-body {
       margin: 0.75rem 1rem 0.75rem 1rem;
       padding: 0;
     }
     .card-body.overflow {
       margin: 0.75rem 0 0.75rem 1rem;
-
       max-height: 19em;
       overflow-x: hidden;
-      position: relative;
     }
   }
 }
@@ -485,20 +505,20 @@ ul.current-filter-list > li > ul > li > a {
   }
 }
 */
-$catalog-width:250px;
-.catalog-container{
+$catalog-width: 250px;
+.catalog-container {
   position: relative;
-  .catalog-sidebar{
-    float:none;
+  .catalog-sidebar {
+    float: none;
     z-index: 1;
     position: relative;
     top: 0;
     @media (min-width: 768px) {
-      float:left;
+      float: left;
       width: $catalog-width;
     }
   }
-  .catalog-content{
+  .catalog-content {
     width: auto;
     margin-bottom: 15px;
     float: none;
@@ -509,7 +529,6 @@ $catalog-width:250px;
     }
   }
 }
-
 
 /*.catalog-content{
   float:left;
