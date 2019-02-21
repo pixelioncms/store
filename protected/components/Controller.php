@@ -82,10 +82,10 @@ class Controller extends RController
     {
         $sql_stats = Yii::app()->db->getStats();
         return Yii::t('default', 'PAGE_GEN', array(
-            '{time}' => number_format(Yii::getLogger()->getExecutionTime(), 3, '.', ' '),
+            '{time}' => sprintf("%0.2f", Yii::getLogger()->getExecutionTime()),
             '{memory}' => round(memory_get_peak_usage() / (1024 * 1024), 2),
             '{db_query}' => $sql_stats[0],
-            '{db_time}' => round($sql_stats[1], 4),
+            '{db_time}' => sprintf("%0.2f", $sql_stats[1]),
         ));
     }
 
@@ -271,9 +271,6 @@ class Controller extends RController
     {
         if (!$this->isAdminController) {
             if (Yii::app()->hasModule('seo')) {
-                Yii::app()->seo->googleAnalytics();
-                Yii::app()->seo->yandexMetrika();
-                Yii::app()->seo->googleTagManager();
                 Yii::import('mod.seo.models.Redirects');
                 $redirect = Redirects::model()->published()->findByAttributes(array(
                     'url_from' => Yii::app()->request->url
@@ -287,7 +284,7 @@ class Controller extends RController
 
         //$this->recordSession();
         $this->initLayout();
-        $view .= 'tester1';
+
         return parent::beforeRender($view);
     }
 
