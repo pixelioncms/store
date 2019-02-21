@@ -15,8 +15,21 @@ $this->widget('ext.adminList.GridView', array(
             'type' => 'raw',
             'value' => 'Html::link(Html::encode($data->name), array("/shop/admin/suppliers/update", "id"=>$data->id))',
         ),
-        'phone',
-        'email',
+        array(
+            'name' => 'phone',
+            'type' => 'raw',
+            'value' => 'Html::tel($data->phone)',
+        ),
+        array(
+            'header' => 'phone',
+            'type' => 'raw',
+            'value' => 'Html::viber($data->phone)',
+        ),
+        array(
+            'name' => 'email',
+            'type' => 'raw',
+            'value' => 'Html::mailto($data->email)',
+        ),
         'address',
         array(
             'class' => 'ButtonColumn',

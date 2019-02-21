@@ -257,9 +257,10 @@ class CategoryController extends FilterController
                             foreach ($filterItems['items'] as $mKey => $mItems) {
                                 $attributesNames[$filterKey][] = $mItems['label'];
                             }
-                            $s = ' ';
                             if (isset($filterData['manufacturer'])) {
                                 $s = '; ';
+                            }else{
+                                $s = ' ';
                             }
                             $sep = (count($attributesNames[$filterKey]) > 2) ? ', ' : ' и ';
                             $name .= $s . $filterItems['label'] . ' ' . implode($sep, $attributesNames[$filterKey]);

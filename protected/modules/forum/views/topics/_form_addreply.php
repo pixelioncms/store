@@ -49,12 +49,13 @@ if (!Yii::app()->user->isGuest) {
     </div>
     <?php $this->endWidget(); ?>
 <?php } ?>
-<script>
-    $(function () {
-        $("#add-post-reply").on("click", function () {
+
+<?php
+Yii::app()->clientScript->registerScript('add-post-reply', "
+        $('#add-post-reply').on('click', function () {
             tinyMCE.triggerSave();
-            var f = $("#addreply");
-            var action = f.attr("action");
+            var f = $('#addreply');
+            var action = f.attr('action');
             var serializedForm = f.serialize();
             serializedForm +='&json=1';
             //tinyMCE.triggerSave();
@@ -65,18 +66,15 @@ if (!Yii::app()->user->isGuest) {
                 dataType:'json',
                 //async: false,
                 success: function (data, textStatus, request) {
-                    //$("#ajax-addreply").html(data);
+                    //$('#ajax-addreply').html(data);
                     common.notify(data.message,'success');
-                    $.fn.yiiListView.update("topic-list");
+                    $.fn.yiiListView.update('topic-list');
                 },
                 error: function (req, status, error) {
-                    $("#ajax-addreply").html(data);
+                    $('#ajax-addreply').html(data);
                 }
             });
             return false;
         });
-    });
-    
-
-
-</script>
+", CClientScript::POS_END);
+?>

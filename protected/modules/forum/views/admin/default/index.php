@@ -6,13 +6,13 @@
     'name' => $this->pageName,
     'filter' => $model
 ));*/
-            Yii::app()->tpl->openWidget(array(
-                'title' => $this->pageName,
-            ));
+Yii::app()->tpl->openWidget(array(
+    'title' => $this->pageName,
+));
 $plugins = array();
 //if (Yii::app()->user->openAccess(array('Shop.Category.*', 'Shop.Category.MoveNode'))) {
- //   Yii::app()->tpl->alert('info', Yii::t('ShopModule.admin', "Используйте 'drag-and-drop' для сортировки категорий."), false);
-    $plugins[] = 'dnd';
+//   Yii::app()->tpl->alert('info', Yii::t('ShopModule.admin', "Используйте 'drag-and-drop' для сортировки категорий."), false);
+$plugins[] = 'dnd';
 //}
 $plugins[] = 'search';
 $plugins[] = 'contextmenu';
@@ -107,5 +107,4 @@ $this->widget('ext.jstree.JsTree', array(
         )
     ),
 ));
-          Yii::app()->tpl->closeWidget();
-?>
+Yii::app()->tpl->closeWidget();

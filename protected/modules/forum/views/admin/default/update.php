@@ -5,9 +5,6 @@ Yii::app()->tpl->openWidget(array(
 echo $form->tabs();
 Yii::app()->tpl->closeWidget();
 
-?>
-
-
 
 
 

@@ -5,6 +5,7 @@ class ShopSuppliers extends ActiveRecord {
     const MODULE_ID = 'shop';
 
     public function getForm() {
+        Yii::import('app.widgets.intl-tel-input.TelInputWidget');
         return new CMSForm(array(
             'attributes' => array(
                 'id' => __CLASS__
@@ -14,12 +15,11 @@ class ShopSuppliers extends ActiveRecord {
                     'type' => 'text',
                 ),
                 'phone' => array(
-                    'type' => 'text',
-                    'beforeContent' => '<i class="icon-phone"></i>'
+                    'type' => 'TelInputWidget',
                 ),
                 'email' => array(
                     'type' => 'text',
-                    'afterContent' => '<i class="icon-envelope"></i>',
+                    'beforeContent' => '<i class="icon-envelope"></i>',
                 ),
                 'address' => array(
                     'type' => 'textarea',

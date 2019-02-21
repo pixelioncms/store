@@ -1,4 +1,3 @@
-
 <?php
 
 Yii::app()->tpl->openWidget(array(
@@ -6,4 +5,3 @@ Yii::app()->tpl->openWidget(array(
 ));
 echo $model->getForm();
 Yii::app()->tpl->closeWidget();
-?>

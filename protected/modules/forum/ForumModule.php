@@ -20,7 +20,7 @@ class ForumModule extends WebModule
 
         Yii::app()->clientScript->registerCssFile($this->assetsUrl . "/forum.css");
         Yii::app()->clientScript->registerCssFile($this->assetsUrl . "/forum-data.css");
-        Yii::app()->clientScript->registerScriptFile($this->assetsUrl . "/forum.js");
+        Yii::app()->clientScript->registerScriptFile($this->assetsUrl . "/forum.js", CClientScript::POS_END);
 
         $this->setIcon('icon-comments');
     }
