@@ -182,6 +182,14 @@ class Html extends CHtml
         return self::link($phone, 'tel:' . preg_replace('/[^0-9+]/', '', $phone), $htmlOptions);
     }
 
+    public static function viber($number, $htmlOptions = array())
+    {
+        if(!isset($htmlOptions['target']))
+            $htmlOptions['target']='_blank';
+
+        return self::link($number, 'viber://add?number=' . preg_replace('/[^0-9]/', '', $number), $htmlOptions);
+    }
+
     public static function icon($name, $htmlOptions = array())
     {
         if ($name) {

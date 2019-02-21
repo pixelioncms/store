@@ -128,7 +128,7 @@ class WebModule extends CWebModule
      *
      * @param string $url
      * @access public
-     * @return void
+     * @return string
      */
     public function setAssetsUrl($url)
     {

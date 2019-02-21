@@ -19,7 +19,7 @@ class EmailLogRoute extends CEmailLogRoute {
      * @param string $email Почта
      * @param string $subject Тема письма
      * @param string $message Сообщение
-     * @return type
+     * @return mixed
      */
     protected function sendEmail($email, $subject, $message) {
         $app = Yii::app();
