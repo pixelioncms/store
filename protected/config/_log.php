@@ -1,5 +1,5 @@
 <?php
-/**/
+/*
 return array(
     'class' => 'CLogRouter',
     'enabled' => true,
@@ -17,13 +17,14 @@ return array(
 
     ),
 );
-
+*/
 return array(
     'class' => 'CLogRouter',
     'routes' => array(
         array(
             'class'=>'CProfileLogRoute',
             'report'=>'summary',
+            'enabled' => false
             // Показывает время выполнения каждого отмеченного блока кода.
             // Значение "report" также можно указать как "callstack".
         ),
