@@ -106,7 +106,7 @@ $.fn.serializeObject = function()
 
 
     $(function () {
-    
+
         $('#filter-form').change(function (e) {
             e.preventDefault();
 
@@ -147,8 +147,9 @@ $.fn.serializeObject = function()
             //window.location.pathname = uri;
             
             history.pushState(null, false, '/'+uri);
-            
+
         });
+
     });
 ", CClientScript::POS_END);
 

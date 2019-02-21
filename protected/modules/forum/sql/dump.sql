@@ -35,7 +35,7 @@ INSERT INTO `{prefix}forum_categories` (`id`, `lft`, `rgt`, `level`, `name`, `hi
 
 
 
-CREATE TABLE `{prefix}forum_posts` (
+CREATE TABLE IF NOT EXISTS `{prefix}forum_posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `topic_id` int(11) DEFAULT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE `{prefix}forum_posts` (
 
 
 
-CREATE TABLE `{prefix}forum_topics` (
+CREATE TABLE IF NOT EXISTS `{prefix}forum_topics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
