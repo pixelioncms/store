@@ -221,7 +221,7 @@ class ShopProduct extends ActiveRecord
                 'type' => 'dropdownlist',
                 'modelAlias' => 'mod.shop.models',
                 'items' => $flatTree,
-                'value' => '$data->mainCategory->id',
+                'value' => '$data->mainCategory ? $data->mainCategory->id : NULL',
                 'url' => 'Yii::app()->controller->createUrl("/admin/shop/products/update", array("id"=>$data->primaryKey))'
             ),
             'type' => 'raw',
@@ -1288,11 +1288,14 @@ class ShopProduct extends ActiveRecord
     }
 
 
-    public function processPrices(array $categories)
+    /**
+     * @param array $prices
+     */
+    public function processPrices(array $prices)
     {
         $dontDelete = array();
 
-        foreach ($categories as $index => $price) {
+        foreach ($prices as $index => $price) {
             if ($price['value'] > 0) {
                 $record = ShopProductPrices::model()->findByAttributes(array(
                     'product_id' => $this->id,

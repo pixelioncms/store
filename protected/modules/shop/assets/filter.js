@@ -24,13 +24,16 @@ $(document).ready(function () {
     var panels = $.cookie();
 
     for (var panel in panels) {
-        var panelSelector = $('#' + panel);
-        if (panelSelector) {
-            if (panelSelector.hasClass('card-collapse')) {
-                if ($.cookie(panel) === '1') {
-                    panelSelector.collapse('show');
-                } else {
-                    panelSelector.collapse('hide');
+        console.log(panel);
+        if (panel) {
+            var panelSelector = $('#' + panel);
+            if (panelSelector) {
+                if (panelSelector.hasClass('card-collapse')) {
+                    if ($.cookie(panel) === '1') {
+                        panelSelector.collapse('show');
+                    } else {
+                        panelSelector.collapse('hide');
+                    }
                 }
             }
         }
@@ -100,18 +103,11 @@ $(document).ready(function () {
     var form = $('#filter-form');
 
 
-
     $('#filter-form input[type="checkbox"]').change(function (e) {
         e.preventDefault();
-
-
         var objects = getSerializeObjects();
-
-
         delete objects.min_price;
         delete objects.max_price;
-
-
         $.fn.yiiListView.update('shop-products', {url: formattedURL(objects)});
 
         currentFilters(formattedURL(objects));
@@ -136,14 +132,14 @@ $(document).ready(function () {
         if (parseInt($('#max_price').val()) > max) {
             valueMax = max;
             $('#max_price').val(valueMax);
-        }else{
+        } else {
             valueMax = parseInt($('#max_price').val());
         }
 
         if (parseInt($('#min_price').val()) < min) {
             valueMin = min;
             $('#min_price').val(valueMin);
-        }else{
+        } else {
             valueMin = parseInt($('#min_price').val());
         }
 
