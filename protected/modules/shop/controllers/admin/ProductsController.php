@@ -603,7 +603,7 @@ class ProductsController extends AdminController
         foreach ($attributes as $attr) {
             if ($attr->required && empty($_POST['ShopAttribute'][$attr->name])) {
                 $errors = true;
-                $model->addError($attr->name, Yii::t('ShopModule.admin', 'FIEND_REQUIRED', array('{FIELD}' => $attr->title)));
+                $model->addError($attr->name, Yii::t('ShopModule.admin', 'FIEND_REQUIRED', array('{field}' => $attr->title)));
             }
         }
 
@@ -770,24 +770,6 @@ class ProductsController extends AdminController
             ShopProductImage::model()->updateAll(array('is_main' => 0), 'product_id=:pid', array(':pid' => $model->id));
             // Set new main image
             ShopProductImage::model()->updateByPk(Yii::app()->request->getPost('mainImageId'), array('is_main' => 1));
-        }
-    }
-
-    /**
-     * @param ShopProduct $model
-     */
-    public function handleUploadedImages(ShopProduct $model)
-    {
-        $images = CUploadedFile::getInstancesByName('ShopProductImages');
-        if ($images && sizeof($images) > 0) {
-            /** var $image CUploadedFile */
-            foreach ($images as $image) {
-                if (!ShopUploadedImage::hasErrors($image)) {
-                    $model->addImage($image);
-                } else {
-                    $this->setFlashMessage(Yii::t('ShopModule.admin', 'ERR_LOAD_IMAGE', array('{NAME}' => $image->getName())));
-                }
-            }
         }
     }
 
