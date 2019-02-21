@@ -131,8 +131,13 @@ class DbConnection extends CDbConnection
             $values .= "\n" . $valueString;
         }
         if ($values != "") {
+            $tables_engine = 'MyISAM';
+            if(Yii::app()->settings->get('database', 'tables_engine')){
+                $tables_engine=Yii::app()->settings->get('database', 'tables_engine');
+            }
             $tableName = str_replace($this->tablePrefix, '{prefix}', $tableName);
             $tableName = str_replace($this->charset, '{charset}', $tableName);
+            $tableName = str_replace($tables_engine, '{engine}', $tableName);
             $insertSql = "INSERT INTO `$tableName` (`$items`) VALUES" . rtrim($values, ",") . ";\n\r";
             $this->_result .= $insertSql;
         }
