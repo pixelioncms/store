@@ -1,6 +1,9 @@
 <?php
 $cs = Yii::app()->clientScript;
-$cs->registerScriptFile(Yii::app()->getModule('admin')->assetsUrl . '/js/jquery.dualListBox.js');
+$cs->registerScriptFile(Yii::app()->getModule('admin')->assetsUrl . '/js/jquery.dualListBox.js',CClientScript::POS_END);
+$cs->registerScript('options', "
+    $.configureBoxes({useFilters:false,useCounters:false});
+", CClientScript::POS_END);
 ?>
 <script>
     $(function () {

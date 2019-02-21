@@ -2,7 +2,7 @@
 
 /**
  * Message translations.
- * 
+ *
  * Each array element represents the translation (value) of a message (key).
  * If the value is empty, the message is considered as not translated.
  * Messages that no longer need translation will have their translations
@@ -13,9 +13,9 @@
  * @ignore
  */
 return array(
-    'PRODUCT_COUNT'=>'Кол. товаров',
-    'CATALOG'=>'Каталог',
-    'INFO_USE_DND'=>'Используйте "drag-and-drop" для сортировки категорий',
+    'PRODUCT_COUNT' => 'Кол. товаров',
+    'CATALOG' => 'Каталог',
+    'INFO_USE_DND' => 'Используйте "drag-and-drop" для сортировки категорий',
     'CREATE_ROOT_CATEGORY' => 'Необходимо добавить <b>root</b> категорию. {link}',
     'CONFIRM_DELETE_CATEGORY' => 'Вы уверены что хотите удалить данную категорию?\nВажно: Все имеющиеся товары также будут удалены.',
     'SELECT_IMAGES' => 'Выберите изображения',
@@ -45,6 +45,7 @@ return array(
     'UPDATE_PRODUCT' => 'Редактирование продукта',
     'VIEW_PRODUCT' => 'Просмотр товара',
     'VIEW_BRAND' => 'Просмотр производителя',
+    'VIEW_CATEGORY' => 'Просмотр категории',
     'UPDATE_PRODUCT_TAB_VARIANTS' => 'Варианты',
     'UPDATE_PRODUCT_TAB_CONF' => 'Конфигурации',
     'CATEGORY_TREE_CREATE' => 'Категория успешно добавлена.',

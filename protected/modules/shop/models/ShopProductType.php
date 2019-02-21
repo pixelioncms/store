@@ -20,12 +20,12 @@ class ShopProductType extends ActiveRecord
     {
         Yii::import('mod.shop.ShopModule');
         return array(
-            array(
+            'name' => array(
                 'name' => 'name',
                 'type' => 'raw',
                 'value' => 'Html::link(Html::encode($data->name), array("/shop/admin/productType/update", "id"=>$data->id))',
             ),
-            array(
+            'attributes' => array(
                 'header' => self::t('ATTRIBUTES'),
                 'type' => 'raw',
                 'value' => '$data->getAttributesGrid()',
@@ -58,13 +58,13 @@ class ShopProductType extends ActiveRecord
         $content = '';
         if ($this->shopAttributes) {
             foreach ($this->shopAttributes as $s) {
-               //print_r($s->title);
-                $link = Html::link($s->title,array('/admin/shop/attribute/update','id'=>$s->id));
-              $content .= Html::tag('span',array('class'=>'badge badge-secondary'),$link,true).' ';
+                //print_r($s->title);
+                $link = Html::link($s->title, array('/admin/shop/attribute/update', 'id' => $s->id));
+                $content .= Html::tag('span', array('class' => 'badge badge-secondary'), $link, true) . ' ';
             }
         }
         //return implode(' ', $content);
-        return  $content;
+        return $content;
     }
 
     public function scopes()

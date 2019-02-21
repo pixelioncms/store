@@ -37,6 +37,13 @@ class CategoryController extends AdminController
         if (!$model)
             throw new CHttpException(404, Yii::t('ShopModule.admin', 'NO_FOUND_CATEGORY'));
 
+        if (!$model->isNewRecord) {
+            $this->topButtons = array(array(
+                'label' => Yii::t('ShopModule.admin', 'VIEW_CATEGORY'),
+                'url' => $model->getUrl(),
+                'htmlOptions' => array('class' => 'btn btn-primary', 'target' => '_blank'),
+            ));
+        }
 
         if (Yii::app()->request->isPostRequest) {
             $model->attributes = $_POST['ShopCategory'];
