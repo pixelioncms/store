@@ -269,7 +269,7 @@ $price-color: #666C6E;
     .card-body.overflow {
       margin: 0.75rem 0 0.75rem 1rem;
 
-      max-height: 18em;
+      max-height: 19em;
       overflow-x: hidden;
       position: relative;
     }
@@ -499,15 +499,13 @@ $catalog-width:250px;
     }
   }
   .catalog-content{
-    width: 100%;
+    width: auto;
     margin-bottom: 15px;
-    float: left;
-    position: absolute;
-    top: 0;
-    left: 0;
+    float: none;
+    position: relative;
     @media (min-width: 768px) {
       padding-right: 15px;
-      padding-left: $catalog-width + 15px * 3;
+      margin-left: $catalog-width + 15px * 3;
     }
   }
 }

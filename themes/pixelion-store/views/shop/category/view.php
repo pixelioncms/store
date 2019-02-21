@@ -109,13 +109,15 @@
         </table>
     <?php } ?>
 
-
-        <a class="btn btn-link" data-target="#collapse-seo" href="#"
-           onClick="$('#collapse-seo').toggleClass('active'); return false;">
-            Показать
-        </a>
-        <div class="container-seo" id="collapse-seo">
-            <?= $this->dataModel->description; ?>
-        </div>
+        <?php if (!empty($this->dataModel->description)) { ?>
+            <a class="btn btn-link" data-target="#collapse-seo" href="#"
+               onClick="$('#collapse-seo').toggleClass('active'); return false;">
+                Показать
+            </a>
+            <div class="container-seo" id="collapse-seo">
+                <?= $this->dataModel->description; ?>
+            </div>
+        <?php } ?>
     </div>
+    <div class="clearfix"></div>
 </div>
