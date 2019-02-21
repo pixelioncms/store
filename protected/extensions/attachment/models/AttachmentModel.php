@@ -135,9 +135,11 @@ class AttachmentModel extends ActiveRecord
        // if (parent::beforeSave()) {
             //create
             if ($this->isNewRecord) {
-                if (isset($this->tableSchema->columns['user_id'])) {
-                    $this->user_id = (Yii::app()->user->isGuest) ? NULL : Yii::app()->user->id;
-                }
+               // if (!Yii::app() instanceof CConsoleApplication) {
+               //     if (isset($this->tableSchema->columns['user_id'])) {
+               //         $this->user_id = (Yii::app()->user->isGuest) ? NULL : Yii::app()->user->id;
+                //    }
+               // }
                 if (isset($this->tableSchema->columns['date_create'])) {
                     $this->date_create = date('Y-m-d H:i:s');
                 }

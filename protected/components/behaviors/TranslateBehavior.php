@@ -181,9 +181,6 @@ class TranslateBehavior extends CActiveRecordBehavior {
         }
 
 
-
-
-
         return $translate->save(false,false,false);
     }
 
@@ -210,7 +207,7 @@ class TranslateBehavior extends CActiveRecordBehavior {
     /**
      * Scope to load translation by language id
      * @param mixed $language or array containing `lang_id` key
-     * @return ActiveRecord
+     * @return ActiveRecord|mixed
      */
     public function language($language = null) {
         if (is_array($language) && isset($language['lang_id']))

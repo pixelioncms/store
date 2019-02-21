@@ -187,6 +187,9 @@ class Html extends CHtml
         if(!isset($htmlOptions['target']))
             $htmlOptions['target']='_blank';
 
+        if(!isset($htmlOptions['rel']))
+            $htmlOptions['rel']='nofollow';
+
         return self::link($number, 'viber://add?number=' . preg_replace('/[^0-9]/', '', $number), $htmlOptions);
     }
 

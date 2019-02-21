@@ -7,12 +7,15 @@ return array(
     'basePath' => dirname(__FILE__) . DS . '..',
     'name' => 'PIXELION Console',
     'preload' => array('log'),
+    'language' => 'ru',
     'import' => array(
         'app.*',
         'application.models.*',
         'application.modules.admin.models.*',
         'app.helpers.*',
         'app.validators.*',
+        'app.behaviors.*',
+        'ext.attachment.models.AttachmentModel',
         'app.integration.forums.*',
         'app.forms.*',
     ),
@@ -24,6 +27,7 @@ return array(
     ),
     'components' => array(
         'settings' => array('class' => 'app.managers.CManagerSettings'),
+        'languageManager' => array('class' => 'app.managers.CManagerLanguage'),
         //'database' => array('class' => 'app.managers.CManagerDatabase'),
         'db' => require_once(YII_DEBUG ? '_db_dev.php' : '_db.php'),
         'curl' => array('class' => 'app.addons.Curl'),

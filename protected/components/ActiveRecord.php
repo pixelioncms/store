@@ -233,7 +233,7 @@ class ActiveRecord extends CActiveRecord
                         Yii::app()->controller->setNotify($message, 'success');
                     }
                 }
-                Yii::app()->user->setFlash('success',$message);
+               // Yii::app()->user->setFlash('success',$message);
             }
             return true;
         } else {
@@ -310,8 +310,10 @@ class ActiveRecord extends CActiveRecord
                     //Текущий IP адресс, автора добавление
                     $this->ip_create = Yii::app()->request->userHostAddress;
                 }
-                if (isset($this->tableSchema->columns['user_id'])) {
-                    $this->user_id = (Yii::app()->user->isGuest) ? NULL : Yii::app()->user->id;
+                if(!Yii::app() instanceof CConsoleApplication) {
+                    if (isset($this->tableSchema->columns['user_id'])) {
+                        $this->user_id = (Yii::app()->user->isGuest) ? NULL : Yii::app()->user->id;
+                    }
                 }
                 if (isset($this->tableSchema->columns['user_agent'])) {
                     $this->user_agent = Yii::app()->request->userAgent;

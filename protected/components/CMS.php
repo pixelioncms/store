@@ -344,7 +344,9 @@ class CMS
         $config = Yii::app()->settings->get('app');
         $tmpArray = array();
         $tmpArray['{site_name}'] = $config->site_name;
+        if(!Yii::app() instanceof CConsoleApplication){
         $tmpArray['{host}'] = Yii::app()->request->serverName;
+        }
         $tmpArray['{admin_email}'] = $config->admin_email;
         $resultArray = CMap::mergeArray($tmpArray, $array);
         foreach ($resultArray as $from => $to) {
@@ -675,26 +677,30 @@ class CMS
      */
     public static function getip()
     {
-        $strRemoteIP = $_SERVER['REMOTE_ADDR'];
-        if (!$strRemoteIP) {
-            $strRemoteIP = urldecode(getenv('HTTP_CLIENTIP'));
-        }
-        if (getenv('HTTP_X_FORWARDED_FOR')) {
-            $strIP = getenv('HTTP_X_FORWARDED_FOR');
-        } elseif (getenv('HTTP_X_FORWARDED')) {
-            $strIP = getenv('HTTP_X_FORWARDED');
-        } elseif (getenv('HTTP_FORWARDED_FOR')) {
-            $strIP = getenv('HTTP_FORWARDED_FOR');
-        } elseif (getenv('HTTP_FORWARDED')) {
-            $strIP = getenv('HTTP_FORWARDED');
+        if (Yii::app() instanceof CConsoleApplication) {
+            return false;
         } else {
-            $strIP = $_SERVER['REMOTE_ADDR'];
-        }
+            $strRemoteIP = $_SERVER['REMOTE_ADDR'];
+            if (!$strRemoteIP) {
+                $strRemoteIP = urldecode(getenv('HTTP_CLIENTIP'));
+            }
+            if (getenv('HTTP_X_FORWARDED_FOR')) {
+                $strIP = getenv('HTTP_X_FORWARDED_FOR');
+            } elseif (getenv('HTTP_X_FORWARDED')) {
+                $strIP = getenv('HTTP_X_FORWARDED');
+            } elseif (getenv('HTTP_FORWARDED_FOR')) {
+                $strIP = getenv('HTTP_FORWARDED_FOR');
+            } elseif (getenv('HTTP_FORWARDED')) {
+                $strIP = getenv('HTTP_FORWARDED');
+            } else {
+                $strIP = $_SERVER['REMOTE_ADDR'];
+            }
 
-        if ($strRemoteIP != $strIP) {
-            $strIP = $strRemoteIP . ", " . $strIP;
+            if ($strRemoteIP != $strIP) {
+                $strIP = $strRemoteIP . ", " . $strIP;
+            }
+            return $strIP;
         }
-        return $strIP;
     }
 
     /**

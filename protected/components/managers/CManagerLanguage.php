@@ -9,7 +9,7 @@
  * @copyright (c) 2016, Andrew Semenov
  * @link http://pixelion.com.ua PIXELION CMS
  */
-class CManagerLanguage extends CApplicationComponent {
+class CManagerLanguage extends CComponent {
 
     /**
      * @var array available system languages
@@ -33,7 +33,7 @@ class CManagerLanguage extends CApplicationComponent {
 
     /**
      * Load available languages.
-     * @return LanguageModel collection
+     * @return array collection
      */
     private function loadLanguages() {
         $model = LanguageModel::model()
@@ -87,7 +87,7 @@ class CManagerLanguage extends CApplicationComponent {
 
     /**
      * Get default system model
-     * @return CManagerLanguage
+     * @return LanguageModel
      */
     public function getDefault() {
         return $this->getByCode($this->_default);
@@ -95,7 +95,7 @@ class CManagerLanguage extends CApplicationComponent {
 
     /**
      * Get active language model
-     * @return CManagerLanguage
+     * @return LanguageModel
      */
     public function getActive() {
         return $this->getByCode($this->_active);
