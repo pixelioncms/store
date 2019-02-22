@@ -24,7 +24,7 @@ $(document).ready(function () {
     var panels = $.cookie();
 
     for (var panel in panels) {
-        console.log(panel);
+        //console.log(panel);
         if (panel) {
             var panelSelector = $('#' + panel);
             if (panelSelector) {
@@ -97,17 +97,21 @@ function formattedURL(objects) {
     return uri;
 }
 
-
-$(document).ready(function () {
+var flagDeletePrices= false;
+$(function () {
 
     var form = $('#filter-form');
 
 
     $('#filter-form input[type="checkbox"]').change(function (e) {
         e.preventDefault();
+
         var objects = getSerializeObjects();
-        delete objects.min_price;
-        delete objects.max_price;
+        if(flagDeletePrices){
+            delete objects.min_price;
+            delete objects.max_price;
+        }
+
         $.fn.yiiListView.update('shop-products', {url: formattedURL(objects)});
 
         currentFilters(formattedURL(objects));
@@ -157,9 +161,8 @@ $(document).ready(function () {
     });
 
 
-    //per_page
-
-    $('#sorting-form').change(function () {
+    $('#sorting-form').change(function (e) {
+        e.preventDefault();
         $.fn.yiiListView.update('shop-products', {url: formattedURL(getSerializeObjects())});
         history.pushState(null, $('title').text(), formattedURL(getSerializeObjects()));
     });
@@ -174,41 +177,8 @@ $(document).ready(function () {
     //curret filter
 
 
-    $('#filter-current a').on('click', function (e) {
-        e.preventDefault();
-
-        //var uri = $(this).attr('href');
-        var target = $(this).data('target');
-        $(target).click();
-        //if(xhrCurrentFilter && xhrCurrentFilter.readyState != 4){
-        //    xhrCurrentFilter.onreadystatechange = null;
-        //    xhrCurrentFilter.abort();
-        //}
-
-        //$.fn.yiiListView.update('shop-products',{url: uri});
 
 
-        /*xhrCurrentFilter = $.ajax({
-         type:'GET',
-         url:uri,
-         success:function(data){
-         $('#ajax_filter_current').html(data);
-         history.pushState(null, false, uri);
-         }
-         });*/
-    });
 
 
-    $('#filter-current a.btn').on('click', function (e) {
-        e.preventDefault();
-        var uri = $(this).attr('href');
-        var target = $(this).data('target');
-
-        $('#filters input[type="checkbox"]').prop('checked', false);
-
-        $.fn.yiiListView.update('shop-products', {url: uri});
-
-        currentFilters(uri);
-
-    });
 });

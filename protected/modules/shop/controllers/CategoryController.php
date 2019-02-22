@@ -68,7 +68,6 @@ class CategoryController extends FilterController
     public function beforeAction($action)
     {
 
-
         $this->allowedPageLimit = explode(',', Yii::app()->settings->get('shop', 'per_page'));
 
         if (Yii::app()->request->getPost('min_price') || Yii::app()->request->getPost('max_price')) {
@@ -214,7 +213,7 @@ class CategoryController extends FilterController
         if ($view != 'search') {
             $cs = Yii::app()->clientScript;
             $cs->registerScript('numberformat', "
-        var xhrCurrentFilter;
+        //var xhrCurrentFilter;
         var penny = " . Yii::app()->currency->active->penny . ";
         var separator_thousandth = '" . Yii::app()->currency->active->separator_thousandth . "';
         var separator_hundredth = '" . Yii::app()->currency->active->separator_hundredth . "';
@@ -282,6 +281,7 @@ class CategoryController extends FilterController
                 'number_format.min.js' => false,
                 'pixelion-icons.css' => false,
                 'pixelion-icons.min.css' => false,
+                'filter.js' => false,
             );
             if (isset($_GET['ajax']) && $_GET['ajax'] === 'shop-products') {
                 $this->render('_ajax', array(
@@ -314,6 +314,7 @@ class CategoryController extends FilterController
         if ($request->getQuery('min_price') || $request->getQuery('min_price')) {
             $menuItems['price'] = array(
                 'label' => Yii::t('ShopModule.default', 'FILTER_PRICE_HEADER') . ':',
+                'itemOptions'=>array('id'=>'current-filter-prices')
             );
         }
 
@@ -321,7 +322,7 @@ class CategoryController extends FilterController
         if ($request->getQuery('min_price')) {
             $menuItems['price']['items'][] = array(
                 'label' => Yii::t('ShopModule.default', 'от {minPrice} {c}', array('{minPrice}' => Yii::app()->currency->number_format($this->getCurrentMinPrice()), '{c}' => Yii::app()->currency->active->symbol)),
-                'linkOptions' => array('class' => 'remove'),
+                'linkOptions' => array('class' => 'remove', 'data-price' => 'min_price'),
                 'url' => $request->removeUrlParam('/shop/category/view', 'min_price')
             );
         }
@@ -329,7 +330,7 @@ class CategoryController extends FilterController
         if ($request->getQuery('max_price')) {
             $menuItems['price']['items'][] = array(
                 'label' => Yii::t('ShopModule.default', 'до {maxPrice} {c}', array('{maxPrice}' => Yii::app()->currency->number_format($this->getCurrentMaxPrice()), '{c}' => Yii::app()->currency->active->symbol)),
-                'linkOptions' => array('class' => 'remove'),
+                'linkOptions' => array('class' => 'remove', 'data-price' => 'max_price'),
                 'url' => $request->removeUrlParam('/shop/category/view', 'max_price')
             );
         }

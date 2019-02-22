@@ -118,10 +118,10 @@ class FilterWidget3 extends CWidget
      */
     public function countAttributeProducts($attribute, $option)
     {
-        $sql = 'SELECT MAX(date_update) FROM {{shop_product}} 
-        LEFT JOIN {{shop_product_attribute_eav}} ON {{shop_product_attribute_eav}}.`entity`={{shop_product}}.`id` 
-        LEFT JOIN {{shop_product_category_ref}} ON {{shop_product_category_ref}}.`product`={{shop_product}}.`id` 
-        WHERE {{shop_product_attribute_eav}}.`attribute`="' . $attribute->name . '" AND {{shop_product_attribute_eav}}.`value`="' . $option->id . '" AND  {{shop_product_category_ref}}.`category`="' . $this->model->id . '" AND {{shop_product}}.`switch`="1"';
+        $sql = 'SELECT MAX(date_update) FROM `{{shop_product}}` 
+        LEFT JOIN `{{shop_product_attribute_eav}}` ON `{{shop_product_attribute_eav}}`.`entity`=`{{shop_product}}`.`id` 
+        LEFT JOIN `{{shop_product_category_ref}}` ON `{{shop_product_category_ref}}`.`product`=`{{shop_product}}`.`id` 
+        WHERE `{{shop_product_attribute_eav}}`.`attribute`="' . $attribute->name . '" AND `{{shop_product_attribute_eav}}`.`value`="' . $option->id . '" AND `{{shop_product_category_ref}}`.`category`="' . $this->model->id . '" AND `{{shop_product}}`.`switch`="1"';
         $dependency = new CDbCacheDependency($sql);
 
 
@@ -156,6 +156,7 @@ class FilterWidget3 extends CWidget
 
         $newData = array();
         $newData[$attribute->name][] = $option->id;
+
         return $model->withEavAttributes($newData)->count();
 
     }
@@ -172,9 +173,9 @@ class FilterWidget3 extends CWidget
         $cr->addCondition('t.manufacturer_id IS NOT NULL');
 
 
-        $sql = 'SELECT MAX(date_update) FROM {{shop_product}} 
-        LEFT JOIN {{shop_product_category_ref}} ON {{shop_product_category_ref}}.`product`={{shop_product}}.`id` 
-        WHERE {{shop_product_category_ref}}.`category`="' . $this->model->id . '" AND {{shop_product}}.`switch`="1"';
+        $sql = 'SELECT MAX(date_update) FROM `{{shop_product}}`
+        LEFT JOIN `{{shop_product_category_ref}}` ON `{{shop_product_category_ref}}`.`product`={{shop_product}}.`id` 
+        WHERE `{{shop_product_category_ref}}`.`category`="' . $this->model->id . '" AND `{{shop_product}}`.`switch`="1"';
         $dependency = new CDbCacheDependency($sql);
 
 
@@ -216,9 +217,10 @@ class FilterWidget3 extends CWidget
                 if ($m->manufacturer->switch) {
                     if ($this->countManufacturer) {
                         $model = new ShopProduct(null);
-                        //   $model->cache($this->cache_time, $dependency);
+                        $model->cache($this->cache_time, $dependency);
                         $model->attachBehaviors($model->behaviors());
                         $model->published();
+
                         $model->applyCategories($this->model);
                         //@todo configure for price filter On/Off
                         if ($this->typeFilter == 0) {
@@ -337,7 +339,8 @@ class FilterWidget3 extends CWidget
             if (Yii::app()->request->getParam($filter['queryKey']) && $active) {
                 $mass = array();
                 foreach ($active as $act) {
-                    $mass[] = $act['label'];
+                    if(isset($act['label']))
+                        $mass[] = $act['label'];
                 }
                 if (!in_array($filter['title'], $mass) && !$checked) {
                         $plus = '+';
