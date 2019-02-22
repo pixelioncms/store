@@ -29,7 +29,7 @@ return array(
         'settings' => array('class' => 'app.managers.CManagerSettings'),
         'languageManager' => array('class' => 'app.managers.CManagerLanguage'),
         //'database' => array('class' => 'app.managers.CManagerDatabase'),
-        'db' => require_once(YII_DEBUG ? '_db_dev.php' : '_db.php'),
+        'db' => require_once(YII_DEBUG ? '_db_dev.php' : '_db_dev.php'),
         'curl' => array('class' => 'app.addons.Curl'),
         'zip' => array('class' => 'app.addons.Zip'),
         'cache' => array('class' => 'CFileCache'),

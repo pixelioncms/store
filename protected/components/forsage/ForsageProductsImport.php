@@ -11,7 +11,7 @@ Yii::import('mod.shop.models.ShopManufacturer');
 Yii::import('mod.shop.models.ShopSuppliers');
 Yii::import('mod.shop.components.CAttributes');
 Yii::import('mod.shop.ShopModule');
-
+Yii::import('mod.shop.models.ShopProductPrices');
 
 /**
  * Imports products from XML file
@@ -145,7 +145,7 @@ class ForsageProductsImport extends CComponent
             } else {
                 $suppliers2 = $getSuppliers;
             }
-//print_r($suppliers2);die;
+
             foreach ($suppliers2 as $supplier_id => $supplier) {
                 //ignore suppliers
                 if (!in_array($supplier, $this->disallow_supplier_ids)) {
@@ -153,19 +153,15 @@ class ForsageProductsImport extends CComponent
                     $supplier_products = $this->getSupplierProductIds($supplier_id);
 
                     if ($supplier_products) {
-//18641,15513
-
                         if (count($supplier_products) > 0) {
                             echo count($supplier_products) . $supplier . PHP_EOL;
                             foreach ($supplier_products as $product_key => $product_id) {
+
                                 echo '------- Loading product: ' . $product_id . ' -------' . PHP_EOL;
                                 $product = $this->getProduct($product_id);
                                 $this->insert_update($product);
-                                //echo '------- End loading product: '.$product_id . PHP_EOL;
-                                //  if($product_id == 15513) break;
                             }
                         }
-                        //die;
                     }
                 }
             }
@@ -204,8 +200,11 @@ class ForsageProductsImport extends CComponent
 
     public function insert_update($product, $change = 0)
     {
-        $render = '';
-        $this->logstring = '';
+
+
+$starttime = microtime(true);
+
+        $this->logstring = '------- ';
         $characteristics = array();
         if (isset($product->characteristics)) {
 
@@ -221,7 +220,7 @@ class ForsageProductsImport extends CComponent
         }
 
         $hasAdd = true;
-        if(!$change && isset($product->quantity) && !$product->quantity){
+        if (!$change && isset($product->quantity) && !$product->quantity) {
             $hasAdd = false;
         }
 
@@ -248,7 +247,7 @@ class ForsageProductsImport extends CComponent
                     }
 
                     $model->switch = ($product->quantity) ? 1 : 0;
-
+                    $model->label = NULL;
                     $this->logstring .= "Visible: {$model->switch} ";
 
                     if ($product->quantity) {
@@ -298,9 +297,9 @@ class ForsageProductsImport extends CComponent
                             if (!$supplierModal) {
                                 $supplierModal = new ShopSuppliers;
                                 $supplierModal->name = $supplier->name;
-                                if(isset($supplier->address))
+                                if (isset($supplier->address))
                                     $supplierModal->address = $supplier->address;
-                                $supplierModal->save(false,false,false);
+                                $supplierModal->save(false, false, false);
                                 $this->createExternalId(ForsageExternalFinder::OBJECT_TYPE_SUPPLIER, $supplierModal->id, $supplierModal->name);
                             }
                             $model->supplier_id = $supplierModal->id;
@@ -335,14 +334,16 @@ class ForsageProductsImport extends CComponent
                     //    $model->main_category_id = $categoryId;
                     //}
 
-                    $model->label = NULL;
-                    if (!$model->validate()) {
-                        //print_r($model->getErrors());
-                       // die('no save');
-                    }
+
 
                     $model->save(false, false, false);
 
+                    if ($model->price_purchase && $model->price && !$model->currency_id) {
+                        self::log('ADD ADDON PRICE BY '.$model->id);
+                        $model->processPrices(array(
+                            array('order_from' => 5, 'value' => $model->price - ($model->price % $model->price_purchase / 2))
+                        ));
+                    }
 
                     // Create product external id
                     if ($createExId === true)
@@ -401,7 +402,9 @@ class ForsageProductsImport extends CComponent
                 }
             }
         }
-        echo $this->logstring . PHP_EOL;
+
+
+        echo $this->logstring .sprintf("[Time: %f sec]", microtime(true) - $starttime ). PHP_EOL;
         self::log($this->logstring);
     }
 
@@ -419,6 +422,7 @@ class ForsageProductsImport extends CComponent
         // $result['image'] = false;
         $result['ignoreFlag'] = true;
         $result['errors'] = array();
+        $result['images'] = array();
         $sex = false;
         $type = false;
 
@@ -428,6 +432,12 @@ class ForsageProductsImport extends CComponent
             if ($characteristic->name == 'Фото 1') {
                 $result['ignoreFlag'] = false;
                 $result['image'] = $characteristic->value;
+                $result['images'][] = $characteristic->value;
+            }
+            if ($characteristic->name == 'Фото 2') {
+                $result['ignoreFlag'] = false;
+                $result['image'] = $characteristic->value;
+                $result['images'][] = $characteristic->value;
             }
             if ($characteristic->name == 'Пар в ящике') {
                 $result['in_box'] = $characteristic->value;

@@ -570,9 +570,8 @@ class CMS
     }
 
     /**
-     *
      * @param int $size
-     * @return type
+     * @return string
      */
     public static function files_size($size)
     {

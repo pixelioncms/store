@@ -27,7 +27,7 @@ return array(
         'mod.cart.models.*',
         'mod.pages.models.*',
         'mod.compare.components.CompareProducts',
-        'mod.wishlist.components.WishListComponent',
+        //'mod.wishlist.components.WishListComponent',
         'mod.admin.models.NotificationModel',
     ),
     'aliases' => array(
@@ -50,6 +50,9 @@ return array(
             'class' => 'ext.recaptcha.ReCaptcha',
             'key' => '6LeiV24UAAAAANsxGR9ocCgk4Bv-FMBwlF1ycJu4',
             'secret' => '6LeiV24UAAAAAE92qFgDJZ6hxJak5aut1npbQhfH',
+        ),
+        'wishlist'=>array(
+          'class'=>'mod.wishlist.components.WishListComponent'
         ),
         'clientScript' => array(
             'class' => 'app.ClientScript',

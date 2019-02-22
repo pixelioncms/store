@@ -82,8 +82,8 @@ class Controller extends RController
     {
         $sql_stats = Yii::app()->db->getStats();
         return Yii::t('default', 'PAGE_GEN', array(
-            '{time}' => sprintf("%0.2f", Yii::getLogger()->getExecutionTime()),
-            '{memory}' => round(memory_get_peak_usage() / (1024 * 1024), 2),
+            '{time}' => sprintf("%1f", Yii::getLogger()->getExecutionTime()),
+            '{memory}' => CMS::files_size(memory_get_peak_usage()),
             '{db_query}' => $sql_stats[0],
             '{db_time}' => sprintf("%0.2f", $sql_stats[1]),
         ));
@@ -96,175 +96,6 @@ class Controller extends RController
     public function behaviors()
     {
         return array_merge(parent::behaviors(), array('LayoutBehavior' => array('class' => 'app.behaviors.LayoutBehavior')));
-    }
-
-    private function recordSession($sessionTime = 900)
-    {
-        if (true) {
-            $db = Yii::app()->db;
-            $ip = Yii::app()->request->userHostAddress;
-            $user_agent = Yii::app()->request->userAgent;
-            $url = htmlspecialchars(getenv("REQUEST_URI"));
-
-            if (Yii::app()->user->isSuperuser) {
-                $uname = Yii::app()->user->login;
-                $user_type = 3;
-            } elseif (!Yii::app()->user->isGuest) {
-                $uname = Yii::app()->user->login;
-                $user_type = 2;
-            } elseif (Yii::app()->user->isGuest) {
-                $checkBot = CMS::isBot();
-                if ($checkBot['success']) {
-                    $uname = substr($checkBot['name'], 0, 25);
-                    $user_type = 1;
-                } else {
-                    $uname = $ip;
-                    $user_type = 0;
-                }
-            }
-            $sessionFile = Yii::getPathOfAlias('webroot.protected.runtime') . DS . 'session.txt';
-            $sessTime = (file_exists($sessionFile) && filesize($sessionFile) != 0) ? file_get_contents($sessionFile) : 0;
-            $past = CMS::time() - $sessionTime;
-            if ($sessTime < $past) {
-                $db->createCommand()->delete("{{session}}", 'expire < :exp', array(':exp' => $past));
-                if (!Yii::app()->user->isGuest) {
-                    $db->createCommand()->update("{{user}}", array(
-                        'login_ip' => $ip,
-                        'last_login' => date('Y-m-d H:i:s'),
-                        'user_agent' => Yii::app()->request->userAgent,
-                    ), 'id=:id', array(':id' => Yii::app()->user->id));
-                }
-                if (file_exists($sessionFile)) {
-                    unlink($sessionFile);
-                }
-                $fp = fopen($sessionFile, "wb");
-                fwrite($fp, CMS::time());
-                fclose($fp);
-            }
-            $expire = CMS::time();
-            if ($uname) {
-                $num = $db->createCommand(array(
-                    'select' => array('uname'),
-                    'from' => "{{session}}",
-                    'where' => 'uname=:uname',
-                    'params' => array(':uname' => $uname),
-                ))->queryAll();
-
-                if (count($num) >= 1) {
-                    $db->createCommand()->update("{{session}}", array(
-                        'uname' => $uname,
-                        'user_login' => (!Yii::app()->user->isGuest) ? Yii::app()->user->login : NULL,
-                        'expire' => $expire,
-                        'ip_address' => $ip,
-                        'user_agent' => $user_agent,
-                        'user_type' => $user_type,
-                        'user_avatar' => Yii::app()->user->getAvatarUrl('100x100', Yii::app()->user->isGuest),
-                        'module' => (Yii::app()->controller->module) ? Yii::app()->controller->module->id : 'unknown',
-                        'current_url' => $url
-                    ), 'uname=:uname', array(':uname' => $uname));
-                } else {
-                    $db->createCommand()->insert("{{session}}", array(
-                        'uname' => $uname,
-                        'user_login' => (!Yii::app()->user->isGuest) ? Yii::app()->user->login : NULL,
-                        'start_expire' => CMS::time(),
-                        'expire' => $expire,
-                        'ip_address' => $ip,
-                        'user_agent' => $user_agent,
-                        'user_type' => $user_type,
-                        'user_avatar' => Yii::app()->user->getAvatarUrl('100x100', Yii::app()->user->isGuest),
-                        'module' => (Yii::app()->controller->module) ? Yii::app()->controller->module->id : 'unknoew',
-                        'current_url' => $url
-                    ));
-                }
-            }
-        }
-    }
-
-    /**
-     * Запись сессий
-     *
-     * @param int $sessionTime
-     */
-    private function recordSession_OLD($sessionTime = 900)
-    {
-        if (true) {
-            $db = Yii::app()->db;
-            $ip = Yii::app()->request->userHostAddress;
-            $user_agent = Yii::app()->request->userAgent;
-            $url = htmlspecialchars(getenv("REQUEST_URI"));
-
-            if (Yii::app()->user->isSuperuser) {
-                $uname = Yii::app()->user->login;
-                $user_type = 3;
-            } elseif (!Yii::app()->user->isGuest) {
-                $uname = Yii::app()->user->login;
-                $user_type = 2;
-            } elseif (Yii::app()->user->isGuest) {
-                $checkBot = CMS::isBot();
-                if ($checkBot['success']) {
-                    $uname = substr($checkBot['name'], 0, 25);
-                    $user_type = 1;
-                } else {
-                    $uname = $ip;
-                    $user_type = 0;
-                }
-            }
-            $sessionFile = Yii::getPathOfAlias('webroot.protected.runtime') . DS . 'session.txt';
-            $sessTime = (file_exists($sessionFile) && filesize($sessionFile) != 0) ? file_get_contents($sessionFile) : 0;
-            $past = CMS::time() - $sessionTime;
-            if ($sessTime < $past) {
-                $db->createCommand()->delete("{{session}}", 'expire < :exp', array(':exp' => $past));
-                if (!Yii::app()->user->isGuest) {
-                    $db->createCommand()->update("{{user}}", array(
-                        'login_ip' => $ip,
-                        'last_login' => date('Y-m-d H:i:s'),
-                        'user_agent' => Yii::app()->request->userAgent,
-                    ), 'id=:id', array(':id' => Yii::app()->user->id));
-                }
-                if (file_exists($sessionFile)) {
-                    unlink($sessionFile);
-                }
-                $fp = fopen($sessionFile, "wb");
-                fwrite($fp, CMS::time());
-                fclose($fp);
-            }
-            $expire = CMS::time();
-            if ($uname) {
-                $num = $db->createCommand(array(
-                    'select' => array('uname'),
-                    'from' => "{{session}}",
-                    'where' => 'uname=:uname',
-                    'params' => array(':uname' => $uname),
-                ))->queryAll();
-
-                if (count($num) >= 1) {
-                    $db->createCommand()->update("{{session}}", array(
-                        'uname' => $uname,
-                        'user_login' => (!Yii::app()->user->isGuest) ? Yii::app()->user->login : NULL,
-                        'expire' => $expire,
-                        'ip_address' => $ip,
-                        'user_agent' => $user_agent,
-                        'user_type' => $user_type,
-                        'user_avatar' => Yii::app()->user->getAvatarUrl('100x100', Yii::app()->user->isGuest),
-                        'module' => (Yii::app()->controller->module) ? Yii::app()->controller->module->id : 'unknown',
-                        'current_url' => $url
-                    ), 'uname=:uname', array(':uname' => $uname));
-                } else {
-                    $db->createCommand()->insert("{{session}}", array(
-                        'uname' => $uname,
-                        'user_login' => (!Yii::app()->user->isGuest) ? Yii::app()->user->login : NULL,
-                        'start_expire' => CMS::time(),
-                        'expire' => $expire,
-                        'ip_address' => $ip,
-                        'user_agent' => $user_agent,
-                        'user_type' => $user_type,
-                        'user_avatar' => Yii::app()->user->getAvatarUrl('100x100', Yii::app()->user->isGuest),
-                        'module' => (Yii::app()->controller->module) ? Yii::app()->controller->module->id : 'unknoew',
-                        'current_url' => $url
-                    ));
-                }
-            }
-        }
     }
 
     protected function beforeRender($view)
@@ -280,9 +111,6 @@ class Controller extends RController
                 }
             }
         }
-
-
-        //$this->recordSession();
         $this->initLayout();
 
         return parent::beforeRender($view);
@@ -336,14 +164,8 @@ class Controller extends RController
         common.message = " . CJavaScript::encode($this->commonJsMessages) . ";
         ", CClientScript::POS_HEAD);
             $cs->registerCssFile($this->baseAssetsUrl . "/css/pixelion-icons.css");
-        }
-        //manifest.json
 
 
-        $cs->registerScriptFile($this->baseAssetsUrl . "/js/common.js", CClientScript::POS_END);
-
-
-        if (!Yii::app()->request->isAjaxRequest) {
             if (file_exists(Yii::getPathOfAlias("current_theme.assets") . DS . "manifest.json")) {
                 $cs->registerLinkTag('manifest', NULL, $this->assetsUrl . "/manifest.json");
             } else {
@@ -358,6 +180,11 @@ class Controller extends RController
                 $cs->registerMetaTag(Yii::app()->themeManager->get('google_theme_color'), 'theme-color');
             }
         }
+        //manifest.json
+
+
+        $cs->registerScriptFile($this->baseAssetsUrl . "/js/common.js", CClientScript::POS_END);
+
 
         return parent::beforeAction($action);
 

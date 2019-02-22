@@ -24,7 +24,7 @@ return array(
         array(
             'class'=>'CProfileLogRoute',
             'report'=>'summary',
-            'enabled' => false
+            'enabled' => !YII_DEBUG
             // Показывает время выполнения каждого отмеченного блока кода.
             // Значение "report" также можно указать как "callstack".
         ),
@@ -42,6 +42,7 @@ return array(
             'class' => 'CFileLogRoute',
             'logFile' => 'log.log',
             'levels' => 'info',
+            'categories'=>array('application','console'),
         ),
         array(
             'class' => 'CFileLogRoute',
