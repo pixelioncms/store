@@ -32,10 +32,10 @@ $this->widget('ext.fancybox.Fancybox', array(
                 'htmlOptions' => array('multiple' => $multiple, 'maxlenght' => $max),
                 'accept' => implode('|', $uploaded->extension),
                 //'remove'=>'<i class="icon-delete"></i>',
-                'remove'=>'<i class="icon-delete"></i> '.Yii::t('app','DELETE'),
+                'remove' => '<i class="icon-delete"></i> ' . Yii::t('app', 'DELETE'),
                 'options' => array(
-                    'preview'=>true
-                 )
+                    'preview' => true
+                )
             ));
             echo Html::error($this->model, 'attachments_files');
             ?>
@@ -101,7 +101,7 @@ foreach ($this->model->attachments as $image) {
             common.addLoader();
         }'
     ), array(
-        'id' => 'attachments-delete-' . $image->id,
+        'id' => 'attachments_delete_' . $image->id,
         'class' => 'btn btn-danger',
         'title' => Yii::t('app', 'DELETE'),
         'confirm' => Yii::t('AttachmentWidget.default', 'CONFIRM'),

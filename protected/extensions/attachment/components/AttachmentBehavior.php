@@ -169,6 +169,7 @@ class AttachmentBehavior extends CActiveRecordBehavior
         $imageModel->is_main = ($is_main == 0) ? true : false;
         $imageModel->save(false, false);
 
+        return $imageModel;
 $condigApp = Yii::app()->settings->get('app');
         //if (isset($this->attachmentAttributes['resize']) ? $this->attachmentAttributes['resize'] : true) {
         //    $this->resize($fullPath);

@@ -9,7 +9,6 @@
  * @subpackage commerce.wishlist.widgets
  * @uses Widget
  */
-Yii::import('mod.wishlist.components.WishListComponent');
 
 class WishlistWidget extends Widget {
 
@@ -31,8 +30,7 @@ class WishlistWidget extends Widget {
 
     public function run() {
 
-        $wishListComponent = new WishListComponent();
-        $this->isAdded = (in_array($this->pk, $wishListComponent->getIds())) ? true : false;
+        $this->isAdded = (in_array($this->pk, YIi::app()->wishlist->getIds())) ? true : false;
         $linkOptions = array();
 
         $class = ($this->isAdded) ? 'added' : '';

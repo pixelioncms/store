@@ -258,13 +258,14 @@ class CategoryController extends FilterController
                                 $attributesNames[$filterKey][] = $mItems['label'];
                             }
                             if (isset($filterData['manufacturer'])) {
-                                $s = '; ';
+                                $prefix = '; ';
                             } else {
-                                $s = ' ';
+                                $prefix = ' ';
                             }
+
                             $sep = (count($attributesNames[$filterKey]) > 2) ? ', ' : ' и ';
-                            $name .= $s . $filterItems['label'] . ' ' . implode($sep, $attributesNames[$filterKey]);
-                            $this->pageName .= $s . $filterItems['label'] . ' ' . implode($sep, $attributesNames[$filterKey]);
+                            $name .= $prefix . $filterItems['label'] . ' ' . implode($sep, $attributesNames[$filterKey]);
+                            $this->pageName .= $prefix . $filterItems['label'] . ' ' . implode($sep, $attributesNames[$filterKey]);
                         }
                     }
                     $this->breadcrumbs[$this->dataModel->name] = $this->dataModel->getUrl();
@@ -282,6 +283,7 @@ class CategoryController extends FilterController
                 'pixelion-icons.css' => false,
                 'pixelion-icons.min.css' => false,
                 'filter.js' => false,
+                'filter.min.js' => false,
             );
             if (isset($_GET['ajax']) && $_GET['ajax'] === 'shop-products') {
                 $this->render('_ajax', array(
@@ -367,7 +369,7 @@ class CategoryController extends FilterController
                     foreach ($attribute->options as $option) {
                         if (isset($activeAttributes[$attribute->name]) && in_array($option->id, $activeAttributes[$attribute->name])) {
                             $menuItems[$attributeName]['items'][] = array(
-                                'label' => $option->value . ' ' . $attribute->abbreviation,
+                                'label' => $option->value . (($attribute->abbreviation) ? ' ' . $attribute->abbreviation : ''),
                                 'linkOptions' => array(
                                     'class' => 'remove',
                                     'data-name' => $attribute->name,

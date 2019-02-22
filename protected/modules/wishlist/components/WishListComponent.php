@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Handle user wish list
+ * Class WishListComponent
  *
  * @author PIXELION CMS development team <info@pixelion.com.ua>
  * @link http://pixelion.com.ua PIXELION CMS
  * @package module
  * @subpackage commerce.wishlist.components
- * @uses WebModule
+ * @uses CApplicationComponent
  */
 Yii::import('mod.shop.models.ShopProduct');
 Yii::import('mod.wishlist.models.Wishlist');
 
-class WishListComponent extends CComponent {
+
+class WishListComponent extends CApplicationComponent {
 
     /**
      * Максимальное количество товаров могут быть добавлены к списку желаний
