@@ -210,7 +210,6 @@ class ShopCurrency extends ActiveRecord
         $criteria->compare('t.iso', $this->iso, true);
         $criteria->compare('t.symbol', $this->symbol, true);
         $criteria->compare('t.rate', $this->rate);
-        $criteria->compare('t.is_default', $this->is_default);
 
         return new ActiveDataProvider($this, array('criteria' => $criteria));
     }

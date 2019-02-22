@@ -127,9 +127,10 @@ class FilterWidget3 extends CWidget
 
         $model = new ShopProduct(null);
         $model->attachBehaviors($model->behaviors());
-        $model->cache($this->cache_time, $dependency);
+        //$model->cache($this->cache_time, $dependency);
         $model->published();
         $model->applyCategories($this->model);
+
 
         if ($this->typeFilter == 0) {
             $model->applyMinPrice($this->convertCurrency(Yii::app()->request->getQuery('min_price')));

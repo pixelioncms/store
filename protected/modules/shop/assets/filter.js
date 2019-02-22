@@ -16,7 +16,7 @@
     };
 }(jQuery));
 
-$(document).ready(function () {
+$(function () {
     var selector = $('.card .card-collapse');
     selector.collapse({
         toggle: false

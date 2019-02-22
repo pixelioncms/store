@@ -37,7 +37,6 @@ class FilterController extends Controller
     /**
      * @var string
      */
-    //private $_minPrice, $_maxPrice;
     public $_maxPrice;
     public $_minPrice;
 
@@ -64,13 +63,27 @@ class FilterController extends Controller
     public function aggregatePrice($function = 'MIN')
     {
         $query = clone $this->currentQuery;
-        $query->select = $function . '(`t`.`price`) as aggregation_price';
+
+
+        $query->select = array(
+            ''.$function.'((CASE WHEN (`t`.`currency_id`)
+                    THEN
+                        `t`.`price` * (SELECT rate FROM `cms_shop_currency` `currency` WHERE `currency`.`id`=`t`.`currency_id`)
+                    ELSE
+                        `t`.`price`
+                END)) AS aggregation_price',
+        );
+        //$query->select = $function . '(`t`.`price`) as aggregation_price';
+
+
         $query->limit = 1;
-        $query->order = ($function === 'MIN') ? '`t`.`price`' : '`t`.`price` DESC';
+        //$query->order = ($function === 'MIN') ? '`t`.`price`' : '`t`.`price` DESC';
+        $query->order = ($function === 'MIN') ? 'aggregation_price' : 'aggregation_price DESC';
+
         $result = ShopProduct::model();
         $result->getDbCriteria()->mergeWith($query);
-        $r = $result->find();
 
+        $r = $result->find();
         if ($r) {
             return $r->aggregation_price;
         }

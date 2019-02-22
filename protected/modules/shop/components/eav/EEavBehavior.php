@@ -589,35 +589,33 @@ class EEavBehavior extends CActiveRecordBehavior
                 if (!is_array($values)) {
                     $values = array($values);
                 }
-                $values=array_unique($values);
+                $values = array_unique($values);
                 sort($values);
 
 
-                $cache = Yii::app()->cache->get("attribute_".$attribute);
-               // print_r($cache[$attribute]);
-               // echo "<br>";
+                $cache = Yii::app()->cache->get("attribute_" . $attribute);
+                // print_r($cache[$attribute]);
+                // echo "<br>";
                 //print_r($values);
 
                 //anti d-dos убирает лишние значение с запроса.
-if($cache){
-                $values = array_intersect($cache[$attribute], $values);
-}
+                if ($cache) {
+                    $values = array_intersect($cache[$attribute], $values);
+                }
 
 
+                // foreach ($values as $value) {
+                // $value = $conn->quoteValue($value);
+                $criteria->join .= "\nJOIN {$this->tableName} eavb$i"
+                    . "\nON t.{$pk} = eavb$i.{$this->entityField}";
+                //  . "\nAND eavb$i.{$this->attributeField} = $attribute"
+                //  . "\nAND eavb$i.{$this->valueField} = $value";
 
+                //$criteria->addCondition("eavb$i.{$this->attributeField}=$attribute");
 
-               // foreach ($values as $value) {
-                    // $value = $conn->quoteValue($value);
-                    $criteria->join .= "\nJOIN {$this->tableName} eavb$i"
-                        . "\nON t.{$pk} = eavb$i.{$this->entityField}";
-                    //  . "\nAND eavb$i.{$this->attributeField} = $attribute"
-                    //  . "\nAND eavb$i.{$this->valueField} = $value";
-
-                    //$criteria->addCondition("eavb$i.{$this->attributeField}=$attribute");
-
-                    $criteria->addInCondition("eavb$i.{$this->valueField}", $values);
-                    //$criteria->condition =" eavb$i.{$this->valueField}".' IN ('.implode(', ',$values).') ';
-                    $i++;
+                $criteria->addInCondition("eavb$i.{$this->valueField}", $values);
+                //$criteria->condition =" eavb$i.{$this->valueField}".' IN ('.implode(', ',$values).') ';
+                $i++;
                 //}
 
             } // If search models with attribute name with anything values.
@@ -630,6 +628,8 @@ if($cache){
                 $i++;
             }
         }
+
+
         $criteria->distinct = true;
         //$criteria->order = '`t`.`ordern` DESC';
         $criteria->group .= "t.{$pk}";

@@ -176,7 +176,13 @@ class ProductsController extends AdminController
         Yii::setPathOfAlias('update_tabs', Yii::getPathOfAlias('mod.shop.views.admin.products.update_tabs'));
 
         $form = new TabForm($model->getForm(), $model);
-
+        $form->additionalTabs['Изображение'] = array(
+            'id'=>'image',
+            'content' => Yii::app()->controller->widget('ext.attachment.AttachmentWidget', array(
+                'model' => $model,
+                'skin'=>'default_fullwidth'
+            ), true),
+        );
         $form->additionalTabs[Yii::t('app', 'TAB_META')] = array(
             'content' => $this->renderPartial('mod.seo.views.admin.default._module_seo', array('model' => $model, 'form' => $form), true)
         );

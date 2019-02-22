@@ -28,11 +28,28 @@ Yii::app()->clientScript->registerScript('current-filter', "
         e.preventDefault();
         var url = $(this).attr('href');
         var target = $(this).data('target');
+        var name = $(this).data('name');
 
+
+
+
+        /*var listCount = $('#current-filter-'+name+' ul li').length;
+        if(listCount == 0){
+            $('#current-filter-'+name).remove();
+        }
+        if($('ul.current-filter-list li').length == 0){
+            $('#ajax_filter_current').html('');
+        }
         if (target === undefined) {
-            //if($(this).parent().parent().find('li').length === 1){
-            //    $(this).parent().parent().parent().remove();
-            //}
+            $(this).parent().remove();
+            $.fn.yiiListView.update('shop-products', {url: url});
+            history.pushState(null, $('title').text(), url);
+        }else{
+            $(target).click();
+        }
+        $(this).parent().remove();
+        */
+        if (target === undefined) {
             $(this).parent().remove();
             $.fn.yiiListView.update('shop-products', {url: url});
             currentFilters(url);
@@ -68,8 +85,8 @@ Yii::app()->clientScript->registerScript('current-filter', "
 
 
         $.fn.yiiListView.update('shop-products', {url: uri});
-
-        currentFilters(uri);
+        $('#ajax_filter_current').html('');
+        //currentFilters(uri);
         history.pushState(null, $('title').text(), uri);
     });
 ", CClientScript::POS_END);

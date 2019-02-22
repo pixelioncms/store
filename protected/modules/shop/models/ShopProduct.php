@@ -811,10 +811,10 @@ class ShopProduct extends ActiveRecord
 
         if ($select)
             $criteria->select = $select;
+
         $criteria->join = 'LEFT JOIN `{{shop_product_category_ref}}` `categorization` ON (`categorization`.`product`=`t`.`id`)';
         $criteria->addInCondition('categorization.category', $categories);
         $this->getDbCriteria()->mergeWith($criteria);
-
         return $this;
     }
 
@@ -849,7 +849,6 @@ class ShopProduct extends ActiveRecord
         sort($manufacturers);
         $criteria = new CDbCriteria;
         $criteria->addInCondition('manufacturer_id', $manufacturers);
-        // $criteria->addCondition('`t`.`manufacturer_id`=' . $manufacturers);
         $this->getDbCriteria()->mergeWith($criteria);
         return $this;
     }
@@ -863,11 +862,20 @@ class ShopProduct extends ActiveRecord
     {
         if ($value) {
             $criteria = new CDbCriteria;
-            $criteria->addCondition('t.price >= ' . (int)$value);
+            //$criteria->addCondition('t.price >= ' . (int)$value);
+
+            $criteria->addCondition('CASE WHEN (`t`.`currency_id`) THEN
+            (`t`.`price` * (SELECT rate FROM `cms_shop_currency` `currency` WHERE `currency`.`id`=`t`.`currency_id`)) >= '.(int)$value.'
+        ELSE
+        	t.price >= '.(int)$value.'
+        END');
+
             $this->getDbCriteria()->mergeWith($criteria);
         }
+
         return $this;
     }
+
 
     /**
      * Filter products by max_price
@@ -878,7 +886,15 @@ class ShopProduct extends ActiveRecord
     {
         if ($value) {
             $criteria = new CDbCriteria;
-            $criteria->addCondition('t.price <= ' . (int)$value);
+            //$criteria->addCondition('t.price <= ' . (int)$value);
+
+            $criteria->addCondition('CASE WHEN (`t`.`currency_id`) THEN
+            (`t`.`price` * (SELECT rate FROM `cms_shop_currency` `currency` WHERE `currency`.`id`=`t`.`currency_id`)) <= '.(int)$value.'
+        ELSE
+        	t.price <= '.(int)$value.'
+        END');
+
+
             $this->getDbCriteria()->mergeWith($criteria);
         }
         return $this;

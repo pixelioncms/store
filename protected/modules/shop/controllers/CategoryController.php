@@ -10,20 +10,6 @@
 class CategoryController extends FilterController
 {
 
-    public function actionAjaxFilter()
-    {
-        /*echo $this->widget('mod.shop.widgets.filter.FilterWidget', array(
-            'model' => $this->model,
-            'attributes' => $this->eavAttributes,
-            'countAttr' => true,
-            'countManufacturer' => true,
-        ), true);*/
-
-
-        echo 's';
-        Yii::app()->end();
-    }
-
     public function actions()
     {
         return array(
@@ -193,21 +179,35 @@ class CategoryController extends FilterController
         $this->applyPricesFilter();
 
 
-        //        $this->maxprice = $this->getMaxPrice();
+        //$this->maxprice = $this->getMaxPrice();
         //$this->minprice = $this->getMinPrice();
+
+        $providerConfig = array();
+        $providerConfig['id'] = false;
+
+        if (Yii::app()->request->getParam('sort') == 'price' || Yii::app()->request->getParam('sort') == 'price.desc') {
+            $providerConfig['sort'] = false;
+            $providerConfig['criteria']['select'] = array(
+                '(CASE WHEN (`t`.`currency_id`)
+                        THEN
+                            `t`.`price` * (SELECT rate FROM `cms_shop_currency` `currency` WHERE `currency`.`id`=`t`.`currency_id`)
+                        ELSE
+                            `t`.`price`
+                    END) AS aggregation_price',
+            );
+            $providerConfig['criteria']['order'] = (Yii::app()->request->getParam('sort') == 'price') ? 'aggregation_price' : 'aggregation_price DESC';
+        }
 
         $per_page = $this->allowedPageLimit[0];
         if (isset($_GET['per_page']) && in_array((int)$_GET['per_page'], $this->allowedPageLimit))
             $per_page = (int)$_GET['per_page'];
 
-        $this->provider = new ActiveDataProvider($this->query, array(
-            // Set id to false to not display model name in
-            // sort and page params
-            'id' => false,
-            'pagination' => array(
-                'pageSize' => $per_page,
-            )
-        ));
+
+        $providerConfig['pagination'] = array(
+            'pageSize' => $per_page,
+        );
+
+        $this->provider = new ActiveDataProvider($this->query, $providerConfig);
 
         $this->provider->sort = ShopProduct::getCSort();
         if ($view != 'search') {
@@ -259,7 +259,7 @@ class CategoryController extends FilterController
                             }
                             if (isset($filterData['manufacturer'])) {
                                 $s = '; ';
-                            }else{
+                            } else {
                                 $s = ' ';
                             }
                             $sep = (count($attributesNames[$filterKey]) > 2) ? ', ' : ' и ';
@@ -314,7 +314,7 @@ class CategoryController extends FilterController
         if ($request->getQuery('min_price') || $request->getQuery('min_price')) {
             $menuItems['price'] = array(
                 'label' => Yii::t('ShopModule.default', 'FILTER_PRICE_HEADER') . ':',
-                'itemOptions'=>array('id'=>'current-filter-prices')
+                'itemOptions' => array('id' => 'current-filter-prices')
             );
         }
 
@@ -338,12 +338,17 @@ class CategoryController extends FilterController
             if (!empty($manufacturers)) {
                 $menuItems['manufacturer'] = array(
                     'label' => Yii::t('ShopModule.default', 'FILTER_MANUFACTURER') . ':',
+                    'itemOptions' => array('id' => 'current-filter-manufacturer')
                 );
 
                 foreach ($manufacturers as $manufacturer) {
                     $menuItems['manufacturer']['items'][] = array(
                         'label' => $manufacturer->name,
-                        'linkOptions' => array('class' => 'remove', 'data-target' => '#filter_manufacturer_' . $manufacturer->id),
+                        'linkOptions' => array(
+                            'class' => 'remove',
+                            'data-name' => 'manufacturer',
+                            'data-target' => '#filter_manufacturer_' . $manufacturer->id
+                        ),
                         'url' => $request->removeUrlParam('/shop/category/view', 'manufacturer', $manufacturer->id)
                     );
                 }
@@ -357,12 +362,17 @@ class CategoryController extends FilterController
                     $attribute = $this->eavAttributes[$attributeName];
                     $menuItems[$attributeName] = array(
                         'label' => $attribute->title . ':',
+                        'itemOptions' => array('id' => 'current-filter-' . $attribute->name)
                     );
                     foreach ($attribute->options as $option) {
                         if (isset($activeAttributes[$attribute->name]) && in_array($option->id, $activeAttributes[$attribute->name])) {
                             $menuItems[$attributeName]['items'][] = array(
                                 'label' => $option->value . ' ' . $attribute->abbreviation,
-                                'linkOptions' => array('class' => 'remove', 'data-target' => "#filter_{$attribute->name}_{$option->id}"),
+                                'linkOptions' => array(
+                                    'class' => 'remove',
+                                    'data-name' => $attribute->name,
+                                    'data-target' => "#filter_{$attribute->name}_{$option->id}"
+                                ),
                                 'url' => $request->removeUrlParam('/shop/category/view', $attribute->name, $option->id)
                             );
                             sort($menuItems[$attributeName]['items']);
