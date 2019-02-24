@@ -80,6 +80,7 @@ class ProductTypeController extends AdminController
             if ($model->validate()) {
                 $model->save();
                 // Set type attributes
+
                 $model->useAttributes(Yii::app()->request->getPost('attributes', array()));
                 $this->redirect('index');
             }

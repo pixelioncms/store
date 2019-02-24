@@ -18,7 +18,7 @@
         }
 
         ?>
-        <?= Html::dropDownList('attributes2[]', $active, Html::listData($attributes, 'id', 'title', function (ShopAttribute $attribute) {
+        <?= Html::dropDownList('attributes[]', $active, Html::listData($attributes, 'id', 'title', function (ShopAttribute $attribute) {
             return ($attribute->group) ? $attribute->group->name : Yii::t('ShopModule.admin','NO_GROUP');
         }), array(
             'id'=>'att',
