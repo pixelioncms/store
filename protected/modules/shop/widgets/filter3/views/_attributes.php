@@ -54,7 +54,7 @@ if ($config->filter_enable_attr) {
 
                                     $queryData = explode(',', Yii::app()->request->getQuery($filter['queryKey']));
 
-                                    echo Html::openTag('li');
+                                    echo Html::openTag('li',array('class'=>(!empty($filter['spec']))?'color':'','style'=>$filter['spec']));
                                     // Filter link was selected.
                                     if (in_array($filter['queryParam'], $queryData)) {
                                         // Create link to clear current filter
@@ -69,9 +69,9 @@ if ($config->filter_enable_attr) {
                                     echo Html::label($filter['title'],'filter_'.$filter['queryKey'].'_'.$filter['queryParam']);
 
 
-
+if(empty($filter['spec'])){
                                     echo $this->getCount($filter,$checked);
-
+}
                                     echo Html::closeTag('li');
                                 } ?>
                             </ul>

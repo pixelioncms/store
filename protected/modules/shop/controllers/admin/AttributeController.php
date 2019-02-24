@@ -1,10 +1,12 @@
 <?php
 
-class AttributeController extends AdminController {
+class AttributeController extends AdminController
+{
 
     public $icon = 'icon-filter';
 
-    public function actions() {
+    public function actions()
+    {
         return array(
             'order' => array(
                 'class' => 'ext.adminList.actions.SortingAction',
@@ -16,7 +18,8 @@ class AttributeController extends AdminController {
         );
     }
 
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $model = new ShopAttribute('search');
 
         if (!empty($_GET['ShopAttribute']))
@@ -41,18 +44,18 @@ class AttributeController extends AdminController {
      * @param bool $new
      * @throws CHttpException
      */
-    public function actionUpdate($new = false) {
+    public function actionUpdate($new = false)
+    {
         $this->topButtons = false;
         if ($new === true)
             $model = new ShopAttribute;
         else {
             $model = ShopAttribute::model()
-                    ->findByPk($_GET['id']);
+                ->findByPk($_GET['id']);
         }
 
         if (!$model)
             throw new CHttpException(404, Yii::t('ShopModule.admin', 'NO_FOUND_ATTR'));
-
 
 
         $this->pageName = ($model->isNewRecord) ? $model::t('ISNEW', 0) : $model::t('ISNEW', 1);
@@ -67,7 +70,7 @@ class AttributeController extends AdminController {
         $form->additionalTabs = array(
             Yii::t('app', 'OPTIONS') => $this->renderPartial('_options', array(
                 'model' => $model,
-                    ), true),
+            ), true),
         );
         if (Yii::app()->request->isPostRequest) {
             $model->attributes = $_POST['ShopAttribute'];
@@ -89,7 +92,8 @@ class AttributeController extends AdminController {
      * Save attribute options
      * @param ShopAttribute $model
      */
-    protected function saveOptions($model) {
+    protected function saveOptions($model)
+    {
         //  print_r(Yii::app()->languageManager->languages);
         //    die;
         $dontDelete = array();
@@ -99,22 +103,27 @@ class AttributeController extends AdminController {
                     $index = 0;
 
                     $attributeOption = ShopAttributeOption::model()
-                            ->findByAttributes(array(
-                        'id' => $key,
-                        'attribute_id' => $model->id));
+                        ->findByAttributes(array(
+                            'id' => $key,
+                            'attribute_id' => $model->id,
+                        ));
+
 
                     if (!$attributeOption) {
                         $attributeOption = new ShopAttributeOption;
+
                         $attributeOption->attribute_id = $model->id;
-                      //  $attributeOption->date_create = da;
+                        //  $attributeOption->date_create = da;
                     }
+                    $attributeOption->spec = $val['spec'];
                     $attributeOption->save(false, false, false);
 
                     foreach (Yii::app()->languageManager->languages as $lang) {
                         $attributeLangOption = ShopAttributeOption::model()
-                                ->language($lang->id)
-                                ->findByAttributes(array('id' => $attributeOption->id));
+                            ->language($lang->id)
+                            ->findByAttributes(array('id' => $attributeOption->id));
                         $attributeLangOption->value = $val[$index];
+
                         $attributeLangOption->save(false, false, false);
                         ++$index;
                     }
@@ -128,7 +137,7 @@ class AttributeController extends AdminController {
             $cr->addNotInCondition('t.id', $dontDelete);
             $optionsToDelete = ShopAttributeOption::model()->findAllByAttributes(array(
                 'attribute_id' => $model->id
-                    ), $cr);
+            ), $cr);
         } else {
             // Clear all attribute options
             $optionsToDelete = ShopAttributeOption::model()->findAllByAttributes(array(
@@ -145,8 +154,10 @@ class AttributeController extends AdminController {
     /**
      * Delete attribute
      * @param array $id
+     * @throws CHttpException
      */
-    public function actionDelete($id = array()) {
+    public function actionDelete($id = array())
+    {
         if (Yii::app()->request->isPostRequest) {
             $model = ShopAttribute::model()->findAllByPk($_REQUEST['id']);
 
@@ -164,7 +175,8 @@ class AttributeController extends AdminController {
         }
     }
 
-    public function getAddonsMenu() {
+    public function getAddonsMenu()
+    {
         return array(
             array(
                 'label' => Yii::t('ShopModule.admin', 'ATTRIBUTES_GROUP'),

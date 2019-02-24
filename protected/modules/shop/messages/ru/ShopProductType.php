@@ -4,8 +4,9 @@
  * @package translates
  */
 return array(
-     'NAME' => 'Название',
-    'ATTRIBUTES'=>'Атрибуты',
-    'CREATE_TYPE'=>'Создать тип'
+    'NAME' => 'Название',
+    'ATTRIBUTE_GROUP' => 'Группировать атрибуты в товаре',
+    'ATTRIBUTES' => 'Атрибуты',
+    'CREATE_TYPE' => 'Создать тип'
 );
-?>
+

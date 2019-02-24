@@ -12,7 +12,6 @@
  * @package modules.messages.ru
  */
 return array(
-    'GROUP_ATTRIBUTE' => 'Группировать атрибуты в товаре',
     'PRODUCT_RELATED_BILATERAL' => 'Активировать двустороннюю связь между товарами',
     'AUTO_ADD_SUBCATEGORIES' => 'Автоматически размещать товар во всех предков категории',
     'AUTO_FILL_SHORT_DESC' => 'Автоматически заполнять краткое описание "Характеристиками"',

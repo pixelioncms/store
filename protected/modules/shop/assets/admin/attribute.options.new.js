@@ -10,6 +10,7 @@ $(function() {
             $(el).attr('name', 'options['+option_name+'][]');
             console.log('find');
         });
+        row.find(".value-spec").attr('name', 'options['+option_name+'][spec]')
         return false;
     });
    // $('.optionsEditTable').sortable({handle:'.copyMe'});

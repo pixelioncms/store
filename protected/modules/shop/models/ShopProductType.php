@@ -82,6 +82,7 @@ class ShopProductType extends ActiveRecord
     {
         return array(
             array('name', 'required'),
+            array('attribute_group', 'boolean'),
             array('name', 'length', 'max' => 255),
             array('id, name', 'safe', 'on' => 'search'),
         );

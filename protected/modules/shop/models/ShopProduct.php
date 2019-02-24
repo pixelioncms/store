@@ -723,6 +723,7 @@ class ShopProduct extends ActiveRecord
             'manufacturerPublished' => array(self::BELONGS_TO, 'ShopManufacturer', 'manufacturer_id', 'scopes' => array('applyTranslateCriteria', 'published')),
             'productsCount' => array(self::STAT, 'ShopProduct', 'manufacturer_id', 'select' => 'count(t.id)'),
             'type' => array(self::BELONGS_TO, 'ShopProductType', 'type_id'),
+            'typess' => array(self::BELONGS_TO, 'ShopProductType', 'type_id'),
             //   'typeGet' => array(self::BELONGS_TO, 'ShopProductType', 'type_id', 'condition' => 'typeGet.id=:tid', 'params' => array(':tid' => (int) $_GET['ShopProduct']['type_id'])), //Специально для Добавлние товара.
             'commentsCount' => array(self::STAT, 'Comments', 'object_id', 'condition' => '`t`.`model`="mod.shop.models.ShopProduct" AND `t`.`switch`=1'),
             'related' => array(self::HAS_MANY, 'ShopRelatedProduct', 'product_id'),

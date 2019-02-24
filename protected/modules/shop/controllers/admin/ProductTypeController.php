@@ -85,10 +85,8 @@ class ProductTypeController extends AdminController
             }
         }
 
-        // Select available(not used) attributes
-        //die(print_r(Html::listData($model->attributeRelation, 'attribute_id', 'attribute_id')));
         $cr = new CDbCriteria;
-        $cr->addNotInCondition('t.id', Html::listData($model->attributeRelation, 'attribute_id', 'attribute_id')); //ShopAttribute.id
+       // $cr->addNotInCondition('t.id', Html::listData($model->attributeRelation, 'attribute_id', 'attribute_id')); //ShopAttribute.id
         $allAttributes = ShopAttribute::model()->findAll($cr);
 
         $this->render('update', array(

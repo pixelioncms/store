@@ -21,7 +21,7 @@ class ShopAttributeOption extends ActiveRecord
      * @var string multilingual attr
      */
     public $value;
-
+    public $spec;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.

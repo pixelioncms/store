@@ -31,6 +31,10 @@ Yii::app()->getClientScript()
                 </td>
             <?php } ?>
             <td class="text-center">N/A</td>
+
+            <td>
+                <input name="spec" type="text" class="value-spec form-control" >
+            </td>
             <td class="text-center">N/A</td>
             <td class="text-center">
                 <a href="javascript:void(0);" class="deleteRow btn btn-sm btn-danger"><i class="icon-delete"></i></a>
@@ -61,6 +65,7 @@ foreach ($model->options as $k => $o) {
     }
     //$data2['products'] = Html::link($o->productsCount,array('/admin/shop/products/index?ShopProduct[eav]['.$model->name.']='.$o->id),array('target'=>'_blank'));
     $data2['products'] = Html::link($o->productsCount, array('/admin/shop/products/index', 'ShopProduct[eav][' . $model->name . ']' => $o->id), array('target' => '_blank'));
+    $data2['spec'] = Html::textArea('options[' . $o->id . '][spec]', CHtml::encode($o->spec), array('class' => 'form-control'));
 
     $data2['date_create'] = CMS::date($o->date_create);
     $data[] = (object)$data2;
@@ -83,10 +88,17 @@ $columns[] = array(
     'htmlOptions' => array('class' => 'text-center'),
 );
 $columns[] = array(
+    'header' => Yii::t('ShopModule.admin', 'SPEC'),
+    'name' => 'spec',
+    'type' => 'raw',
+    'htmlOptions' => array('class' => 'text-center'),
+);
+
+
+$columns[] = array(
     'header' => Yii::t('app', 'DATE'),
     'name' => 'date_create',
     'type' => 'html',
-
     'htmlOptions' => array('class' => 'text-center'),
 
 );

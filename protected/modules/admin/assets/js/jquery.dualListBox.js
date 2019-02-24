@@ -132,6 +132,7 @@
             SortOptions(group1[index]);
             SortOptions(group2[index]);
         }
+
         $('#' + group1[index].storage + ',#' + group2[index].storage).css('display', 'none');
         if (settings[index].selectOnSubmit) {
             $('#' + settings[index].box2View).closest('form').submit(function() {
@@ -152,6 +153,7 @@
         } else {
             filterLower = '';
         }
+
         $('#' + group.view + ' option').filter(function(i) {
             var toMatch = $(this).text().toString().toLowerCase();
             return toMatch.indexOf(filterLower) == -1;
@@ -171,13 +173,61 @@
         }
     }
     function SortOptions(group) {
-        var $toSortOptions = $('#' + group.view + ' option');
+
+       // var $toSortOptions = $('#' + group.view + ' option');
+        var $toSortGroupOptions = $('#' + group.view + ' optgroup');
+        var $toSortOptions = $('#' + group.view + ' optgroup option');
+
+
+
+        var optgroup;
+
+
+        $.each($toSortGroupOptions, function (i,k) {
+           // console.log(k);
+           // console.log($(k).attr('label'));
+
+            optgroup = $('<optgroup>');
+            optgroup.attr('label',$(k).attr('label'));
+
+            $.each($(k,'option'), function (i) {
+                var option = $("<option></option>");
+                option.val(i);
+                option.text('sad');
+
+                optgroup.append(option);
+            });
+
+
+        });
+
+
+       // console.log('!!!!!!!!!!',optgroup);
+
+
         $toSortOptions.sort(onSort[group.index]);
-        $('#' + group.view).empty().append($toSortOptions);
+     //   $('#' + group.view).empty().append($toSortOptions); //$toSortOptions
+
     }
     function MoveSelected(fromGroup, toGroup) {
+
         if (IsMoveMode(settings[fromGroup.index])) {
-            $('#' + fromGroup.view + ' option:selected').appendTo('#' + toGroup.view);
+            var optSelector = $('#' + fromGroup.view + ' option:selected');
+            //var label = sele.closest('optgroup').prop('label');
+
+            //optgroup = $('<optgroup>');
+            //optgroup.attr('label',label);
+
+            var option = $("<option></option>");
+            option.val(optSelector.val());
+            option.text(optSelector.text());
+
+            //optSelector.closest('optgroup').append(option).appendTo('#' + toGroup.view);
+            optSelector.appendTo('#' + toGroup.view);
+
+
+
+
         } else {
             $('#' + fromGroup.view + ' option:selected:not([class*=copiedOption])').clone().appendTo('#' + toGroup.view).end().end().addClass('copiedOption');
         }
@@ -202,6 +252,7 @@
         if (settings[fromGroup.index].useCounters) {
             UpdateLabel(fromGroup);
         }
+
     }
     function RemoveSelected(removeGroup, otherGroup) {
         $('#' + otherGroup.view + ' option.copiedOption').add('#' + otherGroup.storage + ' option.copiedOption').remove();

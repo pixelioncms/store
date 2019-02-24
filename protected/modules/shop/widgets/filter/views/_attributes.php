@@ -54,7 +54,7 @@ if ($config->filter_enable_attr) {
 
                                     $queryData = explode(',', Yii::app()->request->getQuery($filter['queryKey']));
 
-                                    echo Html::openTag('li');
+                                    echo Html::openTag('li',array('style'=>''));
                                     // Filter link was selected.
                                     if (in_array($filter['queryParam'], $queryData)) {
                                         // Create link to clear current filter

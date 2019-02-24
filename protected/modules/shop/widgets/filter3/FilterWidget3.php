@@ -88,6 +88,7 @@ class FilterWidget3 extends CWidget
             $data[$attribute->name] = array(
                 'title' => $attribute->title,
                 'selectMany' => (boolean)$attribute->select_many,
+
                 'slider' => $attribute->slider,
                 'filters' => array(),
                 'queryKey' => $attribute->name //NEW by ajax
@@ -98,6 +99,7 @@ class FilterWidget3 extends CWidget
                     $data[$attribute->name]['filters'][] = array(
                         'title' => $option->value,
                         'count' => $count,
+                        'spec' => $option->spec,
                         'abbreviation' => $attribute->abbreviation,
                         'queryKey' => $attribute->name,
                         'queryParam' => $option->id,

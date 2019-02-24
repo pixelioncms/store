@@ -13,6 +13,7 @@
  * @ignore
  */
 return array(
+    'NO_GROUP'=>'Без группы',
     'PRODUCT_COUNT' => 'Кол. товаров',
     'CATALOG' => 'Каталог',
     'INFO_USE_DND' => 'Используйте "drag-and-drop" для сортировки категорий',

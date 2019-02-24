@@ -68,6 +68,7 @@ class AttributesRender extends CWidget
 
        // if (!empty($data)) {
             Yii::app()->controller->renderPartial($this->list, array(
+                'model'=>$this->model,
                 'data' => $data,
                 'groups' => $groups,
             ));

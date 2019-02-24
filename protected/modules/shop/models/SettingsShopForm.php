@@ -32,7 +32,6 @@ class SettingsShopForm extends FormSettingsModel
     public $label_sale;
     public $label_popular;
     public $label_topbuy;
-    public $group_attribute;
     public $auto_gen_product_title;
     public $enable_auto_label;
 
@@ -49,7 +48,6 @@ class SettingsShopForm extends FormSettingsModel
             'watermark_offsetY' => 10,
             'auto_fill_short_desc' => 0,
             'maximum_image_size' => '800x600',
-            'group_attribute' => 1,
             'auto_gen_meta' => 1,
             'auto_gen_tpl_keywords' => 'название продукта {product_sku}',
             'auto_gen_tpl_description' => 'название продукта {product_sku}',
@@ -100,9 +98,6 @@ class SettingsShopForm extends FormSettingsModel
                             'hint' => self::t('HINT_AUTO_GEN_URL')
                         ),
                         'auto_fill_short_desc' => array(
-                            'type' => 'checkbox',
-                        ),
-                        'group_attribute' => array(
                             'type' => 'checkbox',
                         ),
                         'auto_add_subcategories' => array(
@@ -255,7 +250,7 @@ class SettingsShopForm extends FormSettingsModel
             array('auto_add_subcategories, product_related_bilateral, ajax_mode, watermark_active, auto_gen_meta, filter_enable_price, filter_enable_brand, filter_enable_attr, auto_fill_short_desc, auto_gen_cat_meta, enable_auto_label', 'boolean'),
             // array('watermark_opacity', 'match', 'pattern' => '/^[\da-z][-_\d\.a-z]*@(?:[\da-z][-_\da-z]*\.)+[a-z]{2,5}$/iu'),
             array('label_new_days, label_topbuy, label_popular, auto_gen_product_title', 'type', 'type' => 'string'),
-            array('label_sale, group_attribute', 'boolean'),
+            array('label_sale', 'boolean'),
             array('auto_gen_tpl_title, auto_gen_tpl_keywords, auto_gen_tpl_description', 'type', 'type' => 'string'),
             array('auto_gen_cat_tpl_title, auto_gen_cat_tpl_keywords, auto_gen_cat_tpl_description', 'type', 'type' => 'string'),
         );

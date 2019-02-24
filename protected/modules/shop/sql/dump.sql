@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `{prefix}shop_attribute_option` (
   `id` int(4) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(4) unsigned NOT NULL,
   `attribute_id` int(4) unsigned NOT NULL,
+  `spec` text DEFAULT NULL,
   `date_create` datetime DEFAULT NULL,
   `ordern` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -270,6 +271,7 @@ CREATE TABLE IF NOT EXISTS `{prefix}shop_product_type` (
   `id` int(4) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT '',
   `categories_preset` text,
+  `attribute_group` tinyint(1) NOT NULL DEFAULT '1',
   `main_category` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE={engine} DEFAULT CHARSET={charset};
