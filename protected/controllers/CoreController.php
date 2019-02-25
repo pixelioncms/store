@@ -6,7 +6,14 @@ class CoreController extends CController
 
     public function actionAttachment()
     {
-       // $start = microtime(true);
+
+        //header("Content-type: image/jpeg");
+        // header("Content-type: image/jpeg");
+        header('Last-Modified: ' . gmdate('r', time()));
+        header('Expires: ' . gmdate('r', time() + 1800));
+        header('Pragma: no-cache');
+        header('Cache-Control: no-cache, must-revalidate');
+        // $start = microtime(true);
         $id = Yii::app()->request->getParam('id');
         $size = Yii::app()->request->getParam('size');
 
@@ -17,9 +24,14 @@ class CoreController extends CController
 
         $modelArray = explode('.', $model->model);
         $mod = $modelArray[1];
-
+        $imgPath = $model->getOriginalUrl($model->dir, true);
         $img = Yii::app()->img;
-        $img->load($model->getOriginalUrl($model->dir, true));
+
+        if (!file_exists($imgPath)) {
+            $this->redirect(CMS::placeholderUrl(array('size' => $size)));
+        }
+
+        $img->load($imgPath);
         $configApp = Yii::app()->settings->get('app');
         $sizes = explode('x', $size);
         /*if ($size) {
@@ -46,9 +58,11 @@ class CoreController extends CController
             $img->watermark($path, $offsetX, $offsetY, $corner, $wm_zoom);
         }
 
+
         $img->show();
         //Yii::log('Attachment Image Load: ' . (microtime(true) - $start) . ' sec.', 'info');
     }
+
     public function actionPlaceholder()
     {
         header("Content-type: image/png");

@@ -110,17 +110,21 @@ class ForsageProductsImport extends CComponent
             }
             if ($attributeModel) {
 
-                $cr = new CDbCriteria;
-                $cr->with = 'option_translate';
-                $cr->compare('option_translate.value', $attributeValue);
-                //$cr->compare('value', $attributeValue);
-                $option = ShopAttributeOption::model()->find($cr);
+                if ($params['isFilter']) {
+                    $cr = new CDbCriteria;
+                    $cr->with = 'option_translate';
+                    $cr->compare('option_translate.value', $attributeValue);
+                    //$cr->compare('value', $attributeValue);
+                    $cr->compare('t.attribute_id', $attributeModel->id);
+                    $option = ShopAttributeOption::model()->find($cr);
 
-                if (!$option)
-                    $option = $this->addOptionToAttribute($attributeModel->id, $attributeValue);
-
-                $attrsdata[$attributeModel->name] = $option->id;
+                    if (!$option)
+                        $option = $this->addOptionToAttribute($attributeModel->id, $attributeValue);
+                }
+                //$attrsdata[$attributeModel->name] = $option->id;
+                $attrsdata[$attributeModel->name] = ($params['isFilter']) ? $option->id : $attributeValue;
             }
+
             if (!empty($attrsdata)) {
                 $model->setEavAttributes($attrsdata, true);
             }
@@ -202,10 +206,11 @@ class ForsageProductsImport extends CComponent
     {
 
 
-$starttime = microtime(true);
+        $starttime = microtime(true);
 
         $this->logstring = '------- ';
         $characteristics = array();
+
         if (isset($product->characteristics)) {
 
             //$this->logstring .='FID: '.$product->id.' ';
@@ -220,9 +225,9 @@ $starttime = microtime(true);
         }
 
         $hasAdd = true;
-        if (!$change && isset($product->quantity) && !$product->quantity) {
-            $hasAdd = false;
-        }
+        //if (!$change && isset($product->quantity) && !$product->quantity) {
+        //    $hasAdd = false;
+        //}
 
         $sub_category = $this->getProductCategory($product);
         // echo $sub_category;
@@ -245,6 +250,8 @@ $starttime = microtime(true);
                     } else {
                         $this->logstring .= "Update: FID: {$product->id}, PID: {$model->id} ";
                     }
+
+
 
                     $model->switch = ($product->quantity) ? 1 : 0;
                     $model->label = NULL;
@@ -335,11 +342,10 @@ $starttime = microtime(true);
                     //}
 
 
-
                     $model->save(false, false, false);
 
                     if ($model->price_purchase && $model->price && !$model->currency_id) {
-                        self::log('ADD ADDON PRICE BY '.$model->id);
+                        self::log('ADD ADDON PRICE BY ' . $model->id);
                         $model->processPrices(array(
                             array('order_from' => 5, 'value' => $model->price - ($model->price % $model->price_purchase / 2))
                         ));
@@ -366,22 +372,26 @@ $starttime = microtime(true);
                         }
                     }
                     if ($sub_category)
-                        $this->attributeData($model, 'Тип', $sub_category);
+                        $this->attributeData($model, 'Тип', $sub_category, array('isFilter' => true));
 
                     if (isset($characteristics['size']))
-                        $this->attributeData($model, 'Размер', $characteristics['size']);
+                        $this->attributeData($model, 'Размер', $characteristics['size'], array('isFilter' => true));
                     if (isset($characteristics['season']))
-                        $this->attributeData($model, 'Сезон', $characteristics['season']);
+                        $this->attributeData($model, 'Сезон', $characteristics['season'], array('isFilter' => true));
                     if (isset($characteristics['color']))
-                        $this->attributeData($model, 'Цвет', $characteristics['color']);
+                        $this->attributeData($model, 'Цвет', $characteristics['color'], array('isFilter' => true));
                     if (isset($characteristics['material_ware']))
-                        $this->attributeData($model, 'Материал изделия', $characteristics['material_ware']);
+                        $this->attributeData($model, 'Материал изделия', $characteristics['material_ware'], array('isFilter' => true));
                     if (isset($characteristics['material_lining']))
-                        $this->attributeData($model, 'Материал подкладки', $characteristics['material_lining']);
+                        $this->attributeData($model, 'Материал подкладки', $characteristics['material_lining'], array('isFilter' => true));
                     if (isset($characteristics['material_foot']))
-                        $this->attributeData($model, 'Материал подошвы', $characteristics['material_foot']);
+                        $this->attributeData($model, 'Материал подошвы', $characteristics['material_foot'], array('isFilter' => true));
                     if (isset($characteristics['country']))
-                        $this->attributeData($model, 'Страна производителя', $characteristics['country']);
+                        $this->attributeData($model, 'Страна производителя', $characteristics['country'], array('isFilter' => true));
+
+                    if (isset($characteristics['in_box'])) {
+                        $this->attributeData($model, 'Пар в ящике', $characteristics['in_box'], array('isFilter' => false));
+                    }
 
 
                     //set image
@@ -402,9 +412,9 @@ $starttime = microtime(true);
                 }
             }
         }
+        //Yii::app()->cache->delete($model->getCacheKey());
 
-
-        echo $this->logstring .sprintf("[Time: %f sec]", microtime(true) - $starttime ). PHP_EOL;
+        echo $this->logstring . sprintf("[Time: %f sec]", microtime(true) - $starttime) . PHP_EOL;
         self::log($this->logstring);
     }
 
@@ -869,6 +879,7 @@ $starttime = microtime(true);
 
     public function buildPathToTempFile($fileName, $dir)
     {
+
         $dir = str_replace($this->replacesDirsName, '', $dir);
         $dir = mb_strtolower($dir);
         if (!$dir && !$fileName) {
@@ -900,6 +911,7 @@ $starttime = microtime(true);
         $output = curl_exec($ch_check);
         $httpcode = curl_getinfo($ch_check, CURLINFO_HTTP_CODE);
         curl_close($ch_check);
+
         if ($httpcode >= 200 && $httpcode < 300) {
             $fp = fopen($newFilePath, 'w+');
             if (!$fp)
