@@ -84,7 +84,7 @@ foreach (Yii::app()->languageManager->languages as $k => $l) {
 $columns[] = array(
     'header' => Yii::t('ShopModule.admin', 'PRODUCT_COUNT'),
     'name' => 'products',
-    'type' => 'html',
+    'type' => 'raw',
     'htmlOptions' => array('class' => 'text-center'),
 );
 $columns[] = array(

@@ -226,6 +226,30 @@ $price-color: #666C6E;
 #filters {
   position: relative;
   margin-bottom: 15px;
+  .filter-block {
+    .card-collapse {
+      position: relative;
+      z-index: 0;
+      &:after,
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 25px;
+        right: 17px; /*for scrolling set 17px*/
+        left: 0;
+        z-index: 1;
+      }
+      &:before {
+        top: 0.75rem;
+        @include gradient-x(#fff, rgba(255, 255, 255, 0));
+      }
+      &:after {
+        bottom: 0.75rem;
+        @include gradient-x(rgba(255, 255, 255, 0), #fff);
+      }
+    }
+  }
   .btn-submit-filter {
     position: absolute;
     top: 0;
@@ -262,28 +286,6 @@ $price-color: #666C6E;
         font-size: 18px;
       }
     }
-    .card-collapse{
-      position: relative;
-      z-index: 0;
-      &:after,
-      &:before {
-        content: '';
-        display: block;
-        position: absolute;
-        height: 25px;
-        right: 17px; /*for scrolling set 17px*/
-        left: 0;
-        z-index: 1;
-      }
-      &:before {
-        top: 0.75rem;
-        @include gradient-x(#fff,rgba(255, 255, 255, 0));
-      }
-      &:after {
-        bottom: 0.75rem;
-        @include gradient-x(rgba(255, 255, 255, 0), #fff);
-      }
-    }
     .card-body {
       margin: 0.75rem 1rem 0.75rem 1rem;
       padding: 0;
@@ -292,6 +294,8 @@ $price-color: #666C6E;
       margin: 0.75rem 0 0.75rem 1rem;
       max-height: 19em;
       overflow-x: hidden;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
     }
   }
 }
@@ -323,10 +327,10 @@ ul.filter-list {
     }
 
     /*Check box*/
-    input[type="checkbox"] + label {
+    &:not(.color) input[type="checkbox"] + label {
       padding-left: 30px;
     }
-    input[type="checkbox"] + label:before {
+    &:not(.color) input[type="checkbox"] + label:before {
       border: 1px solid #E1E1E1;
       @include border-radius(2px);
       content: '';
@@ -334,13 +338,12 @@ ul.filter-list {
       left: 0;
       width: 20px;
       height: 20px;
-
       display: inline-block;
       margin-right: 5px;
       position: absolute;
     }
 
-    input[type="checkbox"]:checked + label:after {
+    &:not(.color) input[type="checkbox"]:checked + label:after {
       content: "\f055";
       font-family: $font-family-icon;
       position: absolute;
@@ -376,6 +379,18 @@ ul.filter-list {
     }
     sup {
       left: 5px;
+    }
+    &.color {
+      width: 50px;
+      float: left;
+      border: 1px solid $text-color;
+      margin-right: .5rem;
+      margin-bottom: .5rem;
+      padding: 1px;
+      label {
+        display: block;
+        text-indent: -99999px;
+      }
     }
   }
 }

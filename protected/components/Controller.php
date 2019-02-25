@@ -134,7 +134,7 @@ class Controller extends RController
                     $cs->registerLinkTag('apple-touch-icon', NULL, $this->assetsUrl . "/images/apple-touch-icon.png", NULL);
                 }
             }
-
+            $cs->registerLinkTag('shortcut icon', NULL, "/favicon.ico", NULL,array('type'=>"image/x-icon"));
 
             if (count(Yii::app()->languageManager->getLanguages()) > 1) {
                 foreach (Yii::app()->languageManager->getLanguages() as $lang) {

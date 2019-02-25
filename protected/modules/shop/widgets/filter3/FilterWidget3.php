@@ -59,12 +59,16 @@ class FilterWidget3 extends CWidget
     {
         return $this->controller->getMaxPrice();
     }
-
+    public $dependency;
     /**
      * Render filters
      */
     public function run()
     {
+
+
+
+
 
         $this->render($this->skin, array(
             'manufacturers' => ($this->typeFilter) ? $this->getCategoryManufacturers() : $this->getCategoryManufacturers__old(),
@@ -135,6 +139,7 @@ class FilterWidget3 extends CWidget
 
 
         if ($this->typeFilter == 0) {
+
             $model->applyMinPrice($this->convertCurrency(Yii::app()->request->getQuery('min_price')));
             $model->applyMaxPrice($this->convertCurrency(Yii::app()->request->getQuery('max_price')));
             if (Yii::app()->request->getParam('manufacturer'))
@@ -160,7 +165,7 @@ class FilterWidget3 extends CWidget
         $newData = array();
         $newData[$attribute->name][] = $option->id;
 
-        return $model->withEavAttributes($newData)->count();
+        return $model->withEavAttributes($newData)->count(); //@todo Optimize sql
 
     }
 
@@ -175,11 +180,15 @@ class FilterWidget3 extends CWidget
         $cr->group = 't.manufacturer_id';
         $cr->addCondition('t.manufacturer_id IS NOT NULL');
 
-
         $sql = 'SELECT MAX(date_update) FROM `{{shop_product}}`
         LEFT JOIN `{{shop_product_category_ref}}` ON `{{shop_product_category_ref}}`.`product`={{shop_product}}.`id` 
         WHERE `{{shop_product_category_ref}}`.`category`="' . $this->model->id . '" AND `{{shop_product}}`.`switch`="1"';
-        $dependency = new CDbCacheDependency($sql);
+        $this->dependency = new CDbCacheDependency($sql);
+
+        /*$sql = 'SELECT MAX(date_update) FROM `{{shop_product}}`
+        LEFT JOIN `{{shop_product_category_ref}}` ON `{{shop_product_category_ref}}`.`product`={{shop_product}}.`id` 
+        WHERE `{{shop_product_category_ref}}`.`category`="' . $this->model->id . '" AND `{{shop_product}}`.`switch`="1"';
+        $dependency = new CDbCacheDependency($sql);*/
 
 
         //@todo: Fix manufacturer translation
@@ -187,7 +196,7 @@ class FilterWidget3 extends CWidget
         //$dependency = new CDbCacheDependency('SELECT MAX(date_update) FROM {{shop_product}}');
         //$dependency = new CChainedCacheDependency();
         $manufacturers = ShopProduct::model()
-            //->cache($this->cache_time, $dependency)
+            //->cache($this->cache_time, $this->dependency)
             ->published()
             ->applyCategories($mdl, null)
             ->with(array(
@@ -220,7 +229,7 @@ class FilterWidget3 extends CWidget
                 if ($m->manufacturer->switch) {
                     if ($this->countManufacturer) {
                         $model = new ShopProduct(null);
-                        $model->cache($this->cache_time, $dependency);
+                        $model->cache($this->cache_time, $this->dependency);
                         $model->attachBehaviors($model->behaviors());
                         $model->published();
 

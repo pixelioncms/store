@@ -15,7 +15,7 @@ echo Html::beginForm(array('/shop/category/view', 'seo_alias' => $this->dataMode
                   //  $sorter[Yii::app()->request->addUrlParam('/shop/category/view', array('sort' => 'price'))] = Yii::t('ShopModule.default', 'SORT_BY', 1);
                   //  $sorter[Yii::app()->request->addUrlParam('/shop/category/view', array('sort' => 'price.desc'))] = Yii::t('ShopModule.default', 'SORT_BY', 2);
                   //  $sorter[Yii::app()->request->addUrlParam('/shop/category/view', array('sort' => 'date_create.desc'))] = Yii::t('ShopModule.default', 'SORT_BY', 3);
-                    $active = Yii::app()->request->addUrlParam('/shop/category/view', array('sort' => Yii::app()->request->getParam('sort')));
+                    $active = Yii::app()->request->getParam('sort');
                     $sorter[''] = Yii::t('ShopModule.default', 'SORT_BY', 0);
                     $sorter['price'] = Yii::t('ShopModule.default', 'SORT_BY', 1);
                     $sorter['price.desc'] = Yii::t('ShopModule.default', 'SORT_BY', 2);
@@ -46,7 +46,7 @@ echo Html::beginForm(array('/shop/category/view', 'seo_alias' => $this->dataMode
                    // }
 
                     foreach ($this->allowedPageLimit as $l) {
-                        $active = Yii::app()->request->addUrlParam('/shop/category/view', array('per_page' => Yii::app()->request->getParam('per_page')));
+                        $active = Yii::app()->request->getParam('per_page');
                         $limits[$l] = $l;
                     }
                     ?>

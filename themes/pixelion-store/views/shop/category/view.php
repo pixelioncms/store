@@ -1,5 +1,5 @@
-<div class="container-fluid catalog-container">
-    <div class="catalog-sidebar">
+<div class="container-fluid catalog-container2 d-flex">
+    <div class="catalog-sidebar2 d-flex" style="width: 250px;min-width: 250px;flex-direction: column;overflow: hidden">
 
         <?php $this->widget('mod.shop.widgets.categories.CategoriesWidget') ?>
 
@@ -16,7 +16,7 @@
 
 
     </div>
-    <div class="catalog-content">
+    <div class="catalog-content2 flex-column" style="width: 100%;overflow-x: hidden;margin-left: 1rem">
         <?php
 
         //$this->widget('mod.shop.widgets.brands.BrandsWidget');
@@ -120,5 +120,5 @@
             </div>
         <?php } ?>
     </div>
-    <div class="clearfix"></div>
+    <div class="clearfix2"></div>
 </div>

@@ -19,10 +19,6 @@ $this->widget('ListView', array(
     ),
     'afterAjaxUpdate' => 'function(id,data){
         $("span > input").rating({"readOnly":true});
-        var body = $("html, body");
-        body.stop().animate({scrollTop:0}, 500, \'swing\', function() { 
-            console.log("Finished animating");
-        });
     }',
     'pager' => array(
         'htmlOptions' => array('class' => 'pagination justify-content-center')

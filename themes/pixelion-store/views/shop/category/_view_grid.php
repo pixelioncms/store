@@ -86,7 +86,7 @@
         </div>
 
         <div class="action btn-group2">
-
+            <?php print_r($data->eav_box); ?>
 
         </div><!-- /.action -->
 

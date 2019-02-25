@@ -79,7 +79,7 @@ class FilterController extends Controller
         $query->limit = 1;
         //$query->order = ($function === 'MIN') ? '`t`.`price`' : '`t`.`price` DESC';
         $query->order = ($function === 'MIN') ? 'aggregation_price' : 'aggregation_price DESC';
-
+        $query->distinct=false; //@todo panix 24.02.2019 added
         $result = ShopProduct::model();
         $result->getDbCriteria()->mergeWith($query);
 

@@ -1808,6 +1808,42 @@ span.highlight-word {
   position: relative;
   margin-bottom: 15px;
 }
+#filters .filter-block .card-collapse {
+  position: relative;
+  z-index: 0;
+}
+#filters .filter-block .card-collapse:after, #filters .filter-block .card-collapse:before {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 25px;
+  right: 17px;
+  /*for scrolling set 17px*/
+  left: 0;
+  z-index: 1;
+}
+#filters .filter-block .card-collapse:before {
+  top: 0.75rem;
+  background-image: -moz-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(100%, rgba(255, 255, 255, 0)));
+  background-image: -webkit-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -ms-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr=rgba(255, 255, 255, 0), GradientType=1);
+  background-repeat: repeat-x;
+}
+#filters .filter-block .card-collapse:after {
+  bottom: 0.75rem;
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, #fff));
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  background-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(255, 255, 255, 0)', endColorstr=#fff, GradientType=1);
+  background-repeat: repeat-x;
+}
 #filters .btn-submit-filter {
   position: absolute;
   top: 0;
@@ -1849,42 +1885,6 @@ span.highlight-word {
   cursor: pointer;
   font-size: 18px;
 }
-#filters .card .card-collapse {
-  position: relative;
-  z-index: 0;
-}
-#filters .card .card-collapse:after, #filters .card .card-collapse:before {
-  content: '';
-  display: block;
-  position: absolute;
-  height: 25px;
-  right: 17px;
-  /*for scrolling set 17px*/
-  left: 0;
-  z-index: 1;
-}
-#filters .card .card-collapse:before {
-  top: 0.75rem;
-  background-image: -moz-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(100%, rgba(255, 255, 255, 0)));
-  background-image: -webkit-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: -o-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: -ms-linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
-  background-image: linear-gradient(top, #fff 0%, rgba(255, 255, 255, 0) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr=rgba(255, 255, 255, 0), GradientType=1);
-  background-repeat: repeat-x;
-}
-#filters .card .card-collapse:after {
-  bottom: 0.75rem;
-  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, #fff));
-  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
-  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
-  background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
-  background-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, #fff 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(255, 255, 255, 0)', endColorstr=#fff, GradientType=1);
-  background-repeat: repeat-x;
-}
 #filters .card .card-body {
   margin: 0.75rem 1rem 0.75rem 1rem;
   padding: 0;
@@ -1893,6 +1893,8 @@ span.highlight-word {
   margin: 0.75rem 0 0.75rem 1rem;
   max-height: 19em;
   overflow-x: hidden;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .filter-list,
@@ -1922,10 +1924,10 @@ ul.filter-list li input[type="radio"] {
   position: absolute;
   right: 9000px;
 }
-ul.filter-list li input[type="checkbox"] + label {
+ul.filter-list li:not(.color) input[type="checkbox"] + label {
   padding-left: 30px;
 }
-ul.filter-list li input[type="checkbox"] + label:before {
+ul.filter-list li:not(.color) input[type="checkbox"] + label:before {
   border: 1px solid #E1E1E1;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -1941,7 +1943,7 @@ ul.filter-list li input[type="checkbox"] + label:before {
   margin-right: 5px;
   position: absolute;
 }
-ul.filter-list li input[type="checkbox"]:checked + label:after {
+ul.filter-list li:not(.color) input[type="checkbox"]:checked + label:after {
   content: "\f055";
   font-family: Pixelion;
   position: absolute;
@@ -1974,6 +1976,18 @@ ul.filter-list li a.active:before {
 }
 ul.filter-list li sup {
   left: 5px;
+}
+ul.filter-list li.color {
+  width: 50px;
+  float: left;
+  border: 1px solid #505759;
+  margin-right: .5rem;
+  margin-bottom: .5rem;
+  padding: 1px;
+}
+ul.filter-list li.color label {
+  display: block;
+  text-indent: -99999px;
 }
 
 ul.current-filter-list > li {

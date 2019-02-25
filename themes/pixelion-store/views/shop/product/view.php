@@ -29,6 +29,8 @@ $this->widget('ext.fancybox.Fancybox', array(
     )
 ));
 ?>
+<?php print_r($model->eav_box); ?>
+
 <?php
 if (strtotime($model->date_create) <= CMS::time() + 86400 * 7) { //неделя
     echo ' Новый 7 day';

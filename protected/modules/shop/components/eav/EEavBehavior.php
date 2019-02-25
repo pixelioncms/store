@@ -284,8 +284,8 @@ class EEavBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * @param array attributes key for save.
-     * @return CActiveRecord
+     * @param array $attributes key for save.
+     * @return ActiveRecord|CComponent
      */
     public function saveEavAttributes($attributes)
     {
@@ -320,8 +320,8 @@ class EEavBehavior extends CActiveRecordBehavior
 
     /**
      * @access public
-     * @param array attributes key for load.
-     * @return CActiveRecord
+     * @param array $attributes key for load.
+     * @return ActiveRecord|CComponent
      */
     public function loadEavAttributes($attributes)
     {
@@ -358,9 +358,9 @@ class EEavBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * @param array attributes key for delete.
-     * @param boolean whether auto save attributes.
-     * @return CActiveRecord
+     * @param array $attributes key for delete.
+     * @param boolean $save whether auto save attributes.
+     * @return ActiveRecord|CComponent
      */
     public function deleteEavAttributes($attributes = array(), $save = FALSE)
     {
@@ -382,9 +382,9 @@ class EEavBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * @param array attributes values for change.
-     * @param boolean whether auto save attributes.
-     * @return CActiveRecord
+     * @param array $attributes values for change.
+     * @param boolean $save whether auto save attributes.
+     * @return ActiveRecord|CComponent
      */
     public function setEavAttributes($attributes, $save = FALSE)
     {
@@ -401,10 +401,10 @@ class EEavBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * @param string attribute key.
-     * @param mixed attribute value.
-     * @param boolean whether auto save attributes.
-     * @return CActiveRecord
+     * @param string $attribute key.
+     * @param mixed $value attribute value.
+     * @param boolean $save whether auto save attributes.
+     * @return ActiveRecord
      */
     public function setEavAttribute($attribute, $value, $save = FALSE)
     {
@@ -412,7 +412,7 @@ class EEavBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * @param array attributes key for get.
+     * @param array $attributes key for get.
      * @return array
      */
     public function getEavAttributes($attributes = array())
@@ -442,6 +442,7 @@ class EEavBehavior extends CActiveRecordBehavior
                 $values[$attribute] = $this->attributes->itemAt($attribute);
             }
         }
+
         // Delete load queue.
         unset($loadQueue);
         // Return values.
@@ -449,7 +450,7 @@ class EEavBehavior extends CActiveRecordBehavior
     }
 
     /**
-     * @param string attribute for get.
+     * @param string $attribute for get.
      * @return mixed
      */
     public function getEavAttribute($attribute)
@@ -458,11 +459,10 @@ class EEavBehavior extends CActiveRecordBehavior
         return $this->attributes->itemAt($attribute);
     }
 
-
     /**
      * Limit current AR query to have all attributes and values specified.
-     * @param array attributes values or key for filter models.
-     * @return CActiveRecord
+     * @param array $attributes values or key for filter models.
+     * @return ActiveRecord|CComponent
      */
     public function withEavAttributes($attributes = array())
     {
@@ -606,14 +606,14 @@ class EEavBehavior extends CActiveRecordBehavior
 
                 // foreach ($values as $value) {
                 // $value = $conn->quoteValue($value);
-                $criteria->join .= "\nJOIN {$this->tableName} eavb$i"
-                    . "\nON t.{$pk} = eavb$i.{$this->entityField}";
+                $criteria->join .= "\nJOIN `{$this->tableName}` `eavb$i`"
+                    . "\nON `t`.`{$pk}` = `eavb$i`.`{$this->entityField}`";
                 //  . "\nAND eavb$i.{$this->attributeField} = $attribute"
                 //  . "\nAND eavb$i.{$this->valueField} = $value";
 
                 //$criteria->addCondition("eavb$i.{$this->attributeField}=$attribute");
 
-                $criteria->addInCondition("eavb$i.{$this->valueField}", $values);
+                $criteria->addInCondition("`eavb$i`.`{$this->valueField}`", $values);
                 //$criteria->condition =" eavb$i.{$this->valueField}".' IN ('.implode(', ',$values).') ';
                 $i++;
                 //}
@@ -622,17 +622,18 @@ class EEavBehavior extends CActiveRecordBehavior
             elseif (is_int($attribute)) {
 
                 $values = $conn->quoteValue($values);
-                $criteria->join .= "\nJOIN {$this->tableName} eavb$i"
-                    . "\nON t.{$pk} = eavb$i.{$this->entityField}"
-                    . "\nAND eavb$i.{$this->attributeField} = $values";
+                $criteria->join .= "\nJOIN `{$this->tableName}` `eavb$i`"
+                    . "\nON `t`.`{$pk}` = `eavb$i`.`{$this->entityField}`"
+                    . "\nAND `eavb$i`.`{$this->attributeField}` = $values";
                 $i++;
             }
         }
 
-
-        $criteria->distinct = true;
+        //@todo Optimize sql (remove distinct AND group)
+        //$criteria->distinct = true;
         //$criteria->order = '`t`.`ordern` DESC';
-        $criteria->group .= "t.{$pk}";
+        //$criteria->group = "`t`.`{$pk}`";
+
 
         return $criteria;
     }

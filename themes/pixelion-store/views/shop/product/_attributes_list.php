@@ -1,4 +1,4 @@
-<?php if (Yii::app()->settings->get('shop', 'group_attribute')) { ?>
+<?php if ($model->type->attribute_group) { ?>
     <div class="row">
         <?php foreach ($groups as $group_name => $group) { ?>
             <div class="col-md-12 col-lg-6">
@@ -16,10 +16,12 @@
                                 <span>
                                     <?= Html::encode($item['name']) ?>
                                     <?php if (!empty($item['hint'])) { ?>
-                                        <a href="javascript:void(0)" title="<?= Html::encode($item['name']) ?>" class="attribute-popover<?= $item['id']; ?>"><i class="icon-info"></i></a>
+                                        <a href="javascript:void(0)" title="<?= Html::encode($item['name']) ?>"
+                                           class="attribute-popover<?= $item['id']; ?>"><i class="icon-info"></i></a>
 
-                                <?php Yii::app()->clientScript->registerScript('attribute-popover-'.$item['id'],"$('.attribute-popover".$item['id']."').popover({html: true,trigger: 'focus',content: function () {return $('#attribute-popover-".$item['id']."').html();}});"); ?>
-                                    <div id="attribute-popover-<?= $item['id']; ?>" class="d-none">
+                                <?php Yii::app()->clientScript->registerScript('attribute-popover-' . $item['id'], "$('.attribute-popover" . $item['id'] . "').popover({html: true,trigger: 'focus',content: function () {return $('#attribute-popover-" . $item['id'] . "').html();}});"); ?>
+
+                                        <div id="attribute-popover-<?= $item['id']; ?>" class="d-none">
                                         <?= $item['hint']; ?>
                                     </div>
                                     <?php } ?>
@@ -40,10 +42,12 @@
     <?php if (!empty($data)) { ?>
         <table class="table table-striped" id="attributes-list">
             <?php foreach ($data as $title => $value) { ?>
-                <tr>
-                    <td><?= Html::encode($title) ?>:</td>
-                    <td><span class="font-weight-bold"><?= Html::encode($value) ?></span></td>
-                </tr>
+                <?php if (!empty($value)) { ?>
+                    <tr>
+                        <td><?= Html::encode($title) ?>:</td>
+                        <td><span class="font-weight-bold"><?= Html::encode($value) ?></span></td>
+                    </tr>
+                <?php } ?>
             <?php } ?>
         </table>
     <?php } ?>
