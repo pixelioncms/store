@@ -15,6 +15,9 @@ Yii::app()->clientScript->registerScript('auth', "
         }, function () {
             //  $(this).removeClass('swing'); 
         });
+        
+        
+        
     });
 ", CClientScript::POS_END);
 ?>
@@ -71,6 +74,9 @@ Yii::app()->clientScript->registerScript('auth', "
                                     <span class="input-group-text"><i class="icon-key"></i></span>
                                 </div>
                                 <?= $form->passwordField($model, 'password', array('placeholder' => Yii::t('app', 'PASSWORD'), 'class' => 'form-control')); ?>
+                                <div class="input-group-append">
+                                    <a href="#" data-target="#UserLoginForm_password" class="input-group-text bg-transparent border-0" onclick="common.switchInputPass('UserLoginForm_password');"><i class="icon-eye"></i></a>
+                                </div>
                                 <?= $form->error($model, 'password'); ?>
                             </div>
                         </div>
