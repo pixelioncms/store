@@ -130,9 +130,9 @@ class CompareProducts extends CComponent {
      * @return int
      */
     public static function countSession() {
-        return sizeof(Yii::app()->session['CompareProducts']);
+        $count = (Yii::app()->session['CompareProducts'])?Yii::app()->session['CompareProducts']:array();
+        return sizeof($count);
     }
-
     /**
      * Load ShopAttribute models by names
      * @return array of ShopAttribute models
@@ -253,8 +253,8 @@ class CompareProducts extends CComponent {
         // Then append the state onto it
         $result[$cid]['items'][] = array('list1', 'list2'); //$state
         $result[$cid]['name'] = $this->_products->mainCategory->name;
-        if ($result[$cid][$state->id]['attrs'] === null) {
-            $result[$cid][$state->id]['attrs'] = array();
+        if ($result[$cid]['attrs'] === null) {
+            $result[$cid]['attrs'] = array();
             $names = array();
 
             $names = array_merge($names, array_keys($this->_products->getEavAttributes()));

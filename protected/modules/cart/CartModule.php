@@ -42,10 +42,14 @@ class CartModule extends WebModule {
             $this->id . '.components.delivery.*'
         ));
         $this->setIcon('icon-cart');
+    }
+
+    public function getCountOrder(){
         if(Yii::app()->db->schema->getTable(Order::model()->tableName())){
-            $this->countOrder = Order::model()->new()->count();
+            return Order::model()->new()->count();
         }
     }
+
 
     public function afterInstall() {
         if (Yii::app()->hasModule('shop')) {
@@ -203,8 +207,8 @@ class CartModule extends WebModule {
 
     public static function registerAssets() {
         $assets = dirname(__FILE__) . '/assets';
-        $baseUrl = Yii::app()->assetManager->publish($assets, false, -1, YII_DEBUG);
-        $cs = Yii::app()->clientScript;
+       // $baseUrl = Yii::app()->assetManager->publish($assets, false, -1, YII_DEBUG);
+       // $cs = Yii::app()->clientScript;
         if (is_dir($assets)) {
             //$cs->registerScriptFile($baseUrl . '/cart.js', CClientScript::POS_BEGIN);
         } else {
