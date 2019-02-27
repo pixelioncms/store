@@ -31,7 +31,7 @@ class CompareProducts extends CComponent {
     /**
      * @var array
      */
-    private $_attributes;
+    //private $_attributes;
 
     /**
      * Initialize component
@@ -182,63 +182,6 @@ class CompareProducts extends CComponent {
         return $result;
     }
 
-    public function getAttributesold() {
-
-        $this->_products = ShopProduct::model()->findAllByPk(array_values($this->getIds()));
-        $result = array();
-        foreach ($this->_products as $state) {
-            $cid = $state->mainCategory->id;
-            // Create the sub-array if it doesn't exist
-            if (!isset($result[$cid])) {
-                $result[$cid]['items'] = array();
-                $result[$cid]['name'] = $state->mainCategory->name;
-            }
-
-            // Then append the state onto it
-            $result[$cid]['items'][] = $state;
-            $result[$cid]['name'] = $state->mainCategory->name;
-            if ($result[$cid]['attr'] === null) {
-                $result[$cid]['attr'] = array();
-                $names = array();
-                foreach ($this->_products as $p)
-                    $names = array_merge($names, array_keys($p->getEavAttributes()));
-
-                $cr = new CDbCriteria;
-                //$cr->with=array('options');
-                //$cr->distinct=true;
-                // $cr->select = "options.value";
-                $cr->addInCondition('t.name', $names);
-
-                $query = ShopAttribute::model()
-                        /* ->with(array(
-                          'options'=>array(
-                          'distinct'=>true,
-                          'select'=>'value'
-                          )
-                          )) */
-                        ->displayOnFront()
-                        ->useInCompare()
-                        ->findAll($cr);
-
-                foreach ($query as $m) {
-                    //if(array_unique($m))
-                    $result[$cid]['attr'][$m->name] = $m;
-
-                    foreach ($result[$cid]['items'] as $product) {
-
-                        $value = $product->{'eav_' . $m->name};
-
-                        //   echo $value === null ? Yii::t('ShopModule.default', 'Не указано') : $value;
-                    }
-                }
-            }
-        }
-
-
-
-        return $result;
-    }
-
     public function getAttributesById($id) {
 
         $this->_products = ShopProduct::model()->findByPk($id);
@@ -278,7 +221,7 @@ class CompareProducts extends CComponent {
 
             foreach ($query as $m) {
                 //if(array_unique($m))
-                $result[$cid][$state->id]['attrs'][$m->name] = $m;
+                $result[$cid][]['attrs'][$m->name] = $m;
                 $result[$cid]['filter_name'][$m->name] = $m;
             }
         }
