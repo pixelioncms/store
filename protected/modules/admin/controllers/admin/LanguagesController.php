@@ -53,7 +53,7 @@ class LanguagesController extends AdminController
         );
         $this->pageName = ($model->isNewRecord) ? Yii::t('admin', 'CREATED_LANG', 0) : Yii::t('admin', 'CREATED_LANG', 1);
         if (!$model)
-            throw new CHttpException(404, Yii::t('admin', 'LANG_NOFIND'));
+            $this->error404(Yii::t('admin', 'LANG_NOFIND'));
 
         if (Yii::app()->request->isPostRequest) {
             $model->attributes = $_POST['LanguageModel'];

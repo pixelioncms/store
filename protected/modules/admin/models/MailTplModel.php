@@ -1,19 +1,19 @@
 <?php
 
-class TemplateMailModel extends ActiveRecord {
+class MailTplModel extends ActiveRecord {
 
     const MODULE_ID = 'admin';
     public $setOptions = array();
 
     public function getForm() {
-        Yii::app()->controller->widget('ext.tinymce.TinymceWidget');
+        Yii::import('ext.tinymce.TinymceArea');
         return new CMSForm(array('id' => __CLASS__,
                     'showErrorSummary' => true,
                     'elements' => array(
-                        'header' => array(
+                        'subject' => array(
                             'type' => 'text',
                         ),
-                        'body' => array('type' => 'textarea', 'class' => 'editor'),
+                        'body' => array('type' => 'TinymceArea'),
                     ),
                     'buttons' => array(
                         'submit' => array(
@@ -30,14 +30,14 @@ class TemplateMailModel extends ActiveRecord {
     }
 
     public function tableName() {
-        return '{{tpl_mail}}';
+        return '{{mail_tpl}}';
     }
 
     public function rules() {
         return array(
-            array('body, header', 'required'),
+            array('body, subject', 'required'),
             // array('user_id', 'numerical', 'integerOnly' => true),
-            array('body, header', 'type', 'type' => 'string'),
+            array('body, subject', 'type', 'type' => 'string'),
                 //array('ip_address', 'length', 'max' => 50),
                 // array('ip_address, time, date_create', 'safe', 'on' => 'search'),
         );
