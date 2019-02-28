@@ -8,6 +8,12 @@ $this->widget('ext.adminList.GridView', array(
     'enableHeader' => true,
     'columns' => array(
         array(
+            'name' => 'image',
+            'type' => 'raw',
+            'htmlOptions' => array('class' => 'image text-center'),
+            'value' => '$data->product->renderGridImage()',
+        ),
+        array(
             'name' => 'name',
             'type' => 'raw',
             'value' => 'Html::link(Html::encode($data->product->name), array("/shop/admin/products/update", "id"=>$data->product->id))',
@@ -16,7 +22,7 @@ $this->widget('ext.adminList.GridView', array(
             'name' => 'product_availability',
             'type' => 'raw',
             'htmlOptions' => array('class' => 'text-center'),
-            'value' => 'Html::encode($data->product->availabilityItems[$data->product->availability])',
+            'value' => '$data->getHtmlAvailability()',
         ),
         array(
             'name' => 'product_quantity',

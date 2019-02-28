@@ -2,7 +2,7 @@
 
 return array(
     'NOTIFY_SEND' => 'Отправить письмо',
-    'NOTIFY_SEND_SUCCESS' => 'Сообщения успешно отправлены.',
+    'NOTIFY_SEND_SUCCESS' => 'Уведомление успешно отправлены.',
     'CONFIRM_NOTIFY_SEND' => 'Вы уверены?',
     'ORDERS_BY_USER' => 'Заказы пользователя {username}',
     'MSG_ORDER_DELETED' => 'Заказ удален!',

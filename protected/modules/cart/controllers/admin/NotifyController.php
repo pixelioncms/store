@@ -120,7 +120,7 @@ class NotifyController extends AdminController
     {
         $lang = Yii::app()->language;
         $record = ProductNotifications::model()->findAllByAttributes(array('product_id' => $_GET['product_id']));
-        $siteName = Yii::app()->settings->get('app', 'site_mame');
+        $siteName = Yii::app()->settings->get('app', 'site_name');
         $host = $_SERVER['HTTP_HOST'];
 
         foreach ($record as $row) {
@@ -135,7 +135,7 @@ class NotifyController extends AdminController
 <body>
 Здравствуйте!<br />
 <p>
-    Магазин '.$siteName.' уведомляет Вас о том,
+    Магазин "<strong>'.$siteName.'</strong>" уведомляет Вас о том,
     что появился в наличии продукт <a href="' . $row->product->absoluteUrl . '">' . $row->product->name . '</a>.
 </p>
 <p>Будем рады обслужить Вас и ответить на любые вопросы!</p>
@@ -156,7 +156,7 @@ class NotifyController extends AdminController
            // $row->delete();
         }
 
-        $this->setNotify(Yii::t('CartModule.admin', 'NOTIFY_SEND_SUCCESS'),'success');
+        Yii::app()->user->setFlash('success',Yii::t('CartModule.admin', 'NOTIFY_SEND_SUCCESS'));
         $this->redirect(array('index'));
     }
 
