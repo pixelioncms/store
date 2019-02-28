@@ -51,7 +51,6 @@
   padding: .75rem .50rem;
   position: relative;
   border-bottom: 1px solid #c9c9c9;
-  background-color: #f8f8f8;
   background-image: -moz-linear-gradient(top, #f8f8f8 0%, #e8e8e8 100%);
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f8f8f8), color-stop(100%, #e8e8e8));
   background-image: -webkit-linear-gradient(top, #f8f8f8 0%, #e8e8e8 100%);
@@ -823,10 +822,11 @@ div.tagsinput div {
 .navbar-nav .nav-link {
   position: relative;
 }
-.navbar-nav .nav-link span.badge {
+.navbar-nav .nav-link .badge {
   position: absolute;
   top: 5px;
   right: 5px;
+  font-size: 12px;
 }
 .navbar-nav .nav-link i {
   font-size: 16px;

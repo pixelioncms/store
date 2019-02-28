@@ -560,10 +560,11 @@ div.tagsinput {
 
 .navbar-nav .nav-link {
   position: relative;
-  span.badge {
+  .badge {
     position: absolute;
     top: 5px;
     right: 5px;
+    font-size: 12px;
   }
   i {
     font-size: 16px;
