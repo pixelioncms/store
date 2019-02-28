@@ -33,7 +33,7 @@ class RemindController extends Controller {
             if ($model->validate()) {
                 $model->sendRecoveryMessage();
                 Yii::app()->user->setFlash('success', Yii::t('UsersModule.default', 'REMIND_SUCCESS'));
-                //$this->addFlashMessage(Yii::t('UsersModule.default', 'На вашу почту отправлены инструкции по активации нового пароля.'));
+                //$this->setNotify(Yii::t('UsersModule.default', 'На вашу почту отправлены инструкции по активации нового пароля.'));
                 $this->refresh();
             }
         }
@@ -49,11 +49,11 @@ class RemindController extends Controller {
     public function actionActivatePassword($key) {
         if (User::activeNewPassword($key) === true) {
             Yii::app()->user->setFlash('success', Yii::t('UsersModule.default', 'REMIND_ACTIVE_SUCCESS'));
-           // $this->addFlashMessage(Yii::t('UsersModule.default', 'REMIND_ACTIVE_SUCCESS'));
+           // $this->setNotify(Yii::t('UsersModule.default', 'REMIND_ACTIVE_SUCCESS'));
             $this->redirect(array('/users/login/login'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('UsersModule.default', 'REMIND_ACTIVE_ERROR'));
-            //$this->addFlashMessage(Yii::t('UsersModule.default', 'REMIND_ACTIVE_ERROR'));
+            //$this->setNotify(Yii::t('UsersModule.default', 'REMIND_ACTIVE_ERROR'));
             $this->redirect(array('/users/remind'));
         }
     }

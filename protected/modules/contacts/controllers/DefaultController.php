@@ -70,7 +70,7 @@ class DefaultController extends Controller
                 }
 
                 //  Yii::app()->user->setFlash('success', Yii::t('ContactsModule.default', 'MESSAGE_SUCCESS'));
-                //  $this->addFlashMessage(Yii::t('ContactsModule.default', 'MESSAGE_SUCCESS'));
+                //  $this->setNotify(Yii::t('ContactsModule.default', 'MESSAGE_SUCCESS'));
             } else {
                 if (Yii::app()->request->isAjaxRequest) {
                     $json = array(
@@ -81,7 +81,7 @@ class DefaultController extends Controller
                 }
 
 
-                //$this->addFlashMessage(Yii::t('ContactsModule.default', 'MESSAGE_FAIL'));
+                //$this->setNotify(Yii::t('ContactsModule.default', 'MESSAGE_FAIL'));
                 Yii::app()->user->setFlash('error', Yii::t('ContactsModule.default', 'MESSAGE_FAIL'));
             }
         }

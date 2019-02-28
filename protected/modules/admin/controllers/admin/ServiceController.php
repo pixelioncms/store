@@ -29,7 +29,7 @@ class ServiceController extends AdminController {
             $supportForm->attributes = $_POST['SupportForm'];
             if ($supportForm->validate()) {
                 $supportForm->sendMail();
-                $this->setFlashMessage(Yii::t('app', 'SUCCESS_MSG_SAND'));
+                $this->setNotify(Yii::t('app', 'SUCCESS_MSG_SAND'));
                 $this->redirect(array('index'));
             }
         }

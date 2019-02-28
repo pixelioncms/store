@@ -44,11 +44,11 @@ if(Yii::app()->user->hasFlash('success') || Yii::app()->user->hasFlash('error'))
                 '{name}'=>$model->name,
                 '{email}'=>$model->email
             )));
-            // $this->addFlashMessage(Yii::t('UsersModule.default', 'REMIND_ACTIVE_SUCCESS'));
+            // $this->setNotify(Yii::t('UsersModule.default', 'REMIND_ACTIVE_SUCCESS'));
             $this->redirect(array('/delivery/default/index'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('DeliveryModule.default', 'CONFIRMED_ERROR'));
-            //$this->addFlashMessage(Yii::t('UsersModule.default', 'REMIND_ACTIVE_ERROR'));
+            //$this->setNotify(Yii::t('UsersModule.default', 'REMIND_ACTIVE_ERROR'));
             $this->redirect(array('/delivery/default/index'));
         }
     }

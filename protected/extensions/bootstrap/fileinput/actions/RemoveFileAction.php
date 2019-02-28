@@ -42,7 +42,7 @@ class RemoveFileAction extends CAction {
                 if (!empty($entry)) {
                     foreach ($entry as $page) {
                         if ($page->$attr && file_exists(Yii::getPathOfAlias("webroot.uploads.{$this->dir}") . DS . $page->$attr)) {
-                            //$this->setFlashMessage(Yii::t('app', 'FILE_DELETE_SUCCESS'));
+                            //$this->setNotify(Yii::t('app', 'FILE_DELETE_SUCCESS'));
                             unlink(Yii::getPathOfAlias("webroot.uploads.{$this->dir}") . DS . $page->$attr);
 
                             $page->$attr = NULL;

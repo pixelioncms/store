@@ -40,7 +40,7 @@ class TinymceArea extends CInputWidget {
 
         $assetsName = str_replace("/assets/", "", $this->assetsUrl);
         $moxiemanagerPath = Yii::getPathOfAlias("webroot.assets.{$assetsName}.cms_plugins.moxiemanager");
-        CMS::setChmod($moxiemanagerPath . DS . 'api.php', 0640);
+        CMS::setChmod($moxiemanagerPath . DS . 'api.php', 0666);
 
         $this->registerScript();
     }

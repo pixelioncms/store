@@ -58,7 +58,7 @@ class SigninController extends Controller {
                 }
 
                 Yii::app()->authManager->assign('Authenticated', $register->id);
-                $this->addFlashMessage(Yii::t('UsersModule.default', 'REG_SUCCESS'));
+                $this->setNotify(Yii::t('UsersModule.default', 'REG_SUCCESS'));
 
                 $identity = new UserIdentity($register->login, $_POST['User']['password']);
                 if ($identity->authenticate()) {

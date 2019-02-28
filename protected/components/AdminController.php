@@ -114,7 +114,7 @@ class AdminController extends Controller
     {
         if (isset($path) && isset($filename)) {
             if (file_exists(Yii::getPathOfAlias($path) . DS . $filename)) {
-                $this->setFlashMessage(Yii::t('app', 'FILE_DELETE_SUCCESS'));
+                $this->setNotify(Yii::t('app', 'FILE_DELETE_SUCCESS'));
                 //unlink($filepath);
             }
         }
@@ -129,7 +129,7 @@ class AdminController extends Controller
         if (isset($model)) {
             $mdl = new $model;
             Yii::app()->settings->set($mdl->getModuleId(), $mdl::defaultSettings());
-            $this->setFlashMessage(Yii::t('app', 'SUCCESS_RESET_SETTINGS'));
+            $this->setNotify(Yii::t('app', 'SUCCESS_RESET_SETTINGS'));
             if ($ref) {
                 $this->redirect(array($ref));
             } else {

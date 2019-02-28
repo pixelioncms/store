@@ -471,34 +471,6 @@ class Controller extends RController
         }
     }
 
-
-    /**
-     *
-     * @param string $message
-     */
-    public function addFlashMessage($message)
-    {
-        $currentMessages = Yii::app()->user->getFlash('messages');
-
-        if (!is_array($currentMessages))
-            $currentMessages = array();
-
-        Yii::app()->user->setFlash('messages', CMap::mergeArray($currentMessages, array($message)));
-    }
-
-    /**
-     *
-     * @param string $message
-     */
-    public function setFlashMessage($message)
-    {
-        $currentMessages = Yii::app()->user->getFlash('messages');
-        if (!is_array($currentMessages))
-            $currentMessages = array();
-
-        Yii::app()->user->setFlash('messages', CMap::mergeArray($currentMessages, array($message)));
-    }
-
     public function setNotify($message, $type = 'info')
     {
         $currentMessages = Yii::app()->user->getFlash($type);

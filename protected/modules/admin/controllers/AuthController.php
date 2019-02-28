@@ -45,7 +45,7 @@ class AuthController extends AdminController
                         'password' => 'dsadsaa'
                     );
 
-                    $this->setFlashMessage(Yii::t('app', 'WELCOME', array('{user_name}' => Yii::app()->user->getName())));
+                    $this->setNotify(Yii::t('app', 'WELCOME', array('{user_name}' => Yii::app()->user->getName())));
                     $this->redirect($this->createUrl('/admin'));
                 } else {
                     //$resp = array('error' => true,'error_msg'=>$respss.Yii::t('UsersModule.default', 'INCORRECT_LOGIN_OR_PASS'));

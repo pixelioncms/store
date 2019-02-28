@@ -71,7 +71,7 @@ class MarkersController extends AdminController {
 
 
             if (file_exists(Yii::getPathOfAlias('webroot.uploads') . DS . $model->icon_file)) {
-                $this->setFlashMessage(Yii::t('app', 'FILE_DELETE_SUCCESS'));
+                $this->setNotify(Yii::t('app', 'FILE_DELETE_SUCCESS'));
                 unlink(Yii::getPathOfAlias('webroot.uploads') . DS . $model->icon_file);
                  $this->redirect(array('index'));
             }

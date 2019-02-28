@@ -126,7 +126,7 @@ class AttachmentBehavior extends CActiveRecordBehavior
                 } else {
 
                     die('err upload AttachmentBehavior');
-                    //$this->setFlashMessage(Yii::t('ShopModule.admin', 'ERR_LOAD_IMAGE', array('{NAME}' => $image->getName())));
+                    //$this->setNotify(Yii::t('ShopModule.admin', 'ERR_LOAD_IMAGE', array('{NAME}' => $image->getName())));
                 }
             }
         }

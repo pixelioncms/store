@@ -125,7 +125,7 @@ class DefaultController extends AdminController
                     )), CClientScript::POS_END);
                 }
                 ///  if ($new) {
-                //      $this->setFlashMessage(Yii::t('app', 'Теперь Вы можете добавить товары.'));
+                //      $this->setNotify(Yii::t('app', 'Теперь Вы можете добавить товары.'));
                 //}
                 $this->redirect(array('update', 'id' => $model->id));
             }

@@ -340,7 +340,7 @@ cores
                         'password' => 'dsadsaa'
                     );
                 Yii::log($_POST['token'].'-'.Yii::app()->request->csrfToken,'info','application');
-                    // $this->setFlashMessage(Yii::t('app', 'WELCOME', array('{user_name}' => Yii::app()->user->getName())));
+                    // $this->setNotify(Yii::t('app', 'WELCOME', array('{user_name}' => Yii::app()->user->getName())));
                 } else {
                     $resp = array('error' => true, 'error_msg' => Yii::t('UsersModule.default', 'INCORRECT_LOGIN_OR_PASS'));
                 }

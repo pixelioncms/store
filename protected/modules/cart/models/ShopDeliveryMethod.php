@@ -46,16 +46,16 @@ class ShopDeliveryMethod extends ActiveRecord
     public function getGridColumns()
     {
         return array(
-            array(
+            'name' => array(
                 'name' => 'name',
                 'type' => 'raw',
                 'value' => 'Html::link(Html::encode($data->name), array("/shop/admin/delivery/update", "id"=>$data->id))',
             ),
-            array(
+            'price' => array(
                 'name' => 'price',
                 'value' => '$data->price'
             ),
-            array(
+            'free_from' => array(
                 'name' => 'free_from',
                 'value' => '$data->free_from'
             ),
@@ -119,23 +119,26 @@ class ShopDeliveryMethod extends ActiveRecord
             )
         ), $this);
     }
+
     /**
      * @return array of available payment systems. e.g array(id=>name)
      */
-    public function getDeliverySystemsArray() {
+    public function getDeliverySystemsArray()
+    {
         // Yii::import('application.modules.shop.components.payment.PaymentSystemManager');
         $result = array();
 
         $systems = new DeliverySystemManager;
 
         foreach ($systems->getSystems() as $system) {
-            $result[(string) $system->id] = $system->name;
+            $result[(string)$system->id] = $system->name;
         }
 
         return $result;
     }
 
-    public function getDeliverySystemClass() {
+    public function getDeliverySystemClass()
+    {
         if ($this->delivery_system) {
             $manager = new DeliverySystemManager;
             return $manager->getSystemClass($this->delivery_system);

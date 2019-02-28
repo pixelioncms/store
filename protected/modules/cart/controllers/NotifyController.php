@@ -1,15 +1,18 @@
 <?php
 
-class NotifyController extends Controller {
+class NotifyController extends Controller
+{
 
-    public function init() {
+    public function init()
+    {
         Yii::app()->request->enableCsrfValidation = false;
         parent::init();
     }
 
-    public function actionIndex() {
-        header('Content-Type: application/json');
-        $json=array();
+    public function actionIndex()
+    {
+
+        $json = array();
         $product = ShopProduct::model()->findByPk(Yii::app()->request->getPost('product_id'));
 
         if (!$product)
@@ -21,17 +24,17 @@ class NotifyController extends Controller {
             $record->product_id = $product->id;
             if ($record->validate() && $record->hasEmail() === false) {
                 $record->save();
-                $json['message']='Мы сообщим вам когда товар появится в наличии';
-                $json['status']='OK';
-            }else{
-                $json['message']='Ошибка';
-                $json['status']='ERROR';
+                $json['message'] = 'Мы сообщим вам когда товар появится в наличии';
+                $json['status'] = 'OK';
+            } else {
+                $json['message'] = 'Ошибка';
+                $json['status'] = 'ERROR';
             }
         }
-        $json['data']=$this->renderPartial('_form', array('model' => $record, 'product' => $product),true);
+        $json['data'] = $this->renderPartial('_form', array('model' => $record, 'product' => $product), true);
 
-        echo CJSON::encode($json);
-       // $this->render('_form', array('model' => $record, 'product' => $product));
+        $this->setJson($json);
+        // $this->render('_form', array('model' => $record, 'product' => $product));
     }
 
 }

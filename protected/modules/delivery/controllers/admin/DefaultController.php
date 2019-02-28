@@ -148,9 +148,9 @@ class DefaultController extends AdminController {
                 print_r($product->name);
                 echo '<br>';
             }
-            $this->setFlashMessage(Yii::t('app', 'Сообщение оправлено подписчикам.'));
+            $this->setNotify(Yii::t('app', 'Сообщение оправлено подписчикам.'));
         } else {
-            $this->setFlashMessage(Yii::t('app', 'Новых товаров за сегодня небыло добавлено!'));
+            $this->setNotify(Yii::t('app', 'Новых товаров за сегодня небыло добавлено!'));
         }
         $this->redirect(array('index'));
     }

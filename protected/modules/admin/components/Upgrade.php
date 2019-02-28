@@ -37,7 +37,7 @@ class Upgrade {
             if (!$connect->hasErrors()) {
                 // $opt = $curl->getData();
                 //print_r($opt);
-                //Yii::app()->controller->setFlashMessage('Обновление успешно скачено');
+                //Yii::app()->controller->setNotify('Обновление успешно скачено');
                 fclose($fp);
                 return true;
             } else {

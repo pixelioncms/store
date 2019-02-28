@@ -124,7 +124,7 @@ class DefaultController extends AdminController
         if (isset($_POST['cache_id'])) {
             //Yii::app()->cache->delete($_POST['cache_id']);
             Yii::app()->cache->flush();
-            $this->setFlashMessage(Yii::t('admin', 'SUCCESS_CLR_CACHE'));
+            $this->setNotify(Yii::t('admin', 'SUCCESS_CLR_CACHE'));
             //$this->refresh();
         }
     }
@@ -133,7 +133,7 @@ class DefaultController extends AdminController
     {
         if (isset($_POST['clear_assets'])) {
             FileSystem::fs('assets', Yii::getPathOfAlias('webroot'))->cleardir();
-            $this->setFlashMessage(Yii::t('admin', 'SUCCESS_CLR_ASSETS'));
+            $this->setNotify(Yii::t('admin', 'SUCCESS_CLR_ASSETS'));
             //$this->refresh();
         }
     }

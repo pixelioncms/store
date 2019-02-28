@@ -12,7 +12,7 @@ class SaveAvatarAction extends CAction {
                 $user->save(false,false,false);
                 
                 //Yii::app()->user->setFlash('messages', Yii::t('app', 'Changes saved successfully'));
-                //$this->controller->addFlashMessage(Yii::t('app', 'SUCCESS_SAVE'));
+                //$this->controller->setNotify(Yii::t('app', 'SUCCESS_SAVE'));
                 //$this->redirect('/users/profile');
             } else {
                 die(print_r($user->getErrors()));

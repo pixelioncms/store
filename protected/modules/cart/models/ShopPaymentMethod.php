@@ -14,7 +14,8 @@ Yii::import('mod.cart.models.ShopPaymentMethodTranslate');
  * @property integer $switch
  * @property integer $ordern
  */
-class ShopPaymentMethod extends ActiveRecord {
+class ShopPaymentMethod extends ActiveRecord
+{
 
     const MODULE_ID = 'cart';
 
@@ -33,14 +34,15 @@ class ShopPaymentMethod extends ActiveRecord {
      */
     public $description;
 
-    public function getGridColumns() {
+    public function getGridColumns()
+    {
         return array(
-            array(
+            'name' => array(
                 'name' => 'name',
                 'type' => 'raw',
                 'value' => 'Html::link(Html::encode($data->name), array("/shop/admin/paymentMethod/update", "id"=>$data->id))',
             ),
-            array(
+            'switch' => array(
                 'name' => 'switch',
                 'filter' => array(1 => Yii::t('app', 'YES'), 0 => Yii::t('app', 'NO')),
                 'value' => '$data->switch ? Yii::t("app", "YES") : Yii::t("app", "NO")',
@@ -56,7 +58,8 @@ class ShopPaymentMethod extends ActiveRecord {
         );
     }
 
-    public function getForm() {
+    public function getForm()
+    {
         return new CMSForm(array(
             'attributes' => array(
                 'id' => __CLASS__
@@ -94,7 +97,7 @@ class ShopPaymentMethod extends ActiveRecord {
                     'label' => ($this->isNewRecord) ? Yii::t('app', 'CREATE', 0) : Yii::t('app', 'SAVE')
                 )
             )
-                ), $this);
+        ), $this);
     }
 
     /**
@@ -102,21 +105,24 @@ class ShopPaymentMethod extends ActiveRecord {
      * @param string $className active record class name.
      * @return ShopPaymentMethod the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return '{{shop_payment_method}}';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         return array(
             array('name, currency_id', 'required'),
             array('switch, ordern', 'numerical', 'integerOnly' => true),
@@ -128,13 +134,15 @@ class ShopPaymentMethod extends ActiveRecord {
         );
     }
 
-    public function relations() {
+    public function relations()
+    {
         return array(
             'pm_translate' => array(self::HAS_ONE, $this->translateModelName, 'object_id'),
         );
     }
 
-    public function defaultScope() {
+    public function defaultScope()
+    {
         return array(
             'order' => 'ordern DESC',
         );
@@ -143,7 +151,8 @@ class ShopPaymentMethod extends ActiveRecord {
     /**
      * @return array
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return CMap::mergeArray(array(
             'TranslateBehavior' => array(
                 'class' => 'app.behaviors.TranslateBehavior',
@@ -159,27 +168,29 @@ class ShopPaymentMethod extends ActiveRecord {
     /**
      * @return array
      */
-    public function scopes() {
+    public function scopes()
+    {
         $alias = $this->getTableAlias();
         return CMap::mergeArray(array(
             'orderByPosition' => array('order' => $alias . '.ordern ASC'),
             'orderByPositionDesc' => array('order' => $alias . '.ordern DESC'),
             'orderByName' => array('order' => $alias . '.name ASC'),
             'orderByNameDesc' => array('order' => $alias . '.name DESC'),
-        ),parent::scopes());
+        ), parent::scopes());
     }
 
     /**
      * @return array of available payment systems. e.g array(id=>name)
      */
-    public function getPaymentSystemsArray() {
+    public function getPaymentSystemsArray()
+    {
         // Yii::import('application.modules.shop.components.payment.PaymentSystemManager');
         $result = array();
 
         $systems = new PaymentSystemManager;
 
         foreach ($systems->getSystems() as $system) {
-            $result[(string) $system->id] = $system->name;
+            $result[(string)$system->id] = $system->name;
         }
 
         return $result;
@@ -188,7 +199,8 @@ class ShopPaymentMethod extends ActiveRecord {
     /**
      * Renders form display on the order view page
      */
-    public function renderPaymentForm(Order $order) {
+    public function renderPaymentForm(Order $order)
+    {
         if ($this->payment_system) {
             $manager = new PaymentSystemManager;
             $system = $manager->getSystemClass($this->payment_system);
@@ -199,7 +211,8 @@ class ShopPaymentMethod extends ActiveRecord {
     /**
      * @return null|BasePaymentSystem
      */
-    public function getPaymentSystemClass() {
+    public function getPaymentSystemClass()
+    {
         if ($this->payment_system) {
             $manager = new PaymentSystemManager;
             return $manager->getSystemClass($this->payment_system);
@@ -210,7 +223,8 @@ class ShopPaymentMethod extends ActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return ActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         $criteria = new CDbCriteria;
 
         $criteria->with = array('pm_translate');

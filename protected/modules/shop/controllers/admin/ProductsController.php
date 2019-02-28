@@ -291,7 +291,7 @@ class ProductsController extends AdminController
                 if ($model->save(false, false, false)) {
                     unlink($fullPath);
                     $this->redirect($this->createUrl('update', array('id' => $pk)));
-                    $this->setFlashMessage(Yii::t('app', 'FILE_SUCCESS_DELETE'));
+                    $this->setNotify(Yii::t('app', 'FILE_SUCCESS_DELETE'));
                 }
             }
         }

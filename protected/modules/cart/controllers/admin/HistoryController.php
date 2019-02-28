@@ -32,10 +32,10 @@ class HistoryController extends AdminController {
             $form->attributes = $_GET['OrderProductHistoryForm'];
 
             if ($form->validate()) {
-                //$this->setFlashMessage(Yii::t('app', 'OK'));
+                //$this->setNotify(Yii::t('app', 'OK'));
             } else {
                 print_r($form->getErrors());
-                $this->setFlashMessage(Yii::t('app', 'NO VALID'));
+                $this->setNotify(Yii::t('app', 'NO VALID'));
             }
         }
         $this->render('index', array(
@@ -58,10 +58,10 @@ class HistoryController extends AdminController {
       $form->attributes = $_GET['OrderProductHistoryForm'];
 
       if ($form->validate()) {
-      //$this->setFlashMessage(Yii::t('app', 'OK'));
+      //$this->setNotify(Yii::t('app', 'OK'));
       } else {
       print_r($form->getErrors());
-      $this->setFlashMessage(Yii::t('app', 'NO VALID'));
+      $this->setNotify(Yii::t('app', 'NO VALID'));
       }
       }
       $this->render('index', array(

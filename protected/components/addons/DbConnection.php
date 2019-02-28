@@ -96,7 +96,7 @@ class DbConnection extends CDbConnection
             }
 
             if (Yii::app()->controller instanceof AdminController) {
-                Yii::app()->controller->setFlashMessage(Yii::t('app', 'BACKUP_DB_SUCCESS', array(
+                Yii::app()->controller->setNotify(Yii::t('app', 'BACKUP_DB_SUCCESS', array(
                     '{settings}' => Html::link(Yii::t('app', 'SETTINGS'), array('/admin/security'))
                 )));
             }

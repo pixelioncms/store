@@ -52,7 +52,7 @@ class DefaultController extends Controller {
     public function actionAdd($id) {
         $this->model->add($id);
         $message = Yii::t('CompareModule.default', 'SUCCESS_ADD');
-        $this->addFlashMessage($message);
+        $this->setNotify($message);
         if (!Yii::app()->request->isAjaxRequest) {
             $this->redirect($this->createUrl('index'));
         } else {

@@ -148,7 +148,7 @@ class ModulesModel extends ActiveRecord {
             }
         } else {
             Yii::app()->user->setFlash('error', Yii::t('admin', 'ERROR_INSTALL_MODULE'));
-            // Yii::app()->controller->setFlashMessage(Yii::t('admin', 'ERROR_INSTALL_MODULE'));
+            // Yii::app()->controller->setNotify(Yii::t('admin', 'ERROR_INSTALL_MODULE'));
             return false;
         }
         self::deleteCaches();

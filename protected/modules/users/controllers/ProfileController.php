@@ -65,7 +65,7 @@ class ProfileController extends Controller {
                         }
                         $changePasswordSuccess=Yii::t('UsersModule.default', 'Пароль успешно изменен.');
                         Yii::app()->user->setFlash('change_success', Yii::t('UsersModule.default', 'Пароль успешно изменен.'));
-                        //   $this->addFlashMessage(Yii::t('UsersModule.default', 'Пароль успешно изменен.'));
+                        //   $this->setNotify(Yii::t('UsersModule.default', 'Пароль успешно изменен.'));
                        //  $this->refresh();
                     }
                 }

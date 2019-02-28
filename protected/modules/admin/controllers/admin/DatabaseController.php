@@ -60,10 +60,10 @@ class DatabaseController extends AdminController {
             $filePath = Yii::getPathOfAlias(Yii::app()->db->backupPath) . DS . $filedel;
             if (file_exists($filePath)) {
                 @unlink($filePath);
-                $this->setFlashMessage(Yii::t('app', 'FILE_SUCCESS_DELETE'));
+                $this->setNotify(Yii::t('app', 'FILE_SUCCESS_DELETE'));
                 $this->redirect(array('admin/database'));
             } else {
-                $this->setFlashMessage(Yii::t('app', 'ERR_FILE_NOT_FOUND'));
+                $this->setNotify(Yii::t('app', 'ERR_FILE_NOT_FOUND'));
             }
         }
     }

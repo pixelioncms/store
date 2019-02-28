@@ -43,7 +43,7 @@ class FormModel extends CFormModel {
 
     public function save($message = true) {
         if ($message)
-        // Yii::app()->controller->setFlashMessage(Yii::t('app', 'SUCCESS_UPDATE'));
+        // Yii::app()->controller->setNotify(Yii::t('app', 'SUCCESS_UPDATE'));
             Yii::app()->user->setFlash('success', Yii::t('app', 'SUCCESS_UPDATE'));
     }
 
@@ -61,7 +61,7 @@ class FormModel extends CFormModel {
       } else {
       if ($message)
       Yii::app()->user->setFlash('error','eeeeeeee');
-      //Yii::app()->controller->setFlashMessage(Yii::t('app', 'ERROR_VALIDATE'));
+      //Yii::app()->controller->setNotify(Yii::t('app', 'ERROR_VALIDATE'));
       return false;
       }
       } */

@@ -203,17 +203,17 @@ class LicenseCMS1 extends CComponent {
                     }
                 } else {
                     print_r($result);
-                    //  Yii::app()->controller->setFlashMessage($result['message']);
+                    //  Yii::app()->controller->setNotify($result['message']);
                     // Yii::app()->settings->set('app', array('site_close' => 1));
                     // Yii::app()->settings->set('app', array('site_close_text' => $result['message']));
                 }
                 // if (isset($result['message'])) {
-                // Yii::app()->controller->setFlashMessage($result['message']);
+                // Yii::app()->controller->setNotify($result['message']);
                 // $this->getAlertLicense($result['message']);
                 //  }
             } else {
                 $error = $connent->getErrors();
-                //   Yii::app()->controller->setFlashMessage('Connect error: ' . $error->code . ': ' . $error->message);
+                //   Yii::app()->controller->setNotify('Connect error: ' . $error->code . ': ' . $error->message);
                 print_r($error);
             }
         } else {

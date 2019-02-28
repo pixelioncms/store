@@ -47,7 +47,7 @@ class DefaultController extends Controller {
 
         $this->model->add($id);
         $message = Yii::t('WishlistModule.default', 'SUCCESS_ADD');
-        $this->addFlashMessage($message);
+        $this->setNotify($message);
         if (!Yii::app()->request->isAjaxRequest) {
             $this->redirect($this->createUrl('index'));
         } else {
