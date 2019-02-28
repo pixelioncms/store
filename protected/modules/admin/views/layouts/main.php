@@ -345,16 +345,8 @@ $this->renderPartial('mod.admin.views.layouts.inc._cs', array(
     </div>
     <?php
 
-    /*$cs = Yii::app()->clientScript;
-    if (($messages = Yii::app()->user->getFlash('messages'))) {
-        foreach ($messages as $k => $m) {
-            $cs->registerScript('common.notify' . $k, "common.notify('" . $m . "', 'success');", CClientScript::POS_END);
-        }
-    }*/
-
+    $cs = Yii::app()->clientScript;
     if (($messages = Yii::app()->user->getFlash('notify'))) {
-
-
         foreach ($messages as $type => $errors) {
             if (is_array($errors)) {
                 foreach ($errors as $k => $err) {
