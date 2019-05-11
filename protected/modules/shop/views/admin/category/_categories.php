@@ -81,7 +81,7 @@ $this->widget('ext.jstree.JsTree', array(
                         "title":"' . (Yii::app()->user->openAccess(array('Shop.Category.*', 'Shop.Category.CreateNode', 'Shop.Category.Create')) ? Yii::t('app', 'CREATE', 0) : Yii::t('error', '401')) . '",
                         "action": function (obj) {
                             $node = tree.get_node($node);
-                            window.location = "/admin/shop/category/create/parent_id/"+$node.id.replace("node_", "");
+                             window.location = "'.Yii::app()->createUrl('/admin/shop/category/create/parent_id').'/"+$node.id.replace("node_", "");
                         }
                     }, 
                     "Edit": {
@@ -91,7 +91,7 @@ $this->widget('ext.jstree.JsTree', array(
                         "title":"' . (Yii::app()->user->openAccess(array('Shop.Category.*', 'Shop.Category.Update')) ? Yii::t('app', 'UPDATE', 0) : Yii::t('error', '401')) . '",
                         "action": function (obj) {
                             $node = tree.get_node($node);
-                           window.location = "/admin/shop/category/update/id/"+$node.id.replace("node_", "");
+                           window.location = "'.Yii::app()->createUrl('/admin/shop/category/update/id').'/"+$node.id.replace("node_", "");
                         }
                     },  
                     "Rename": {

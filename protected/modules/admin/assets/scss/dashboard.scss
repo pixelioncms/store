@@ -6,6 +6,10 @@ a {
   text-decoration: underline;
 }
 
+#login-form .input-group-append{
+	position:absolute;
+	right:0;
+}
 .bootstrap-select .btn-light {
   border-color: #c9c9c9;
   background-color: #fff;
@@ -72,7 +76,7 @@ a:hover,
 .no-radius .list-group-item:first-child,
 .no-radius .form-control,
 .no-radius .custom-select,
-.no-radius .btn,
+/*.no-radius .btn,*/
 .no-radius .alert,
 .no-radius .progress,
 .no-radius .img-thumbnail,
@@ -1923,7 +1927,7 @@ table .alert {
 
 
 
-
+@import "buttons";
 
 
 

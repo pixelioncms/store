@@ -123,9 +123,23 @@ class NotifyController extends AdminController
         $siteName = Yii::app()->settings->get('app', 'site_name');
         $host = $_SERVER['HTTP_HOST'];
 
+
+        $mailTPL = MailTplModel::model()->findByPk(1);
+
+
+
+
+
         foreach ($record as $row) {
             if (!$row->product)
                 continue;
+
+
+            $mailTPL->mails='andrew.panix@gmail.com';
+            $mailTPL->setOptions=array(
+                '{product}'=>'dsasda'
+            );
+            $mailTPL->send();
 
             $theme = Yii::t('CartModule.admin', '{site_name} уведомляет о наличии интересующего Вас продукта', array(
                 '{site_name}' => $siteName
@@ -142,7 +156,7 @@ class NotifyController extends AdminController
 </body>
 </html>    
 ';
-            $mailer = Yii::app()->mail;
+            /*$mailer = Yii::app()->mail;
             $mailer->From = 'robot@' . $host;
             $mailer->FromName = Yii::app()->settings->get('app', 'site_name');
             $mailer->Subject = $theme;
@@ -151,7 +165,7 @@ class NotifyController extends AdminController
             $mailer->AddReplyTo('robot@' . $host);
             $mailer->isHtml(true);
             $mailer->Send();
-            $mailer->ClearAddresses();
+            $mailer->ClearAddresses();*/
 
            // $row->delete();
         }

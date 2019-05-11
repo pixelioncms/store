@@ -3,6 +3,7 @@
 <html lang="<?=Yii::app()->language?>">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title><?= Html::encode($this->pageTitle) ?></title>
     </head>
     <body class="no-radius">
         <?php $this->renderPartial('//layouts/inc/_header'); ?>

@@ -1,5 +1,11 @@
 <?php
 
+//echo Html::form('/admin/cart/default/pdf', 'get', array('class' => 'form-inline form-horizontal2', 'target=' => '_blank'));
+?>
+<?php $this->renderPartial('_filter_pdf'); ?>
+
+<?php
+
 $this->widget('ext.adminList.GridView', array(
     'dataProvider' => $dataProvider,
     'name' => $this->pageName,
@@ -15,4 +21,6 @@ $this->widget('ext.adminList.GridView', array(
 
     'rowHtmlOptionsExpression' => 'array("style" => "background-color:$data->status_color")',
 ));
+
+//
 

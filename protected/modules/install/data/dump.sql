@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `{prefix}attachments`;
 CREATE TABLE `{prefix}attachments` (
   `id` int(4) unsigned NOT NULL AUTO_INCREMENT,
   `object_id` int(4) unsigned NOT NULL,
-  `user_id` int(4) unsigned NOT NULL,
+  `user_id` int(4) unsigned DEFAULT NULL,
   `model` varchar(255) DEFAULT NULL,
   `dir` varchar(25) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE `{prefix}user` (
 DROP TABLE IF EXISTS `{prefix}timeline`;
 CREATE TABLE `{prefix}timeline` (
   `id` int(4) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(4) unsigned NOT NULL,
+  `user_id` int(4) unsigned DEFAULT NULL,
   `message` text NOT NULL,
   `datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip` CHAR(45) NOT NULL,
@@ -156,7 +156,7 @@ CREATE TABLE `{prefix}user_favorites` (
   `owner_title` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `model_class` varchar(50) NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) DEFAULT NULL,
   `date_create` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
@@ -282,7 +282,7 @@ CREATE TABLE `{prefix}rating` (
   `mid` int(11) NOT NULL,
   `modul` varchar(50) NOT NULL,
   `time` varchar(50) NOT NULL,
-  `user_id` int(10) NOT NULL,
+  `user_id` int(10) DEFAULT NULL,
   `host` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
@@ -303,7 +303,7 @@ CREATE TABLE `{prefix}desktop_widgets` (
 DROP TABLE IF EXISTS `{prefix}banned_ip`;
 CREATE TABLE `{prefix}banned_ip` (
   `id` int(4) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(4) unsigned NOT NULL COMMENT 'Who blocked',
+  `user_id` int(4) unsigned DEFAULT NULL COMMENT 'Who blocked',
   `ip_address` CHAR(45) NOT NULL,
   `reason` text NOT NULL,
   `date_create` datetime NOT NULL,

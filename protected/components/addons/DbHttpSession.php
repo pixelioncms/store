@@ -11,7 +11,7 @@ class DbHttpSession extends CDbHttpSession
      * @param boolean $deleteOldSession Whether to delete the old associated session file or not.
      * @since 1.1.8
      */
-    public function regenerateID2($deleteOldSession = false)
+    public function regenerateID22($deleteOldSession = false)
     {
         $oldID = session_id();
 
@@ -57,30 +57,41 @@ class DbHttpSession extends CDbHttpSession
      */
     public function writeSession($id, $data)
     {
-        $url = htmlspecialchars(getenv("REQUEST_URI"));
-        $ip = Yii::app()->request->userHostAddress;
 
-
-        if (Yii::app()->user->isSuperuser) {
-            $uname = Yii::app()->user->login;
-            $user_type = 'Admin';
-        } elseif (!Yii::app()->user->isGuest) {
-            $uname = Yii::app()->user->login;
-            $user_type = implode(',', Yii::app()->user->getRoles());
-        } elseif (Yii::app()->user->isGuest) {
-            $checkBot = CMS::isBot();
-            if ($checkBot['success']) {
-                $uname = substr($checkBot['name'], 0, 25);
-                $user_type = 'SearchBot';
-            } else {
-                $uname = $ip;
-                $user_type = 'Guest';
-            }
-        }
 
         // exception must be caught in session write handler
         // http://us.php.net/manual/en/function.session-set-save-handler.php
         try {
+
+            $url = htmlspecialchars(getenv("REQUEST_URI"));
+            $ip = Yii::app()->request->userHostAddress;
+
+
+            //if (Yii::app()->hasComponent('user')) {
+            if (Yii::app()->user->isGuest) {
+                $checkBot = CMS::isBot();
+                if ($checkBot['success']) {
+                    $uname = substr($checkBot['name'], 0, 25);
+                    $user_type = 'SearchBot';
+                } else {
+                    $uname = $ip;
+                    $user_type = 'Guest';
+                }
+            } else {
+                $uname = Yii::app()->user->username;
+                if (Yii::app()->user->isSuperuser) {
+                    $user_type = 'Admin';
+                } else {
+                    if (Yii::app()->user) {
+                        $user_type = implode(',', Yii::app()->user->getRoles());
+                    } else {
+                        $user_type = 'user';
+                    }
+                }
+            }
+            //}
+
+
             $expire = time() + $this->getTimeout();
             $db = $this->getDbConnection();
             if ($db->getDriverName() == 'pgsql')
@@ -100,17 +111,18 @@ class DbHttpSession extends CDbHttpSession
                     'user_agent' => Yii::app()->request->userAgent,
                 ));
             } else {
+
                 //todo: Panix isAjaxRequest no job with module cart.
-               // if (!Yii::app()->request->isAjaxRequest) {
-                    $db->createCommand()->update($this->sessionTableName, array(
-                        'data' => $data,
-                        'expire' => $expire,
-                        'user_id' => Yii::app()->user->id,
-                        'current_url' => $url,
-                        'user_type' => $user_type,
-                        'user_name' => $uname,
-                    ), 'id=:id', array(':id' => $id));
-               // }
+                // if (!Yii::app()->request->isAjaxRequest) {
+                $db->createCommand()->update($this->sessionTableName, array(
+                    'data' => $data,
+                    'expire' => $expire,
+                    'user_id' => (!Yii::app()->user->isGuest) ? Yii::app()->user->id : NULL,
+                    'current_url' => $url,
+                    'user_type' => $user_type,
+                    'user_name' => $uname,
+                ), 'id=:id', array(':id' => $id));
+                // }
             }
         } catch (Exception $e) {
             if (YII_DEBUG)

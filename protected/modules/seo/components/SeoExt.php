@@ -49,6 +49,8 @@ class SeoExt extends CApplicationComponent
              * Изменена ****
              */
 
+
+            Yii::log('init', 'info', 'application');
             $titleFlag = false;
             $urls = $this->getUrls();
             foreach ($urls as $url) {
@@ -67,8 +69,12 @@ class SeoExt extends CApplicationComponent
                     $titleFlag = true;
                 }
             }
-            if ($titleFlag)
+
+            if ($titleFlag) {
                 $this->printMeta('title', Html::encode(Yii::app()->controller->pageTitle));
+                $this->printMeta('description', Yii::app()->controller->pageDescription);
+            }
+
         }
 
     }
@@ -149,20 +155,11 @@ class SeoExt extends CApplicationComponent
                     $url->title = str_replace($param['tpl'], $param['item'], $url->title);
                 }
             }
-            if (Yii::app()->request->getParam('page')) {
-                $url->title .= Yii::t('SeoModule.default', 'SEO_PAGE_NUM', array('{n}' => Yii::app()->request->getParam('page')));
-            }
-            $this->printMeta('title', $url->title . ' ' . Yii::app()->settings->get('seo', 'separation') . ' ' . $controller->pageTitle);
+            $this->printMeta('title', $url->title);
 
         } else {
-            if (isset($controller->pageTitle)) {
-                if (Yii::app()->request->getParam('page')) {
-                    $controller->pageTitle .= Yii::t('SeoModule.default', 'SEO_PAGE_NUM', array('{n}' => Yii::app()->request->getParam('page')));
-                }
-                $this->printMeta('title', $controller->pageTitle);
-            } else {
-                $this->printMeta('title', Yii::app()->settings->get('app', 'site_name'));
-            }
+            $this->printMeta('title', $controller->pageTitle);
+
         }
         if ($url->keywords) {
             foreach ($url->params as $paramData) {
@@ -200,8 +197,8 @@ class SeoExt extends CApplicationComponent
     /**
      * функция вывода Мета Тега на страницу
      *
-     * @param $name название мета-тега
-     * @param $content значение
+     * @param string $name Название мета-тега
+     * @param string $content значение
      */
     private function printMeta($name, $content)
     {
@@ -213,6 +210,7 @@ class SeoExt extends CApplicationComponent
         if ($name == "keywords")
             $content = str_replace(',', ", ", $content);
         if ($name == "title") {
+
             // Yii::app()->controller->pageTitle = $content;
             Yii::app()->clientScript->registerTitleTag($content);
             //  echo "<title>{$content}</title>\n";

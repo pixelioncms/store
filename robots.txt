@@ -14,7 +14,7 @@ Allow: /*.png
 Allow: /*.svg
 
 
-Host: pixelion.store.loc
-Sitemap: http://pixelion.store.loc/sitemap.xml
+Host: store.pixelion.com.ua
+Sitemap: http://store.pixelion.com.ua/sitemap.xml
 
         

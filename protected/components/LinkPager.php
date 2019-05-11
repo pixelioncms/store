@@ -138,6 +138,16 @@ class LinkPager extends CBasePager {
     public function run() {
         $this->registerClientScript();
         $buttons = $this->createPageButtons();
+		
+		
+        //by Panix for SEO
+        if (!(Yii::app()->controller instanceof AdminController)) {
+            if (Yii::app()->request->getParam($this->getPages()->pageVar) > $this->getPageCount()) {
+                throw new CHttpException(404);
+            }
+        }
+		
+		
         if (empty($buttons))
             return;
         echo $this->header;

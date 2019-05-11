@@ -16,7 +16,22 @@ class ClientScript extends CClientScript
     public function registerTitleTag($content)
     {
         $params = func_get_args();
+
+
+
+        if (Yii::app()->request->getParam('page')) {
+            $content .= Yii::t('SeoModule.default', 'SEO_PAGE_NUM', array('{n}' => Yii::app()->request->getParam('page')));
+        }
+        if (Yii::app()->settings->get('seo', 'enable_title_name') && $content) {
+            $content .= ' ' . Yii::app()->settings->get('seo', 'separation') . ' ' . Yii::app()->settings->get('app', 'site_name');
+        } else {
+            $content .= ' ' . Yii::app()->settings->get('app', 'site_name');
+        }
+
+
+
         $this->title = $content;
+        Yii::log('registerTitleTag'.$content, 'info', 'application');
         $this->recordCachingAction('clientScript', 'registerTitleTag', $params);
         return $this;
     }

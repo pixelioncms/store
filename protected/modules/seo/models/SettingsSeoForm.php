@@ -12,6 +12,7 @@ class SettingsSeoForm extends FormSettingsModel {
     public $google_site_verification;
     public $yandex_verification;
     public $separation;
+    public $enable_title_name;
 
     public static function defaultSettings() {
         return array(
@@ -24,7 +25,8 @@ class SettingsSeoForm extends FormSettingsModel {
             'canonical' => true,
             'google_site_verification' => '',
             'yandex_verification' => '',
-            'separation'=>'|'
+            'separation'=>'|',
+            'enable_title_name'=>true
         );
     }
 
@@ -41,6 +43,7 @@ class SettingsSeoForm extends FormSettingsModel {
                     'elements' => array(
                         'separation' => array('type' => 'text'),
                         'canonical' => array('type' => 'checkbox'),
+                        'enable_title_name' => array('type' => 'checkbox'),
                     )
                 ),
                 'google' => array(
@@ -76,7 +79,7 @@ class SettingsSeoForm extends FormSettingsModel {
 
     public function rules() {
         return array(
-            array('yandexmetrika_clickmap, yandexmetrika_trackLinks, yandexmetrika_webvisor, canonical', 'boolean'),
+            array('yandexmetrika_clickmap, yandexmetrika_trackLinks, yandexmetrika_webvisor, canonical, enable_title_name', 'boolean'),
             array('separation, googleanalytics_id, googletag_id, google_site_verification, yandex_verification', 'type', 'type' => 'string'),
             array('yandexmetrika_id', 'numerical', 'integerOnly' => true),
             array('googleanalytics_id', 'length', 'max' => 13, 'min' => 13),

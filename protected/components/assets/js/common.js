@@ -24,9 +24,15 @@ common.clipboard = function (selector) {
         });
     });
 };
-common.switchInputPass = function (inputId) {
+common.switchInputPass = function (that,inputId) {
     var s = $('#' + inputId);
-    s.attr('type', (s.attr('type') === 'input') ? 'password' : 'input');
+    var inp = (s.attr('type') === 'input');
+    if(inp){
+        $(that).find('i').removeClass('icon-eye-close').addClass('icon-eye');
+    }else{
+        $(that).find('i').removeClass('icon-eye').addClass('icon-eye-close');
+    }
+    s.attr('type', inp ? 'password' : 'input');
 };
 common.notify = function (text, type, params) {
     var t = (type === 'error') ? 'danger' : type;

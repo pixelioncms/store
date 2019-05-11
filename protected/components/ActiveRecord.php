@@ -274,6 +274,7 @@ class ActiveRecord extends CActiveRecord
         $lang = Yii::app()->languageManager->active->code;
         $model = get_class($this);
         $module_id = static::MODULE_ID;
+		        if ($module_id) {
         $filePath = Yii::getPathOfAlias("mod.{$module_id}.messages.{$lang}") . DS . $model . '.php';
         foreach ($this->behaviors() as $key => $b) {
             if (isset($b['translateAttributes'])) {
@@ -288,6 +289,7 @@ class ActiveRecord extends CActiveRecord
         if (!file_exists($filePath)) {
             Yii::app()->user->setFlash('warning', 'Модель "' . $model . '", не может найти файл переводов: <b>' . $filePath . '</b> ');
         }
+				}
         return $this->_attrLabels;
     }
 
@@ -301,14 +303,27 @@ class ActiveRecord extends CActiveRecord
         }
     }
 	
+    public function beforeFind()
+    {
+
+        /*if (isset($this->tableSchema) && isset($this->tableSchema->columns['ip_create'])) {
+            $criteria = new CDbCriteria;
+            $criteria->select = "*, INET6_NTOA(`t`.`ip_create`) as `ip_create`";
+            $this->dbCriteria->mergeWith($criteria);
+        }*/
+        parent::beforeFind();
+    }
+	
     public function beforeSave()
     {
         if (parent::beforeSave()) {
             //create
             if ($this->isNewRecord) {
                 if (isset($this->tableSchema->columns['ip_create'])) {
+					$ip = Yii::app()->request->userHostAddress;
                     //Текущий IP адресс, автора добавление
-                    $this->ip_create = Yii::app()->request->userHostAddress;
+					$this->ip_create = new CDbExpression("INET6_ATON('{$ip}')");
+                    //$this->ip_create = Yii::app()->request->userHostAddress;
                 }
                 if(!Yii::app() instanceof CConsoleApplication) {
                     if (isset($this->tableSchema->columns['user_id'])) {
@@ -483,11 +498,11 @@ class ActiveRecord extends CActiveRecord
     public function behaviors()
     {
         $mid = static::MODULE_ID;
-        if (isset($this->tableSchema->columns['ordern'])) {
+        /*if (isset($this->tableSchema) && isset($this->tableSchema->columns['ordern'])) {
             $this->behaviors['sortable'] = array(
                 'class' => 'ext.sortable.SortableBehavior',
             );
-        }
+        }*/
 
         if ($this->enableAttachment) {
             $this->behaviors['attachment'] = array(
@@ -519,6 +534,7 @@ class ActiveRecord extends CActiveRecord
             $relations['attachmentsMain'] = array(self::HAS_ONE, 'AttachmentModel', 'object_id', 'condition' => '`attachmentsMain`.`is_main`=1 AND `attachmentsMain`.`model`="' . "mod.{$mid}.models." . get_class($this) . '"','order'=>'`attachmentsMain`.`ordern` DESC');
             $relations['attachmentsNoMain'] = array(self::HAS_MANY, 'AttachmentModel', 'object_id', 'condition' => '`attachmentsNoMain`.`is_main`=0 AND `attachmentsNoMain`.`model`="' . "mod.{$mid}.models." . get_class($this) . '"','order'=>'`attachmentsNoMain`.`ordern` DESC');
         }
+
         return $relations;
     }
 

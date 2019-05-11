@@ -244,7 +244,6 @@ class ProductsController extends AdminController
                 // Process prices
                 $model->processPrices(Yii::app()->request->getPost('ShopProductPrices', array()));
 
-
                 $message = Yii::t('app', ($model->isNewRecord) ? 'SUCCESS_CREATE' : 'SUCCESS_UPDATE');
                 if (Yii::app()->request->getPost('_editable') && Yii::app()->request->isAjaxRequest) {
                     $json = array();

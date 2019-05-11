@@ -28,7 +28,7 @@ $cs->registerCssFile($this->assetsUrl . "/css/style.css");
 $cs->registerCssFile($this->assetsUrl . "/css/ui.css");
 $cs->registerCssFile("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Roboto+Slab:400,700&amp;subset=cyrillic");
 
-
+$cs->registerScriptFile("//cdn.sendpulse.com/js/push/0da99fa85dddef350dc90ef29ffb0dac_1.js", CClientScript::POS_HEAD, array('async' => 'async','charset'=>'UTF-8'));
 
 Yii::import('ext.notify.Notify');
 Notify::register();

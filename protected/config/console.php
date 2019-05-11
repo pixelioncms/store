@@ -32,7 +32,10 @@ return array(
         'db' => require_once(YII_DEBUG ? '_db_dev.php' : '_db_dev.php'),
         'curl' => array('class' => 'app.addons.Curl'),
         'zip' => array('class' => 'app.addons.Zip'),
-        'cache' => array('class' => 'CFileCache'),
+        'cache' => array(
+            'class' => 'CFileCache',
+            'hashKey' => false
+        ),
         'log' => require_once(YII_DEBUG ? '_log.php' : '_log.php'),
     ),
     'params' => require_once('_params.php')

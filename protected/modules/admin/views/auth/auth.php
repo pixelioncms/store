@@ -75,7 +75,7 @@ Yii::app()->clientScript->registerScript('auth', "
                                 </div>
                                 <?= $form->passwordField($model, 'password', array('placeholder' => Yii::t('app', 'PASSWORD'), 'class' => 'form-control')); ?>
                                 <div class="input-group-append">
-                                    <a href="#" data-target="#UserLoginForm_password" class="input-group-text bg-transparent border-0" onclick="common.switchInputPass('UserLoginForm_password');"><i class="icon-eye"></i></a>
+                                    <a href="#" data-target="#UserLoginForm_password" class="input-group-text bg-transparent border-0" onclick="common.switchInputPass(this,'UserLoginForm_password');"><i class="icon-eye"></i></a>
                                 </div>
                                 <?= $form->error($model, 'password'); ?>
                             </div>

@@ -85,7 +85,7 @@ class SeoUrl extends ActiveRecord
     }
 
     public static function getDomainId(){
-        return array_search(Yii::app()->request->serverName,Yii::app()->params['domains']);
+        return array_search(str_replace('www.','',Yii::app()->request->serverName),Yii::app()->params['domains']);
     }
     /**
      * @return array relational rules.

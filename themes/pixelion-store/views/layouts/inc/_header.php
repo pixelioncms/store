@@ -26,7 +26,7 @@ Yii::app()->clientScript->registerScript("header-script","
 
 </script>
 <?php
-$this->widget('ext.admin.sitePanel.PanelWidget', array());
+//$this->widget('ext.admin.sitePanel.PanelWidget', array());
 ?>
 
 

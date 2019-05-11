@@ -1,5 +1,6 @@
 <?php
 
+Yii::import('mod.shop.ShopModule');
 /**
  * This is the model class for table "notifications".
  *

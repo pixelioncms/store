@@ -102,6 +102,7 @@ class Controller extends RController
     {
         if (!$this->isAdminController) {
             if (Yii::app()->hasModule('seo')) {
+                Yii::app()->seo;
                 Yii::import('mod.seo.models.Redirects');
                 $redirect = Redirects::model()->published()->findByAttributes(array(
                     'url_from' => Yii::app()->request->url
@@ -310,6 +311,7 @@ class Controller extends RController
           Yii::app()->end();
           } */
         $user = Yii::app()->user;
+
         $langManager = Yii::app()->languageManager;
 
         if (!$user->isGuest && $user->language) {
@@ -426,9 +428,9 @@ class Controller extends RController
      */
     public function getPageTitle()
     {
-        $title = Yii::app()->settings->get('app', 'site_name');
+
         if (!empty($this->_pageTitle)) {
-            $title = $this->_pageTitle .= ' ' . Yii::app()->settings->get('seo', 'separation') . ' ' . $title;
+            $title = $this->_pageTitle;
         }
         return $title;
     }

@@ -45,6 +45,13 @@ return array(
         'seo',
     ),
     'components' => array(
+	    'sms' => array( //Yii::app()->sms->send('test', '+380XXXXXXXXX');
+            'class' => 'app.sms_billing.turbosms.Turbosms',
+            'sender' => 'your_sender',
+            'login' => 'akvamarket',
+            'password' => 'r5HL75rj',
+            'debug' => YII_DEBUG,
+        ),
         'reCaptcha' => array(
             'name' => 'reCaptcha',
             'class' => 'ext.recaptcha.ReCaptcha',

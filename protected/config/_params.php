@@ -2,6 +2,6 @@
 return array(
     'demo'=>true,
 	'domains' => array(
-        1 => 'pixelion.store.loc'
+        1 => 'store.pixelion.com.ua'
     )
 );

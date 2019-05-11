@@ -176,6 +176,7 @@ class CartModule extends WebModule {
                         'url' => array('/admin/cart/notify'),
                         'active' => $this->getIsActive('cart/notify'),
                         'icon' => Html::icon('icon-envelope'),
+                        'count'=>ProductNotifications::model()->count(),
                         'visible' => Yii::app()->user->openAccess(array('Cart.Notify.*', 'Cart.Notify.Index')),
                     ),
                     array(

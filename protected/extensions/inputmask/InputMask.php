@@ -39,10 +39,12 @@ class InputMask extends CInputWidget {
         $dir = dirname(__FILE__) . DS . 'assets';
         $baseUrl = Yii::app()->getAssetManager()->publish($dir, false, -1, YII_DEBUG);
         $cs = Yii::app()->getClientScript();
-        $cs->registerScriptFile($baseUrl . "/js/inputmask.min.js", CClientScript::POS_END);
-        //$cs->registerScriptFile($baseUrl . "/js/jquery.inputmask.min.js", CClientScript::POS_END);
-        $cs->registerScriptFile($baseUrl . "/js/jquery.inputmask.bundle.min.js", CClientScript::POS_END);
-        $cs->registerScriptFile($baseUrl . "/js/inputmask.phone.extensions.min.js", CClientScript::POS_END);
+        //$cs->registerScriptFile($baseUrl . "/js/inputmask.min.js", CClientScript::POS_END);
+        //$cs->registerScriptFile($baseUrl . "/js/jquery.inputmask.bundle.min.js", CClientScript::POS_END);
+        //$cs->registerScriptFile($baseUrl . "/js/inputmask.phone.extensions.min.js", CClientScript::POS_END);
+
+        $cs->registerScriptFile($baseUrl . "/dist/min/jquery.inputmask.bundle.min.js", CClientScript::POS_END);
+
         $js = "$('#{$this->getid()}').inputmask({$options});";
         $cs->registerScript(__CLASS__ . '#' . $this->getid(), $js, CClientScript::POS_END);
     }

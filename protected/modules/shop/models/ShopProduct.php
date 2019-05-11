@@ -866,7 +866,7 @@ class ShopProduct extends ActiveRecord
             //$criteria->addCondition('t.price >= ' . (int)$value);
 
             $criteria->addCondition('CASE WHEN (`t`.`currency_id`) THEN
-            (`t`.`price` * (SELECT rate FROM `cms_shop_currency` `currency` WHERE `currency`.`id`=`t`.`currency_id`)) >= '.(int)$value.'
+            (`t`.`price` * (SELECT rate FROM `{{shop_currency}}` `currency` WHERE `currency`.`id`=`t`.`currency_id`)) >= '.(int)$value.'
         ELSE
         	t.price >= '.(int)$value.'
         END');
@@ -890,7 +890,7 @@ class ShopProduct extends ActiveRecord
             //$criteria->addCondition('t.price <= ' . (int)$value);
 
             $criteria->addCondition('CASE WHEN (`t`.`currency_id`) THEN
-            (`t`.`price` * (SELECT rate FROM `cms_shop_currency` `currency` WHERE `currency`.`id`=`t`.`currency_id`)) <= '.(int)$value.'
+            (`t`.`price` * (SELECT rate FROM `{{shop_currency}}` `currency` WHERE `currency`.`id`=`t`.`currency_id`)) <= '.(int)$value.'
         ELSE
         	t.price <= '.(int)$value.'
         END');

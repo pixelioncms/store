@@ -1,10 +1,12 @@
 <script>
     function changeLanguage(that, url) {
         var selected = $('option:selected', that).val();
-        if (selected == undefined) {
-            window.location.pathname = url;
+
+        if (selected === undefined) {
+            window.location = url;
         } else {
-            window.location.pathname = selected + '' + url;
+            var url = '/' + selected + '' + url;
+            window.location = url;
         }
     }
 </script>

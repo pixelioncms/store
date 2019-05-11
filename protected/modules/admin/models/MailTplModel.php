@@ -4,7 +4,7 @@ class MailTplModel extends ActiveRecord {
 
     const MODULE_ID = 'admin';
     public $setOptions = array();
-
+    public $mails=array();
     public function getForm() {
         Yii::import('ext.tinymce.TinymceArea');
         return new CMSForm(array('id' => __CLASS__,
@@ -56,31 +56,54 @@ class MailTplModel extends ActiveRecord {
                 ));
     }
 
+    public function send(){
+        $host= Yii::app()->request->serverName;
+        $mailer = Yii::app()->mail;
+        $mailer->From = 'robot@' . $host;
+        $mailer->FromName = Yii::app()->settings->get('app', 'site_name');
+        $mailer->Subject = $this->getSubject();
+        $mailer->Body = Yii::app()->controller->renderPartial('mod.admin.views.admin.mailtpl.test.emailcampaignmonitor',array('content'=>$this->getBody()),true,false);
+       // echo  $mailer->Body;die;
+
+        $mailer->AddAddress($this->mails);
+        $mailer->AddReplyTo('robot@' . $host);
+        $mailer->isHtml(true);
+        $mailer->Send();
+        $mailer->ClearAddresses();
+    }
+    public function getSubject() {
+        $array = array(
+            '{current_date}' => date('Y-m-d'),
+            '{current_time}' => date('H:i:s'),
+        );
+        //$text = implode(array_slice(explode('<br>', wordwrap(trim(strip_tags(html_entity_decode($this->body))), 255, '<br>', false)), 0, 1));
+        $text = $this->subject;
+        $options = CMap::mergeArray($array, $this->setOptions);
+
+        return CMS::textReplace($text, $options);
+    }
     public function getBody() {
         $array = array(
-            '%current_date%' => date('Y-m-d'),
-            '%current_time%' => date('H:i:s'),
+            '{current_date}' => date('Y-m-d'),
+            '{current_time}' => date('H:i:s'),
         );
-
         //$text = implode(array_slice(explode('<br>', wordwrap(trim(strip_tags(html_entity_decode($this->body))), 255, '<br>', false)), 0, 1));
         $text = $this->body;
-        $results = CMap::mergeArray($array, $this->setOptions);
-        foreach ($results as $from => $to) {
-            $formResult[] = $from;
-            $toResult[] = $to;
-        }
+        $options = CMap::mergeArray($array, $this->setOptions);
 
-        return CMS::textReplace($text, $formResult, $toResult);
+        return CMS::textReplace($text, $options);
     }
 
     public function getModelCriteria(CDbCriteria $criteria, $model = false) {
+        $result=array();
         if ($model) {
             $r = $model::model()->find($criteria);
             foreach ($r->getAttributes() as $attrname => $attrvalue) {
-                $result['%' . strtoupper($attrname) . '%'] = $attrvalue;
+                $result['{' . strtoupper($attrname) . '}'] = $attrvalue;
             }
-            return $result;
+
         }
+        return $result;
     }
 
     public function getModelByPk($pk, $model = false) {
@@ -88,10 +111,11 @@ class MailTplModel extends ActiveRecord {
         if ($model) {
             $r = $model::model()->findByPk($pk);
             foreach ($r->getAttributes() as $attrname => $attrvalue) {
-                $result['%' . strtoupper($attrname) . '%'] = $attrvalue;
+                $result['{' . strtoupper($attrname) . '}'] = $attrvalue;
             }
-            return $result;
+
         }
+        return $result;
     }
 
 }

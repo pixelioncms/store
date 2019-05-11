@@ -344,8 +344,8 @@ class CMS
         $config = Yii::app()->settings->get('app');
         $tmpArray = array();
         $tmpArray['{site_name}'] = $config->site_name;
-        if(!Yii::app() instanceof CConsoleApplication){
-        $tmpArray['{host}'] = Yii::app()->request->serverName;
+        if (!Yii::app() instanceof CConsoleApplication) {
+            $tmpArray['{host}'] = Yii::app()->request->serverName;
         }
         $tmpArray['{admin_email}'] = $config->admin_email;
         $resultArray = CMap::mergeArray($tmpArray, $array);
@@ -491,6 +491,7 @@ class CMS
     {
         $request = Yii::app()->request;
         $parts = explode('/', $request->requestUri);
+        $pathInfo = '';
         $lang = Yii::app()->languageManager;
         if ($lang->default->code == $lang->active->code) {
             $pathInfo = $request->requestUri;

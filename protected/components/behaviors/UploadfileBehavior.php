@@ -41,23 +41,17 @@ class UploadfileBehavior extends CActiveRecordBehavior
             }
         }
     }
-
-    public function getImageUrl($attribute, $size = '100x100', $options = array())
+    public function getImageUrl($attribute, $size = false, $options = array())
     {
         $owner = $this->getOwner();
         $attrname = $owner->{$attribute};
-
         if (!empty($attrname)) {
-            if($size){
-                return CMS::processImage($size, $attrname, $this->dir, $options);
-            }else{
-                return $this->getFilePath($attribute);
-            }
-
+            return CMS::processImage($size, $attrname, $this->dir, $options);
         } else {
             return $imgSource = CMS::placeholderUrl(array('size' => $size));
         }
     }
+
 
     public function getFileUrl($attr, $absolute = false)
     {

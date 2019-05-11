@@ -1,5 +1,6 @@
 <?php
 $now = time();
+echo round(memory_get_peak_usage() / (1024 * 1024), 2) 
 ?>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">

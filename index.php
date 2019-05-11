@@ -12,17 +12,13 @@ $webRoot = dirname(__FILE__);
 //defined('FRAMEWORK_PATH') or define('FRAMEWORK_PATH', $webRoot . '/../../framework');
 
 
-if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+if ($_SERVER['REMOTE_ADDR'] == '127.0.0.11') {
     error_reporting(E_ALL);
     $yii = $webRoot . '/../../framework/yii.php';
     defined('YII_DEBUG') or define('YII_DEBUG', true);
     $config = $webRoot . '/protected/config/dev.php';
 } else {
     error_reporting(E_ALL & ~E_NOTICE); //or set "0"
-    /**
-     * See: yiilite
-     * https://www.yiiframework.com/doc/guide/1.1/ru/topics.performance#sec-4
-     */
     $yii = $webRoot . '/../../framework/yiilite.php';
     $config = $webRoot . '/protected/config/main.php';
 }

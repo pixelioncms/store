@@ -2,6 +2,7 @@
 
 return array(
     'SEPARATION'=>'Разделение Title',
+    'ENABLE_TITLE_NAME' => 'Включить в Title название сайта?',
     'CANONICAL' => 'Использовать canonical',
     'GOOGLE_SITE_VERIFICATION' => 'Google Site Verification',
     'YANDEX_VERIFICATION' => 'Yandex Verification',

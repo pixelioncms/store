@@ -74,7 +74,7 @@ class DesktopController extends AdminController {
     }
 
     /**
-     * Delete dekstop
+     * Delete desktop
      * @param int $id
      */
     public function actionDelete($id) {

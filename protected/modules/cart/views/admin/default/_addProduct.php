@@ -24,7 +24,7 @@
     );
     $columns[] = array(
         'type' => 'raw',
-        'value' => 'Html::link(Html::image($data->getMainImageUrl("50x50"),$data->name,array("class"=>"img-thumbnail")))'
+        'value' => 'Html::link(Html::image($data->prd->getMainImage("50x50")->url,$data->prd->name,array("class"=>"img-thumbnail")))'
     );
     $columns[] = array(
         'name' => 'name',

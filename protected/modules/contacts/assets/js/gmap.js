@@ -207,7 +207,7 @@ function mapsApi() {
                     });
 
                     this.setMarkerWindow(map, marker, params);
-
+                    this.markers.push(marker);
                 }
             }
         }

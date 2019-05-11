@@ -1,6 +1,6 @@
 <?php
-$mo = ShopProduct::model()->published()->applyCategories(array(14,15))->random()->limited(1)->find();
-echo Html::image($mo->getMainImageUrl());
+//$mo = ShopProduct::model()->published()->applyCategories(array(14,15))->random()->limited(1)->find();
+//echo Html::image($mo->getMainImageUrl());
 ?>
 <div class="row">
     <?php
